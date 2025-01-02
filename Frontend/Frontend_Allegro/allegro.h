@@ -8,4 +8,7 @@
 #include <allegro5/allegro_ttf.h>
 #include <stdio.h>
 
+/*PROTOTYPES*/
+int Allegro_init(void);
+
 #endif /* ALLEGRO_H */

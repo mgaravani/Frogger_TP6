@@ -1,6 +1,6 @@
 #include "allegro.h"
 
-int main() {
+int Allegro_init(void) {
     // Inicialización de Allegro
     if (!al_init()) {
         fprintf(stderr, "Error: No se pudo inicializar Allegro.\n");
