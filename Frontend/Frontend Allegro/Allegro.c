@@ -195,8 +195,10 @@ al_draw_scaled_bitmap(fondo,
 );
 
      // Bucle para recorrer celda a celda
-    for (uint32_t i = 0; i < FILAS; i++) {
-        for (uint32_t j = 0; j < COLUMNAS; j++) {
+    for (uint32_t i = 0; i < FILAS; i++) 
+    {
+        for (uint32_t j = 0; j < COLUMNAS; j++) 
+        {
             // Dibuja un círculo en la posición correcta
             int x = j * cell_width + cell_width / 2; //Defino la coordenada x del centro
             int y = i * cell_height + cell_height / 2; //Defino la coordenada y del centro
@@ -205,47 +207,47 @@ al_draw_scaled_bitmap(fondo,
             {
                 al_draw_bitmap(tronco, x, y-25, 0);
             }
-             if (matriz[i][j] == 3) 
-              {
-                al_draw_bitmap(tronco, x, y - 25, 0);
-              }
-               if (matriz[i][j] == 4) 
+                if (matriz[i][j] == 3) 
                 {
-                  al_draw_bitmap(tronco, x, y - 25, 0);
+                    al_draw_bitmap(tronco, x, y - 25, 0);
                 }
-                 if (matriz[i][j] == 5) 
-                  {
+                if (matriz[i][j] == 4) 
+                {
+                    al_draw_bitmap(tronco, x, y - 25, 0);
+                }
+                if (matriz[i][j] == 5) 
+                {
                     al_draw_bitmap(tortuga_D, x, y - 25, 0);
-                  }
-                   if (matriz[i][j] == 6) 
-                    {
-                      al_draw_bitmap(tortuga_I, x, y - 38, 0);
-                    }
-                     if (matriz[i][j] == 8) 
-                    {
-                      al_draw_bitmap(camion_D, x, y - 25, 0);
-                    }
-                     if (matriz[i][j] == 9) 
-                    {
-                      al_draw_bitmap(auto3_I, x, y - 25, 0);
-                    }
-                     if (matriz[i][j] == 10) 
-                    {
-                      al_draw_bitmap(auto2_D, x, y - 25, 0);
-                    }
-                     if (matriz[i][j] == 11) 
-                    {
-                      al_draw_bitmap(auto_D, x, y - 25, 0);
-                    }
-                        if (matriz[i][j] == 12) 
-                    {
-                      al_draw_bitmap(auto3_D, x, y - 38, 0);
-                    }
-                  }
                 }
+                if (matriz[i][j] == 6) 
+                {
+                    al_draw_bitmap(tortuga_I, x, y - 38, 0);
+                }
+                if (matriz[i][j] == 8) 
+                {
+                    al_draw_bitmap(camion_D, x, y - 25, 0);
+                }
+                if (matriz[i][j] == 9) 
+                {
+                    al_draw_bitmap(auto3_I, x, y - 25, 0);
+                }
+                if (matriz[i][j] == 10) 
+                {
+                    al_draw_bitmap(auto2_D, x, y - 25, 0);
+                }
+                if (matriz[i][j] == 11) 
+                {
+                    al_draw_bitmap(auto_D, x, y - 25, 0);
+                }
+                if (matriz[i][j] == 12) 
+                {
+                    al_draw_bitmap(auto3_D, x, y - 38, 0);
+                }
+        }
+    }
 
-              al_flip_display();
-            }
+    al_flip_display();
+}
 
 /*FUNCION cleanup_allegro*/
 //Borra todos los recursos utilizados
@@ -287,36 +289,44 @@ void prueba_impresion(AllegroResources init)
     );
 
     // Verifica si ha pasado el tiempo necesario para mover tronco
-    if (((double)(clock() - flags[0])) / CLOCKS_PER_SEC >= 0.001) {
+    if (((double)(clock() - flags[0])) / CLOCKS_PER_SEC >= 0.001) 
+    {
         flags[0] = clock();  // Reinicia el temporizador
         x += 2;
     }
 
     // Verifica si ha pasado el tiempo necesario para mover camion_D
-    if (((double)(clock() - flags[1])) / CLOCKS_PER_SEC >= 0.001) {
+    if (((double)(clock() - flags[1])) / CLOCKS_PER_SEC >= 0.001) 
+    {
         flags[1] = clock();  // Reinicia el temporizador
         y += 4;
     }
-    if (((double)(clock() - flags[2])) / CLOCKS_PER_SEC >= 0.001) {
+    if (((double)(clock() - flags[2])) / CLOCKS_PER_SEC >= 0.001) 
+    {
         flags[2] = clock();  // Reinicia el temporizador
         z += 4;
     }
-    if (((double)(clock() - flags[3])) / CLOCKS_PER_SEC >= 0.001) {
+    if (((double)(clock() - flags[3])) / CLOCKS_PER_SEC >= 0.001) 
+    {
         flags[3] = clock();  // Reinicia el temporizador
         c += 6;
     }
 
     // Ajusta la posición de tronco y camion_D para reaparecer desde el principio
-    if (x > init.width+150) {
+    if (x > init.width+150) 
+    {
         x = 0;  // Reaparece justo fuera de la pantalla por la izquierda
     }
-    if (y > init.width+150) {  
+    if (y > init.width+150) 
+    {  
         y = 0;  // Reaparece justo fuera de la pantalla por la izquierda
     }
-    if (z > init.width+150) {  
+    if (z > init.width+150) 
+    {  
         z = 0; // Reaparece justo fuera de la pantalla por la izquierda
     }
-    if (c > init.width+150) {  
+    if (c > init.width+150) 
+    {  
         c = 0; // Reaparece justo fuera de la pantalla por la izquierda
     }
 
