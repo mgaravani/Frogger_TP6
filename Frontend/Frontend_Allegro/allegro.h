@@ -11,4 +11,7 @@
 #include <allegro5/allegro_font.h> // Incluyo el addon font
 #include <allegro5/allegro_color.h> //Incluyo el addon color
 #include <allegro5/allegro_image.h> // Necesario para cargar imágenes
+
+void mostrar_mensaje(void);
+
 #endif /* ALLEGRO_H */
