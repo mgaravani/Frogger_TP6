@@ -44,9 +44,10 @@ AllegroResources allegro_init(uint8_t map[ROWS][COLUMNS]) {
     }
     
     // Crea una ventana
-    uint32_t width = WIDTH;
-    uint32_t height = HEIGHT;
-    ALLEGRO_DISPLAY *display = al_create_display(width, height);
+    resources.width = WIDTH;
+    resources.height = HEIGHT;
+
+    ALLEGRO_DISPLAY *display = al_create_display(WIDTH, HEIGHT);
     if (!display) 
     {
         fprintf(stderr, "Fallo al crear la ventana.\n");
@@ -54,16 +55,16 @@ AllegroResources allegro_init(uint8_t map[ROWS][COLUMNS]) {
     }
 
    // Cargar las fuentes en la estructura resources, en el campo fuentes
-    resources.fonts[0] = al_load_font("resources/Bing Bam Boum.ttf", 200, ALLEGRO_ALIGN_CENTER); // Fuente 1
-    resources.fonts[1] = al_load_font("resources/ChineseDragon.ttf", 200, ALLEGRO_ALIGN_CENTER); // Fuente 2
-    resources.fonts[2] = al_load_font("resources/Chubby Relief.ttf", 200, ALLEGRO_ALIGN_CENTER); // Fuente 3
-    resources.fonts[3] = al_load_font("resources/Copyduck.ttf", 250, ALLEGRO_ALIGN_CENTER); // TITULO FROGGER
-    resources.fonts[4] = al_load_font("resources/Copyduck.ttf", 70, ALLEGRO_ALIGN_CENTER); // MENU INICIO
-    /*fea*/ resources.fonts[5] = al_load_font("resources/Fluo Gums.ttf", 200, ALLEGRO_ALIGN_CENTER); // Fuente 6(solo mayuscula)
-    resources.fonts[6] = al_load_font("resources/FunnyKid.ttf", 200, ALLEGRO_ALIGN_CENTER); // Fuente 7
-    resources.fonts[7] = al_load_font("resources/Smasher 312 Custom.ttf", 200, ALLEGRO_ALIGN_CENTER); // Fuente 8
-    resources.fonts[8] = al_load_font("resources/The Amazing Spider-Man.ttf", 200, ALLEGRO_ALIGN_CENTER); // Fuente 9
-    resources.fonts[9] = al_load_font("resources/The Last Comic On Earth.ttf", 200, ALLEGRO_ALIGN_CENTER); // Fuente 10
+    resources.fonts[0] = al_load_font("Resources/Bing Bam Boum.ttf", 200, ALLEGRO_ALIGN_CENTER); // Fuente 1
+    resources.fonts[1] = al_load_font("Resources/ChineseDragon.ttf", 200, ALLEGRO_ALIGN_CENTER); // Fuente 2
+    resources.fonts[2] = al_load_font("Resources/Chubby Relief.ttf", 200, ALLEGRO_ALIGN_CENTER); // Fuente 3
+    resources.fonts[3] = al_load_font("Resources/Copyduck.ttf", 250, ALLEGRO_ALIGN_CENTER); // TITULO FROGGER
+    resources.fonts[4] = al_load_font("Resources/Copyduck.ttf", 70, ALLEGRO_ALIGN_CENTER); // MENU INICIO
+    /*fea*/ resources.fonts[5] = al_load_font("Resources/Fluo Gums.ttf", 200, ALLEGRO_ALIGN_CENTER); // Fuente 6(solo mayuscula)
+    resources.fonts[6] = al_load_font("Resources/FunnyKid.ttf", 200, ALLEGRO_ALIGN_CENTER); // Fuente 7
+    resources.fonts[7] = al_load_font("Resources/Smasher 312 Custom.ttf", 200, ALLEGRO_ALIGN_CENTER); // Fuente 8
+    resources.fonts[8] = al_load_font("Resources/The Amazing Spider-Man.ttf", 200, ALLEGRO_ALIGN_CENTER); // Fuente 9
+    resources.fonts[9] = al_load_font("Resources/The Last Comic On Earth.ttf", 200, ALLEGRO_ALIGN_CENTER); // Fuente 10
 
     /*ANALIZA SI LAS FUENTES SE CARGARON CORRECTAMENTE*/
     for (uint16_t i = 0; i < 10; i++) 
@@ -77,18 +78,18 @@ AllegroResources allegro_init(uint8_t map[ROWS][COLUMNS]) {
     }
 
     //Cargo las imagenes en la estructura resources, en el campo images
-    resources.images[0] = al_load_bitmap("resources/Fondo.png"); // Imagen 1
-    resources.images[1] = al_load_bitmap("resources/Tronco.png"); // Imagen 2
-    resources.images[2] = al_load_bitmap("resources/Auto_D.png"); // Imagen 3
-    resources.images[3] = al_load_bitmap("resources/Auto_I.png"); // Imagen 4
-    resources.images[4] = al_load_bitmap("resources/Auto2_D.png"); // Imagen 5
-    resources.images[5] = al_load_bitmap("resources/Auto2_I.png"); // Imagen 6
-    resources.images[6] = al_load_bitmap("resources/Auto3_D.png"); // Imagen 7
-    resources.images[7] = al_load_bitmap("resources/Auto3_I.png"); // Imagen 8
-    resources.images[8] = al_load_bitmap("resources/Camion_D.png"); // Imagen 9
-    resources.images[9] = al_load_bitmap("resources/Camion_I.png"); // Imagen 10
-    resources.images[10] = al_load_bitmap("resources/Tortuga_D.png"); // Imagen 11
-    resources.images[11] = al_load_bitmap("resources/Tortuga_I.png"); // Imagen 12
+    resources.images[0] = al_load_bitmap("Resources/Fondo.png"); // Imagen 1
+    resources.images[1] = al_load_bitmap("Resources/Tronco.png"); // Imagen 2
+    resources.images[2] = al_load_bitmap("Resources/Auto_D.png"); // Imagen 3
+    resources.images[3] = al_load_bitmap("Resources/Auto_I.png"); // Imagen 4
+    resources.images[4] = al_load_bitmap("Resources/Auto2_D.png"); // Imagen 5
+    resources.images[5] = al_load_bitmap("Resources/Auto2_I.png"); // Imagen 6
+    resources.images[6] = al_load_bitmap("Resources/Auto3_D.png"); // Imagen 7
+    resources.images[7] = al_load_bitmap("Resources/Auto3_I.png"); // Imagen 8
+    resources.images[8] = al_load_bitmap("Resources/Camion_D.png"); // Imagen 9
+    resources.images[9] = al_load_bitmap("Resources/Camion_I.png"); // Imagen 10
+    resources.images[10] = al_load_bitmap("Resources/Tortuga_D.png"); // Imagen 11
+    resources.images[11] = al_load_bitmap("Resources/Tortuga_I.png"); // Imagen 12
     
     /*ANALIZA SI LAS IMAGENES SE CARGARON CORRECTAMENTE*/
     for (uint16_t i = 0; i < 12; i++) 

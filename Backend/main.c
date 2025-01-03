@@ -26,7 +26,10 @@ int main(void) {
     clock_t start_time = clock(); // Tiempo inicial
     double delay = 10.0;          
     initialize_matrix();
-    while (1) {
+    //print_matrix();
+    Screen(&resourcesformain, map);
+    sleep(4);
+/*     while (1) {
         // Calcula el tiempo transcurrido
         double elapsed = (double)(clock() - start_time) / CLOCKS_PER_SEC;
 
@@ -49,7 +52,7 @@ int main(void) {
         print_matrix();
         Screen(&resourcesformain, map);
         usleep(100000);
-    }
+    } */
 
     //mostrar_mensaje(); // Funcion de allegro
     return 0;

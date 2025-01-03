@@ -1,5 +1,6 @@
 /*------------INCLUDES-----------*/
 #include "allegro.h"
+#include <stdio.h>
 
 void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS])
 {
@@ -17,7 +18,6 @@ void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS])
         resources->width, resources->height,               // Nuevo ancho y alto de la imagen escalada
         0                       // Sin banderas adicionales
     );
-
     // Tamaño de cada celda
     uint32_t cell_width = resources->width / COLUMNS;
     uint32_t cell_height = resources->height / ROWS;
