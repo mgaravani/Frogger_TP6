@@ -1,7 +1,7 @@
 #include "allegro.h"
 
 /*Funcion allegro_init*/
-AllegroResources gi(uint8_t map[ROWS][COLUMNS]) {
+AllegroResources allegro_init(uint8_t map[ROWS][COLUMNS]) {
     //Creo la instancia resources del tipo de dato estructura AllegroResources
     AllegroResources resources = {.selected_option = 1}; 
 
