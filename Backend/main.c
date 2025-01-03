@@ -26,10 +26,7 @@ int main(void) {
     clock_t start_time = clock(); // Tiempo inicial
     double delay = 10.0;          
     initialize_matrix();
-    //print_matrix();
-    Screen(&resourcesformain, map);
-    sleep(4);
-/*     while (1) {
+    while (1) {
         // Calcula el tiempo transcurrido
         double elapsed = (double)(clock() - start_time) / CLOCKS_PER_SEC;
 
@@ -38,13 +35,13 @@ int main(void) {
             break; // Sal del bucle cuando el tiempo se cumpla
         }
         // Simula otras tareas
-        for (int fila = 0; fila < 13 ; fila++) {
+        for (int fila = 0; fila < 10 ; fila++) {
             if (waiting_time(1, fila)){
                 shift_row(fila, 0);
             }
             
         }
-        for (int fila = 13; fila < 16 ; fila++) {
+        for (int fila = 10; fila < 13 ; fila++) {
             if (waiting_time(5, fila)){
                 shift_row(fila, 0);
             }
@@ -52,7 +49,7 @@ int main(void) {
         print_matrix();
         Screen(&resourcesformain, map);
         usleep(100000);
-    } */
+    }
 
     //mostrar_mensaje(); // Funcion de allegro
     return 0;
