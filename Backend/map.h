@@ -1,12 +1,19 @@
 #ifndef MAPA_H
 #define MAPA_H
+
+/*-----------INCLUDES--------*/
 #include <stdint.h>
 
+/*-----------DEFINES--------*/
 #define ROWS 13
 #define COLUMNS 15
+
+/*-----------TYPEDEF--------*/
 typedef uint8_t map_t[ROWS][COLUMNS];
 
+/*-----------PROTOTYPES--------*/
 
+/*------Function print_matrix------*/
 void print_matrix(); // BORRAR DESPUES DE NO USAR MAS (FUN PARA TESTEAT LA MAT)
 
 /*------Funcion initialize_matrix------*/
@@ -17,6 +24,8 @@ void print_matrix(); // BORRAR DESPUES DE NO USAR MAS (FUN PARA TESTEAT LA MAT)
 
     TESTEADA
 */
+
+/*------Function initialize_matrix*/
 void initialize_matrix();
 
 /*------Funcion shift_row------*/

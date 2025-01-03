@@ -14,7 +14,7 @@
 
 /*DEFINES*/
 #define ROWS 13
-#define COLUMNS 18
+#define COLUMNS 15
 #define WIDTH 1000
 #define HEIGHT 800
 

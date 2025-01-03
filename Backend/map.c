@@ -1,3 +1,4 @@
+/*------------INCLUDES-----------*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -7,6 +8,8 @@
 map_t map;
 
 /*------------ FUNCTIONS ----------------*/
+
+/*------Funcion initialize_matrix------*/
 void initialize_matrix() {
     srand(time(NULL));
     
@@ -95,7 +98,7 @@ void initialize_matrix() {
     }
 }
 
-
+/*------Function print_matrix------*/
 // Función auxiliar (hasta tener todo con la interfaz allegro)para imprimir la matriz
 void print_matrix() {
     for (int i = 0; i < ROWS; i++) {
@@ -106,6 +109,8 @@ void print_matrix() {
     }
 }
 
+/*------Function shift_row------*/
+// Función para desplazar las filas de la matriz de juego (Derecha e izquierda)
 void shift_row(uint8_t row, uint8_t direction) {
     if (direction) { // Desplazar a la derecha
         // Guardamos el último valor de la fila

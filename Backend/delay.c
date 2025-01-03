@@ -1,7 +1,8 @@
+/*------------INCLUDES-----------*/
 #include "delay.h"
 #include "map.h" // Incluyo mapa.h para saber la cantidad de filas utilizadas
 
-int8_t waiting_time (int8_t level, int8_t row) {
+uint8_t waiting_time (uint8_t level, uint8_t row) {
     static clock_t flags[ROWS] = {0};  // Inicializa el arreglo a 0
     double elapsed_time = 0, time_reference = 0, speed = 1.0; 
 

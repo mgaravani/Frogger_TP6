@@ -1,4 +1,4 @@
-/* INCLUDES */
+/*------------INCLUDES-----------*/
 #include <stdio.h>
 #include "../Frontend/Frontend_Allegro/allegro.h"
 #include "../Backend/map.h"
@@ -7,9 +7,9 @@
 
 /* FUNCION MAIN */
 int main(void) {
-    extern map_t map;
-    AllegroResources resourcesformain = allegro_init(map);
-// Definir el tamaño de la matriz (16x18)
+    extern map_t map; // Variable global de la matriz
+    AllegroResources resourcesformain = allegro_init(map); // Inicializa allegro
+// Definir el tamaño de la matriz (13x18)
     #define SIZELINEA 18  // PARA QUE SIRVE? BAUTI
 
     // Inicializar la matriz
@@ -46,7 +46,7 @@ int main(void) {
                 shift_row(fila, 0);
             }
         }
-        initialize_matrix();
+        print_matrix();
         Screen(&resourcesformain, map);
         usleep(100000);
     }

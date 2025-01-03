@@ -1,3 +1,4 @@
+/*------------INCLUDES-----------*/
 #include "allegro.h"
 
 void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS])

@@ -1,3 +1,4 @@
+/*------------INCLUDES-----------*/
 #include "allegro.h"
 
 /*Funcion allegro_init*/

@@ -1,5 +1,7 @@
 #ifndef DELAY_H
 #define DELAY_H
+
+/*------------INCLUDES-----------*/
 #include <stdint.h>
 #include <time.h>
 
@@ -11,6 +13,8 @@
 
     TESTEADA
 */
-int8_t waiting_time (int8_t nivel, int8_t fila);
+
+/*-----------PROTOTYPES--------*/
+uint8_t waiting_time (uint8_t nivel, uint8_t fila);
 
 #endif
