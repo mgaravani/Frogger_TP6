@@ -4,8 +4,7 @@
 #include "mapa.h"
 
 /*------------ VARIABLE GLOBAL ----------------*/
-mapa_t mapa;
-
+mapa_t mapa;  // PONER MAP, ASI QUEDAN TODAS LAS VAR EN INGLES
 
 /*------------ FUNCIONES ----------------*/
 void inicializar_matriz() { //NO FUNCIONA BIEN revisar
@@ -68,7 +67,7 @@ void shift_row(int8_t row, int8_t direction)
     if (direction) // Desplazar a la derecha
     {
         // Guardamos el último valor de la fila
-        int8_t ultimo_valor = mapa[row][COLUMNAS - 1];
+        int8_t last_value = mapa[row][COLUMNAS - 1];
 
         // Desplazamos todos los elementos hacia la derecha
         for (int8_t i = COLUMNAS - 1; i > 0; i--)
@@ -77,9 +76,9 @@ void shift_row(int8_t row, int8_t direction)
         }
 
         // Colocamos el valor del final al principio si era un punto válido
-        if (ultimo_valor != 0)
+        if (last_value != 0)
         {
-            mapa[row][0] = ultimo_valor;
+            mapa[row][0] = last_value;
         }
         else
         {
@@ -89,7 +88,7 @@ void shift_row(int8_t row, int8_t direction)
     else // Desplazar a la izquierda
     {
         // Guardamos el primer valor de la fila
-        int8_t primer_valor = mapa[row][0];
+        int8_t first_value = mapa[row][0];
 
         // Desplazamos todos los elementos hacia la izquierda
         for (int8_t i = 0; i < COLUMNAS - 1; i++)
@@ -98,9 +97,9 @@ void shift_row(int8_t row, int8_t direction)
         }
 
         // Colocamos el valor del principio al final si era un punto válido
-        if (primer_valor != 0)
+        if (first_value != 0)
         {
-            mapa[row][COLUMNAS - 1] = primer_valor;
+            mapa[row][COLUMNAS - 1] = first_value;
         }
         else
         {
