@@ -13,7 +13,7 @@
 #include <allegro5/allegro_image.h> // Necesario para cargar imágenes
 
 /*DEFINES*/
-#define ROWS 16
+#define ROWS 13
 #define COLUMNS 18
 #define WIDTH 1000
 #define HEIGHT 800
@@ -29,15 +29,15 @@ typedef struct
     uint32_t width; //Ancho de la pantalla
     uint32_t height; //Alto de la pantalla
     uint32_t selected_option; //Guardo la opcion seleccionada en el menu de inicio
-    uint32_t (*obstacles)[COLUMNS];
 
 } AllegroResources;
 
 
 /*PROTOTYPES*/
-void allegro_init(uint32_t map[ROWS][COLUMNS]);
-void Screen(AllegroResources *resources, uint32_t map[ROWS][COLUMNS]);
+AllegroResources allegro_init(uint8_t map[ROWS][COLUMNS]);
+void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS]);
 void cleanup_allegro(AllegroResources *resources);
+void prueba_impresion(AllegroResources init);
 
 
 #endif /* ALLEGRO_H */

@@ -1,7 +1,8 @@
 #include "allegro.h"
 
-void Screen(AllegroResources *resources, uint32_t map[ROWS][COLUMNS])
+void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS])
 {
+    
     // Limpiar pantalla
     al_clear_to_color(al_map_rgb(0, 0, 0)); // Fondo negro
 
@@ -15,76 +16,55 @@ void Screen(AllegroResources *resources, uint32_t map[ROWS][COLUMNS])
         resources->width, resources->height,               // Nuevo ancho y alto de la imagen escalada
         0                       // Sin banderas adicionales
     );
-
-    // Muestra la ventana
+    
     al_flip_display();
+/*
+    // Tamaño de cada celda
+    uint32_t cell_width = resources->width / COLUMNS;
+    uint32_t cell_height = resources->height / ROWS;
 
-    // Espera 5 segundos
-    al_rest(5.0);
+    // Dibujar elementos del mapa
+    for (uint16_t i = 0; i < ROWS; i++) {
+        for (uint16_t j = 0; j < COLUMNS; j++) {
+            if (map[i][j] == 1) { // Solo dibuja si hay un elemento en la celda
+                int x = j * cell_width;  // Coordenada x basada en la columna
+                int y = i * cell_height; // Coordenada y basada en la fila
 
-    for(uint16_t i = 0; i < ROWS ;i++ )
-    {
-        for(uint16_t j ; j < COLUMNS ; j++)
-        {
-            int x = j * resources->width + resources->width / 2; //Defino la coordenada x del centro
-            int y = i * resources->height + resources->height / 2; //Defino la coordenada y del centro
-
-            if(map[1][j]==1)
-            {
-                al_draw_bitmap(resources->images[2], x, y-25, 0);//auto 1
+                // Selección de imagen basada en la fila (i)
+                switch (i) {
+                    case 1:
+                        al_draw_bitmap(resources->images[2], x, y, 0); // Auto 1
+                        break;
+                    case 2:
+                        al_draw_bitmap(resources->images[4], x, y, 0); // Auto 2
+                        break;
+                    case 3:
+                        al_draw_bitmap(resources->images[6], x, y, 0); // Auto 3
+                        break;
+                    case 4:
+                        al_draw_bitmap(resources->images[8], x, y, 0); // Camión
+                        break;
+                    case 5:
+                        al_draw_bitmap(resources->images[2], x, y, 0); // Auto 1 
+                        break;
+                    case 7:
+                        al_draw_bitmap(resources->images[10], x, y, 0); // Tortuga
+                        break;
+                    case 8:
+                    case 9:
+                    case 11:
+                        al_draw_bitmap(resources->images[1], x, y, 0); // Tronco
+                        break;
+                    case 10:
+                        al_draw_bitmap(resources->images[10], x, y, 0); // Tortuga 
+                        break;
+                    default:
+                        break; // Sin dibujo para otras filas
+                }
             }
-            if(map[2][j]==1)
-            {
-                al_draw_bitmap(resources->images[4], x, y-25, 0);//auto 2
-            }
-            if(map[3][j]==1)
-            {
-                al_draw_bitmap(resources->images[6], x, y-25, 0);//auto 3
-            }
-            if(map[4][j]==1)
-            {
-                al_draw_bitmap(resources->images[8], x, y-25, 0);//camion
-            }
-            if(map[5][j]==1)
-            {
-                al_draw_bitmap(resources->images[2], x, y-25, 0);//auto 1
-            }
-            if(map[6][j]==1)
-            {
-                al_draw_bitmap(resources->images[8], x, y-25, 0);//camion
-            }
-            if(map[7][j]==1)
-            {
-                al_draw_bitmap(resources->images[4], x, y-25, 0);//auto 2
-            }
-            if(map[8][j]==1)
-            {
-                al_draw_bitmap(resources->images[6], x, y-25, 0);//auto 3
-            }
-            if(map[10][j]==1)
-            {
-                al_draw_bitmap(resources->images[10], x, y-25, 0);//tortuga
-            }
-            if(map[11][j]==1)
-            {
-                al_draw_bitmap(resources->images[1], x, y-25, 0);//tronco
-            }           
-            if(map[12][j]==1)
-            {
-                al_draw_bitmap(resources->images[1], x, y-25, 0);//tronco
-            }
-            if(map[13][j]==1)
-            {
-                al_draw_bitmap(resources->images[10], x, y-25, 0);//tortuga
-            }             
-            if(map[14][j]==1)
-            {
-                al_draw_bitmap(resources->images[1], x, y-25, 0);//tronco
-            }                       
         }
-
     }
-
+    
     // Muestra la ventana
-    al_flip_display();
+    al_flip_display();*/
 }

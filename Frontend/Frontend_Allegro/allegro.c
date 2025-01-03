@@ -1,9 +1,9 @@
 #include "allegro.h"
 
 /*Funcion allegro_init*/
-void allegro_init(uint32_t map[ROWS][COLUMNS]) {
+AllegroResources gi(uint8_t map[ROWS][COLUMNS]) {
     //Creo la instancia resources del tipo de dato estructura AllegroResources
-    AllegroResources resources = {.selected_option = 1 , .obstacles = map}; 
+    AllegroResources resources = {.selected_option = 1}; 
 
     // Inicializa Allegro y sus addons
     if (!al_init()) 
@@ -41,7 +41,7 @@ void allegro_init(uint32_t map[ROWS][COLUMNS]) {
         printf("Error al inicializar Allegro PRIMITIVES.\n");
         exit(EXIT_FAILURE); //Ante un fallo termina el programa y borra los recursos
     }
-
+    
     // Crea una ventana
     uint32_t width = WIDTH;
     uint32_t height = HEIGHT;
@@ -88,7 +88,7 @@ void allegro_init(uint32_t map[ROWS][COLUMNS]) {
     resources.images[9] = al_load_bitmap("resources/Camion_I.png"); // Imagen 10
     resources.images[10] = al_load_bitmap("resources/Tortuga_D.png"); // Imagen 11
     resources.images[11] = al_load_bitmap("resources/Tortuga_I.png"); // Imagen 12
-
+    
     /*ANALIZA SI LAS IMAGENES SE CARGARON CORRECTAMENTE*/
     for (uint16_t i = 0; i < 12; i++) 
     {
@@ -99,11 +99,8 @@ void allegro_init(uint32_t map[ROWS][COLUMNS]) {
             exit(EXIT_FAILURE); //Ante un fallo termina el programa y borra los recursos
         }
     }
-
-   Screen(&resources,map);
+    return resources;
 }
-
-
 
 /*FUNCION cleanup_allegro*/
 //Borra todos los recursos utilizados
