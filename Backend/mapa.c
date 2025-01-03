@@ -13,7 +13,7 @@ void inicializar_matriz() { //NO FUNCIONA BIEN revisar
     
     for (int i = 0; i < FILAS; i++) {
         for (int j = 0; j < COLUMNAS; j++) {
-            if (i == 0 || i == 10 || i == 15) { // Filas específicas llenas de ceros
+            if (i == 0 || i == 10 || i == 15 || j == 0 || j == 17 ) { // Filas y columnas específicas llenas de ceros
                 mapa[i][j] = 0;
             } else if (i >= 1 && i <= 9) { // Filas entre la 1 y la 9
                 if (j == 0 || mapa[i][j - 1] == 0) { // Si es el primer elemento o el anterior es cero
@@ -63,16 +63,48 @@ void imprimir_matriz() {
     }
 }
 
-int main() {
-    // Definir el tamaño de la matriz (16x18)
-    #define SIZELINEA 18
+void shift_row(int8_t row, int8_t direction)
+{
+    if (direction) // Desplazar a la derecha
+    {
+        // Guardamos el último valor de la fila
+        int8_t ultimo_valor = mapa[row][COLUMNAS - 1];
 
-    // Inicializar la matriz
-    inicializar_matriz();
+        // Desplazamos todos los elementos hacia la derecha
+        for (int8_t i = COLUMNAS - 1; i > 0; i--)
+        {
+            mapa[row][i] = mapa[row][i - 1];
+        }
 
-    // Mostrar la matriz
-    printf("Matriz generada:\n");
-    imprimir_matriz();
+        // Colocamos el valor del final al principio si era un punto válido
+        if (ultimo_valor != 0)
+        {
+            mapa[row][0] = ultimo_valor;
+        }
+        else
+        {
+            mapa[row][0] = 0; // Limpiamos la primera columna si no hay punto
+        }
+    }
+    else // Desplazar a la izquierda
+    {
+        // Guardamos el primer valor de la fila
+        int8_t primer_valor = mapa[row][0];
 
-    return 0;
+        // Desplazamos todos los elementos hacia la izquierda
+        for (int8_t i = 0; i < COLUMNAS - 1; i++)
+        {
+            mapa[row][i] = mapa[row][i + 1];
+        }
+
+        // Colocamos el valor del principio al final si era un punto válido
+        if (primer_valor != 0)
+        {
+            mapa[row][COLUMNAS - 1] = primer_valor;
+        }
+        else
+        {
+            mapa[row][COLUMNAS - 1] = 0; // Limpiamos la última columna si no hay punto
+        }
+    }
 }
