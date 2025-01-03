@@ -10,7 +10,7 @@
 #include "./joydrv.h" //librerias de control del display
 #define DISP_CANT_X_DOTS 16
 #define DISP_CANT_Y_DOTS 16
-#define SAPO_SIZE 3
+#define SAPO_SIZE 1
 #define THRESHOLD 40
 //Funciones
 //mueve la matriz sapo en la matriz grande

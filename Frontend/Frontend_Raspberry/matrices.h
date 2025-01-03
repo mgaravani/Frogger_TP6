@@ -3,12 +3,7 @@
 #define FILAS 14
 #define COLUMNAS 40
 #include <stdint.h> 
-uint8_t Sapo[3][3] = {
-    {1, 0, 1},
-    {0, 1, 0},
-    {1, 0, 1},
-    
-};
+uint8_t Sapo = 1;
 uint8_t Auto[3][5] = {
     {0, 1, 1, 1, 0}, // Techo del auto
     {1, 0, 0, 0, 1}, // Ventanas y laterales
