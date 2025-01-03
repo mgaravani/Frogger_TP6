@@ -106,13 +106,13 @@ void print_matrix() {
     }
 }
 
-void shift_row(int8_t row, int8_t direction) {
+void shift_row(uint8_t row, uint8_t direction) {
     if (direction) { // Desplazar a la derecha
         // Guardamos el último valor de la fila
-        int8_t last_value = map[row][COLUMNS - 1];
+        uint8_t last_value = map[row][COLUMNS - 1];
 
         // Desplazamos todos los elementos hacia la derecha
-        for (int8_t i = COLUMNS - 1; i > 0; i--) {
+        for (uint8_t i = COLUMNS - 1; i > 0; i--) {
             map[row][i] = map[row][i - 1];
         }
 
@@ -124,10 +124,10 @@ void shift_row(int8_t row, int8_t direction) {
         }
     } else { // Desplazar a la izquierda
         // Guardamos el primer valor de la fila
-        int8_t first_value = map[row][0];
+        uint8_t first_value = map[row][0];
 
         // Desplazamos todos los elementos hacia la izquierda
-        for (int8_t i = 0; i < COLUMNS - 1; i++) {
+        for (uint8_t i = 0; i < COLUMNS - 1; i++) {
             map[row][i] = map[row][i + 1];
         }
 
@@ -140,8 +140,4 @@ void shift_row(int8_t row, int8_t direction) {
     }
 }
 
-int main (void) {
-    initialize_matrix();
-    print_matrix();
-    return 0;
-}
+

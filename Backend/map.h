@@ -4,7 +4,7 @@
 
 #define ROWS 13
 #define COLUMNS 15
-typedef int8_t map_t[ROWS][COLUMNS];
+typedef uint8_t map_t[ROWS][COLUMNS];
 
 
 void print_matrix(); // BORRAR DESPUES DE NO USAR MAS (FUN PARA TESTEAT LA MAT)
@@ -27,6 +27,6 @@ void initialize_matrix();
 
     TESTEADA
 */
-void shift_row(int8_t row, int8_t direction);
+void shift_row(uint8_t row, uint8_t direction);
 
 #endif

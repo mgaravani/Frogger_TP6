@@ -1,12 +1,14 @@
 /* INCLUDES */
 #include <stdio.h>
 #include "../Frontend/Frontend_Allegro/allegro.h"
-#include "../Backend/mapa.h"
+#include "../Backend/map.h"
 #include "delay.h"
 #include <time.h> // LO PONGO PARA HACER PRUEBAS, DESPUES SACAR
 
 /* FUNCION MAIN */
 int main(void) {
+    extern map_t map;
+    AllegroResources resourcesformain = allegro_init(map);
 // Definir el tamaño de la matriz (16x18)
     #define SIZELINEA 18  // PARA QUE SIRVE? BAUTI
 
@@ -23,7 +25,7 @@ int main(void) {
 
     clock_t start_time = clock(); // Tiempo inicial
     double delay = 10.0;          
-    inicializar_matriz();
+    initialize_matrix();
     while (1) {
         // Calcula el tiempo transcurrido
         double elapsed = (double)(clock() - start_time) / CLOCKS_PER_SEC;
@@ -44,7 +46,8 @@ int main(void) {
                 shift_row(fila, 0);
             }
         }
-        imprimir_matriz();
+        initialize_matrix();
+        Screen(&resourcesformain, map);
         usleep(100000);
     }
 
