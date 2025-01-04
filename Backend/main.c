@@ -9,7 +9,7 @@
 int main(void) 
 {
     extern map_t map; // Variable global de la matriz
-    AllegroResources resourcesformain = allegro_init(map); // Inicializa allegro
+    AllegroResources resources_for_main = allegro_init(map); // Inicializa allegro
 // Definir el tamaño de la matriz (13x18)
     #define SIZELINEA 18  // PARA QUE SIRVE? BAUTI
 
@@ -54,8 +54,8 @@ int main(void)
             }
         }
         print_matrix();
-        Screen(&resourcesformain, map);
-        usleep(100000);
+        Screen(&resources_for_main, map);
+        usleep(800000);
     }
 
     //mostrar_mensaje(); // Funcion de allegro

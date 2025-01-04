@@ -20,6 +20,8 @@ void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS])
         resources->width, resources->height,               // Nuevo ancho y alto de la imagen escalada
         0                       // Sin banderas adicionales
     );
+
+
     // Tamaño de cada celda
     uint32_t cell_width = resources->width / COLUMNS;
     uint32_t cell_height = resources->height / ROWS;
@@ -33,43 +35,53 @@ void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS])
                 int x = j * cell_width;  // Coordenada x basada en la columna
                 int y = i * cell_height; // Coordenada y basada en la fila
 
-                // Selección de imagen basada en la fila (i)
+                ALLEGRO_BITMAP *image_to_draw = NULL;
                 switch (i) 
                 {
-                    /*CASES LOG*/
                     case 1:
                     case 3:
                     case 4:
-                        al_draw_bitmap(resources->images[1], x, y+25, 0); 
+                        image_to_draw = resources->images[1]; // Log
+                        y +=25;
                         break;
-                    /*CASES TORTLE*/
                     case 2:
                     case 5:
-                        al_draw_bitmap(resources->images[10], x, y+20, 0); // Tortuga 
+                        image_to_draw = resources->images[10]; // Tortuga
+                        y+=25;
                         break;
-                    /*CASE TRUCK*/
                     case 7:
-                        al_draw_bitmap(resources->images[8], x, y+20, 0); // Camión
-                        break;   
-                    /*CASE CAR1*/
+                        image_to_draw = resources->images[8]; // Camión
+                        y+=15;
+                        break;
                     case 8:
-                        al_draw_bitmap(resources->images[2], x, y+20, 0); // Auto 1 
-                        break;       
-                    /*CASE CAR2*/             
+                        image_to_draw = resources->images[2]; // Auto 1
+                        y+=13;
+                        break;
                     case 9:
-                        al_draw_bitmap(resources->images[6], x, y+20, 0); // Auto 3
+                        image_to_draw = resources->images[6]; // Auto 3
+                        y+=10;
                         break;
-                    /*CASE CAR3*/
                     case 10:
-                        al_draw_bitmap(resources->images[4], x, y+20, 0); // Auto 2
+                        image_to_draw = resources->images[4]; // Auto 2
                         break;
-                    /*CASE CAR4*/
                     case 11:
-                        al_draw_bitmap(resources->images[2], x, y+15, 0); // Auto 1 //poner imagen de otro auto
+                        image_to_draw = resources->images[2]; // Auto 1
                         break;
-                    /*CASE DEFAULT*/
                     default:
-                        break; // Sin dibujo para otras filas
+                        break;
+                }
+
+                if (image_to_draw) {
+                    // Dibujar la imagen escalada al tamaño de la celda
+                    al_draw_scaled_bitmap(
+                        image_to_draw,
+                        0, 0, // Coordenadas de origen
+                        al_get_bitmap_width(image_to_draw),  // Ancho original
+                        al_get_bitmap_height(image_to_draw), // Alto original
+                        x, y, // Posición en la pantalla
+                        cell_width, cell_height, // Nuevo ancho y alto
+                        0 // Sin banderas adicionales
+                    );
                 }
             }
         }

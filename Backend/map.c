@@ -9,7 +9,7 @@ map_t map;
 
 /*------------ FUNCTIONS ----------------*/
 
-/*------Funcion initialize_matrix------*/
+/*------Function initialize_matrix------*/
 void initialize_matrix() 
 {
     srand(time(NULL));
