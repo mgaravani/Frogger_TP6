@@ -31,11 +31,12 @@ void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS], uint8_t fro
     {
         for (uint16_t j = 0; j < COLUMNS; j++) 
         {
-            if (map[i][j] == 1) { // Solo dibuja si hay un elemento en la celda
-                int x = j * cell_width;  // Coordenada x basada en la columna
-                int y = i * cell_height; // Coordenada y basada en la fila
+            int x = j * cell_width;  // Coordenada x basada en la columna
+            int y = i * cell_height; // Coordenada y basada en la fila
+            ALLEGRO_BITMAP *image_to_draw = NULL;
 
-                ALLEGRO_BITMAP *image_to_draw = NULL;
+            if (map[i][j] == 1) 
+            { 
                 switch (i) 
                 {
                     case 1:
@@ -46,31 +47,51 @@ void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS], uint8_t fro
                         break;
                     case 2:
                     case 5:
-                        image_to_draw = resources->images[10]; // Tortuga
-                        y+=25;
+                        image_to_draw = resources->images[11]; // Tortle
+                        y+=20;
                         break;
                     case 7:
-                        image_to_draw = resources->images[8]; // Camión
+                        image_to_draw = resources->images[9]; // Truck
                         y+=15;
                         break;
                     case 8:
-                        image_to_draw = resources->images[2]; // Auto 1
+                        image_to_draw = resources->images[2]; // Car 1
                         y+=13;
                         break;
                     case 9:
-                        image_to_draw = resources->images[6]; // Auto 3
+                        image_to_draw = resources->images[7]; // Car 3
                         y+=10;
                         break;
                     case 10:
-                        image_to_draw = resources->images[4]; // Auto 2
+                        image_to_draw = resources->images[4]; // Car 2
                         break;
                     case 11:
-                        image_to_draw = resources->images[2]; // Auto 1
+                        image_to_draw = resources->images[13]; // Car 4
                         break;
                     default:
                         break;
                 }
 
+                if (image_to_draw) 
+                {
+                    // Dibujar la imagen escalada al tamaño de la celda
+                    al_draw_scaled_bitmap(
+                        image_to_draw,
+                        0, 0, // Coordenadas de origen
+                        al_get_bitmap_width(image_to_draw),  // Ancho original
+                        al_get_bitmap_height(image_to_draw), // Alto original
+                        x, y, // Posición en la pantalla
+                        cell_width, cell_height, // Nuevo ancho y alto
+                        0 // Sin banderas adicionales
+                    );
+                }
+            }
+
+            //EMPROLIJAAAAAR
+            if(map[i][j] == 2)
+            {
+                image_to_draw = resources->images[14]; // Crocodile
+                y +=25;
                 if (image_to_draw) 
                 {
                     // Dibujar la imagen escalada al tamaño de la celda
