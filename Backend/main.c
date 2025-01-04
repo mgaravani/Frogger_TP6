@@ -9,6 +9,7 @@
 int main(void) 
 {
     extern map_t map; // Variable global de la matriz
+    extern frog_t frog; // Variable global de la rana
     AllegroResources resources_for_main = allegro_init(map); // Inicializa allegro
 // Definir el tamaño de la matriz (13x18)
     #define SIZELINEA 18  // PARA QUE SIRVE? BAUTI
@@ -27,6 +28,7 @@ int main(void)
     clock_t start_time = clock(); // Tiempo inicial
     double delay = 10.0;          
     initialize_matrix();
+    frog_position();
     while (1) 
     {
         // Calcula el tiempo transcurrido
@@ -54,7 +56,7 @@ int main(void)
             }
         }
         print_matrix();
-        Screen(&resources_for_main, map);
+        Screen(&resources_for_main, map,frog);
         usleep(800000);
     }
 

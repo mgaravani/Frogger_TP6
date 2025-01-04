@@ -35,9 +35,11 @@ typedef struct
 
 /*------PROTOTYPES------*/
 AllegroResources allegro_init(uint8_t map[ROWS][COLUMNS]);
-void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS]);
+void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS], uint8_t frog_position[ROWS][COLUMNS]);
 void cleanup_allegro(AllegroResources *resources);
-void prueba_impresion(AllegroResources init);
+ALLEGRO_EVENT_QUEUE *init_events(ALLEGRO_DISPLAY *pantalla);
+void events_managment(AllegroResources *resources, ALLEGRO_EVENT_QUEUE * event_queue);
+void allegro_menu(AllegroResources resources);
 
 
 #endif /* ALLEGRO_H */

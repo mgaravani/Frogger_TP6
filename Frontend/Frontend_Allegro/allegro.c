@@ -50,6 +50,7 @@ AllegroResources allegro_init(uint8_t map[ROWS][COLUMNS])
     resources.height = HEIGHT;
 
     ALLEGRO_DISPLAY *display = al_create_display(resources.width, resources.height);
+    resources.display = display;
 
     if (!display) 
     {
@@ -105,8 +106,78 @@ AllegroResources allegro_init(uint8_t map[ROWS][COLUMNS])
             exit(EXIT_FAILURE); //Ante un fallo termina el programa y borra los recursos
         }
     }
+
+    /*************************************************************************************************
+    * Inicialización del sistema de eventos                                                          *
+    * Se crea una cola de eventos que manejará las entradas del sistema,                             *
+    * como eventos de teclado y pantalla. Se asocia la pantalla del recurso 'resources.pantalla'     *
+    * con la cola de eventos para monitorear eventos relacionados con esa pantalla.          
+    *************************************************************************************************/        
+    ALLEGRO_EVENT_QUEUE *event_queue = init_events(resources.display);                             
+
+    /*************************************************************************************************
+    * Bucle principal del menú                                                                       *
+    * El bucle se mantendrá activo hasta que 'done' sea verdadero.                                   *
+    * Inicialmente, 'done' está en 'false' para que el menú continúe corriendo.                      *
+    *************************************************************************************************/ 
+    bool done = true;
+    //inicio_partida(resources);
+    while (!done) {
+        // Se llama a la función 'manejo_eventos' que gestiona cualquier evento 
+        // capturado en la cola de eventos. Esto incluye detectar entradas de teclado,
+        // cierres de ventana, etc., y actuar en consecuencia.
+        events_managment(&resources, event_queue);
+        
+        // 'menu_allegro' se llama en cada iteración del bucle para redibujar el menú
+        // en función del estado actual. Dependiendo de la selección del usuario, el menú
+        // se actualizará visualmente, mostrando el rectángulo alrededor de la opción seleccionada.
+    }
+
+
     return resources;
 }
+
+
+//TODAVIA NO FUNCIONA DEL TODO BIEN ASI QUE NUNCA SE REALIZA EL LLAMADO A LA FUNCION
+void allegro_menu(AllegroResources resources)
+{   
+    // Limpia la pantalla con el color negro
+    al_clear_to_color(al_map_rgb(0, 0, 0)); 
+
+    // Dibuja el título "FROGGER" en la parte superior central de la pantalla
+    al_draw_text(resources.fonts[0], al_map_rgb(66, 194, 29), resources.width / 2, resources.height / 8,
+                 ALLEGRO_ALIGN_CENTRE, "FROGGER");
+
+    // Opciones del menú
+    const char *options[3] = {"Play Game", "High Scores", "Quit Game"};
+    //Coordenadas en Y para los rectangulos
+    int y_positions[3] = {
+        (resources.height / 8) * 4, // Play Game
+        (resources.height / 8) * 5, // High Scores
+        (resources.height / 8) * 6  // Quit Game
+    };
+    //Para ver que opcion esta seleccionada y segun eso pintar la pantalla de determinada forma
+    for (int i = 0; i < 3; i++) {
+        //Me fijo que opcion esta seleccionada
+        if (resources.selected_option == i + 1) {
+            //Obtengo el ancho del texto
+            int text_width = al_get_text_width(resources.fonts[4], options[i]);
+            //Dibujo un rectangulo de color en funcion del ancho del texto alrededor de el
+            al_draw_rectangle(resources.width / 2 - text_width / 2 - 10, y_positions[i] - 10,
+                              resources.width / 2 + text_width / 2 + 10, y_positions[i] + 65 + 10,
+                              al_map_rgb(255, 255, 255), 3);
+        }
+        //Escribo el texto con las coordenadas correctas
+        al_draw_text(resources.fonts[4], al_map_rgb(66, 194, 29), resources.width / 2, y_positions[i],
+                     ALLEGRO_ALIGN_CENTRE, options[i]);
+    }
+
+    al_flip_display();
+
+}
+
+
+
 
 /*------Function Cleanup_allegro------*/
 //Borra todos los recursos utilizados

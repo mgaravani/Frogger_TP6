@@ -10,6 +10,7 @@
 
 /*-----------TYPEDEF--------*/
 typedef uint8_t map_t[ROWS][COLUMNS];
+typedef uint8_t frog_t[ROWS][COLUMNS];
 
 /*-----------PROTOTYPES--------*/
 

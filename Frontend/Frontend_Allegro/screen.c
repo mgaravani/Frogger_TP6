@@ -5,7 +5,7 @@
 
 /*------Function Screen------*/
 // Función para mostrar la pantalla de juego
-void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS])
+void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS], uint8_t frog_position[ROWS][COLUMNS]) 
 {
     // Limpiar pantalla
     al_clear_to_color(al_map_rgb(0, 0, 0)); // Fondo negro
@@ -71,7 +71,8 @@ void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS])
                         break;
                 }
 
-                if (image_to_draw) {
+                if (image_to_draw) 
+                {
                     // Dibujar la imagen escalada al tamaño de la celda
                     al_draw_scaled_bitmap(
                         image_to_draw,
@@ -84,6 +85,23 @@ void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS])
                     );
                 }
             }
+
+            // Dibujar la rana
+            if(frog_position[i][j] == 1)
+            {
+                int x = j * cell_width;  // Coordenada x basada en la columna
+                int y = i * cell_height; // Coordenada y basada en la fila
+                al_draw_scaled_bitmap(
+                    resources->images[12],
+                    0, 0, // Coordenadas de origen
+                    al_get_bitmap_width(resources->images[12]),  // Ancho original
+                    al_get_bitmap_height(resources->images[12]), // Alto original
+                    x, y, // Posición en la pantalla
+                    cell_width, cell_height, // Nuevo ancho y alto
+                    0 // Sin banderas adicionales
+                );
+            }
+
         }
     }
     
