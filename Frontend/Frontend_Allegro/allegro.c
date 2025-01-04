@@ -1,8 +1,10 @@
 /*------------INCLUDES-----------*/
 #include "allegro.h"
 
-/*Funcion allegro_init*/
-AllegroResources allegro_init(uint8_t map[ROWS][COLUMNS]) {
+/*------Function allegro_init------*/
+// Inicializa Allegro y sus addons, crea la instancia de la estructura AllegroResources donde se guardan los datos utilizados
+AllegroResources allegro_init(uint8_t map[ROWS][COLUMNS]) 
+{
     //Creo la instancia resources del tipo de dato estructura AllegroResources
     AllegroResources resources = {.selected_option = 1}; 
 
@@ -47,14 +49,15 @@ AllegroResources allegro_init(uint8_t map[ROWS][COLUMNS]) {
     resources.width = WIDTH;
     resources.height = HEIGHT;
 
-    ALLEGRO_DISPLAY *display = al_create_display(WIDTH, HEIGHT);
+    ALLEGRO_DISPLAY *display = al_create_display(resources.width, resources.height);
+
     if (!display) 
     {
         fprintf(stderr, "Fallo al crear la ventana.\n");
         exit(EXIT_FAILURE);
     }
 
-   // Cargar las fuentes en la estructura resources, en el campo fuentes
+    // Cargar las fuentes en la estructura resources, en el campo fuentes
     resources.fonts[0] = al_load_font("Resources/Bing Bam Boum.ttf", 200, ALLEGRO_ALIGN_CENTER); // Fuente 1
     resources.fonts[1] = al_load_font("Resources/ChineseDragon.ttf", 200, ALLEGRO_ALIGN_CENTER); // Fuente 2
     resources.fonts[2] = al_load_font("Resources/Chubby Relief.ttf", 200, ALLEGRO_ALIGN_CENTER); // Fuente 3
@@ -104,9 +107,10 @@ AllegroResources allegro_init(uint8_t map[ROWS][COLUMNS]) {
     return resources;
 }
 
-/*FUNCION cleanup_allegro*/
+/*------Function Cleanup_allegro------*/
 //Borra todos los recursos utilizados
-void cleanup_allegro(AllegroResources *resources) {
+void cleanup_allegro(AllegroResources *resources) 
+{
     for (int i = 0; i < 10; i++) 
     {
         if (resources->fonts[i]) 

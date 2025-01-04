@@ -6,7 +6,8 @@
 #include <time.h> // LO PONGO PARA HACER PRUEBAS, DESPUES SACAR
 
 /* FUNCION MAIN */
-int main(void) {
+int main(void) 
+{
     extern map_t map; // Variable global de la matriz
     AllegroResources resourcesformain = allegro_init(map); // Inicializa allegro
 // Definir el tamaño de la matriz (13x18)
@@ -26,23 +27,29 @@ int main(void) {
     clock_t start_time = clock(); // Tiempo inicial
     double delay = 10.0;          
     initialize_matrix();
-    while (1) {
+    while (1) 
+    {
         // Calcula el tiempo transcurrido
         double elapsed = (double)(clock() - start_time) / CLOCKS_PER_SEC;
 
-        if (elapsed >= delay) {
+        if (elapsed >= delay) 
+        {
             printf("Han pasado %.1f segundos.\n", elapsed);
             break; // Sal del bucle cuando el tiempo se cumpla
         }
         // Simula otras tareas
-        for (int fila = 0; fila < 10 ; fila++) {
-            if (waiting_time(1, fila)){
+        for (int fila = 0; fila < 10 ; fila++) 
+        {
+            if (waiting_time(1, fila))
+            {
                 shift_row(fila, 0);
             }
             
         }
-        for (int fila = 10; fila < 13 ; fila++) {
-            if (waiting_time(5, fila)){
+        for (int fila = 10; fila < 13 ; fila++) 
+        {
+            if (waiting_time(5, fila))
+            {
                 shift_row(fila, 0);
             }
         }

@@ -1,8 +1,11 @@
 /*------------INCLUDES-----------*/
 #include "delay.h"
-#include "map.h" // Incluyo mapa.h para saber la cantidad de filas utilizadas
+#include "map.h" // Incluyo map.h para saber la cantidad de filas utilizadas
 
-uint8_t waiting_time (uint8_t level, uint8_t row) {
+/*------Function waiting_time------*/
+// Funcion para controlar el tiempo entre los desplazamientos de los objetos
+uint8_t waiting_time (uint8_t level, uint8_t row) 
+{
     static clock_t flags[ROWS] = {0};  // Inicializa el arreglo a 0
     double elapsed_time = 0, time_reference = 0, speed = 1.0; 
 
@@ -17,7 +20,8 @@ uint8_t waiting_time (uint8_t level, uint8_t row) {
     } 
 
     // Inicializa el temporizador para la fila específica si es la primera vez que se llama la función
-    if (flags[row] == 0) {
+    if (flags[row] == 0) 
+    {
         flags[row] = clock();
     }
 
@@ -28,7 +32,8 @@ uint8_t waiting_time (uint8_t level, uint8_t row) {
 
 
     // Verifica si ha pasado el tiempo necesario
-    if (elapsed_time >= time_reference) {
+    if (elapsed_time >= time_reference) 
+    {
         flags[row] = clock();  // Reinicia el temporizador
         return 1;  // Ha pasado el tiempo, devuelve 1
     }

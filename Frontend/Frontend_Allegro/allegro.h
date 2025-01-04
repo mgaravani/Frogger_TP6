@@ -1,7 +1,7 @@
 #ifndef ALLEGRO_H
 #define ALLEGRO_H
 
-/*INCLUDES*/
+/*-------INCLUDES------*/
 #include <stdio.h>  // Incluyo la librería estándar stdio
 #include <pthread.h> //Incluyo la libreria de threads
 #include <stdint.h>  //Incluyo la libreria estandar para tener tipo de datos multiplataforma
@@ -12,13 +12,13 @@
 #include <allegro5/allegro_color.h> //Incluyo el addon color
 #include <allegro5/allegro_image.h> // Necesario para cargar imágenes
 
-/*DEFINES*/
+/*-------DEFINES------*/
 #define ROWS 13
 #define COLUMNS 15
 #define WIDTH 1000
-#define HEIGHT 800
+#define HEIGHT 650
 
-/*STRUCTS*/
+/*------STRUCTS------*/
 /*Creo un tipo de dato de estructura llamado AllegroResources 
 donde se guardan las fuentes, puntero a display y otros recursos*/
 typedef struct 
@@ -33,7 +33,7 @@ typedef struct
 } AllegroResources;
 
 
-/*PROTOTYPES*/
+/*------PROTOTYPES------*/
 AllegroResources allegro_init(uint8_t map[ROWS][COLUMNS]);
 void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS]);
 void cleanup_allegro(AllegroResources *resources);
