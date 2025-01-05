@@ -84,19 +84,19 @@ AllegroResources allegro_init(uint8_t map[ROWS][COLUMNS])
     //Cargo las imagenes en la estructura resources, en el campo images
     resources.images[0] = al_load_bitmap("Resources/Fondo.png"); // Imagen 1
     resources.images[1] = al_load_bitmap("Resources/Tronco.png"); // Imagen 2
-    resources.images[2] = al_load_bitmap("Resources/Auto_D.png"); // Imagen 3
-    resources.images[3] = al_load_bitmap("Resources/Auto_I.png"); // Imagen 4
-    resources.images[4] = al_load_bitmap("Resources/Auto2_D.png"); // Imagen 5
-    resources.images[5] = al_load_bitmap("Resources/Auto2_I.png"); // Imagen 6
-    resources.images[6] = al_load_bitmap("Resources/Auto3_D.png"); // Imagen 7
-    resources.images[7] = al_load_bitmap("Resources/Auto3_I.png"); // Imagen 8
-    resources.images[8] = al_load_bitmap("Resources/Camion_D.png"); // Imagen 9
-    resources.images[9] = al_load_bitmap("Resources/Camion_I.png"); // Imagen 10
-    resources.images[10] = al_load_bitmap("Resources/Tortuga_D.png"); // Imagen 11
-    resources.images[11] = al_load_bitmap("Resources/Tortuga_I.png"); // Imagen 12
+    resources.images[2] = al_load_bitmap("Resources/car_R.png"); // Imagen 3
+    resources.images[3] = al_load_bitmap("Resources/car_L.png"); // Imagen 4
+    resources.images[4] = al_load_bitmap("Resources/car2_R.png"); // Imagen 5
+    resources.images[5] = al_load_bitmap("Resources/car2_L.png"); // Imagen 6
+    resources.images[6] = al_load_bitmap("Resources/car3_R.png"); // Imagen 7
+    resources.images[7] = al_load_bitmap("Resources/car3_L.png"); // Imagen 8
+    resources.images[8] = al_load_bitmap("Resources/truck_R.png"); // Imagen 9
+    resources.images[9] = al_load_bitmap("Resources/truck_L.png"); // Imagen 10
+    resources.images[10] = al_load_bitmap("Resources/tortoise_R.png"); // Imagen 11
+    resources.images[11] = al_load_bitmap("Resources/tortoise_L.png"); // Imagen 12
     resources.images[12] = al_load_bitmap("Resources/ranita.png"); // Imagen 13
-    resources.images[13] = al_load_bitmap("Resources/Auto4.png"); // Imagen 14
-    resources.images[14] = al_load_bitmap("Resources/cocodrilo.png"); // Imagen 15
+    resources.images[13] = al_load_bitmap("Resources/car4_L.png"); // Imagen 14
+    resources.images[14] = al_load_bitmap("Resources/cocodrile.png"); // Imagen 15
     
     /*ANALIZA SI LAS IMAGENES SE CARGARON CORRECTAMENTE*/
     for (uint16_t i = 0; i < 15; i++) 
