@@ -82,7 +82,7 @@ AllegroResources allegro_init(uint8_t map[ROWS][COLUMNS])
     }
 
     //Cargo las imagenes en la estructura resources, en el campo images
-    resources.images[0] = al_load_bitmap("Resources/Fondo.png"); // Imagen 1
+    resources.images[0] = al_load_bitmap("Resources/background.png"); // Imagen 1
     resources.images[1] = al_load_bitmap("Resources/Tronco.png"); // Imagen 2
     resources.images[2] = al_load_bitmap("Resources/car_R.png"); // Imagen 3
     resources.images[3] = al_load_bitmap("Resources/car_L.png"); // Imagen 4
@@ -94,7 +94,7 @@ AllegroResources allegro_init(uint8_t map[ROWS][COLUMNS])
     resources.images[9] = al_load_bitmap("Resources/truck_L.png"); // Imagen 10
     resources.images[10] = al_load_bitmap("Resources/tortoise_R.png"); // Imagen 11
     resources.images[11] = al_load_bitmap("Resources/tortoise_L.png"); // Imagen 12
-    resources.images[12] = al_load_bitmap("Resources/ranita.png"); // Imagen 13
+    resources.images[12] = al_load_bitmap("Resources/frog_front.png"); // Imagen 13
     resources.images[13] = al_load_bitmap("Resources/car4_L.png"); // Imagen 14
     resources.images[14] = al_load_bitmap("Resources/cocodrile.png"); // Imagen 15
     
