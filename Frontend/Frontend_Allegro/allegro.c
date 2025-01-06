@@ -92,11 +92,13 @@ AllegroResources allegro_init(uint8_t map[ROWS][COLUMNS])
     resources.images[7] = al_load_bitmap("Resources/car3_L.png"); // Imagen 8
     resources.images[8] = al_load_bitmap("Resources/truck_R.png"); // Imagen 9
     resources.images[9] = al_load_bitmap("Resources/truck_L.png"); // Imagen 10
-    resources.images[10] = al_load_bitmap("Resources/tortoise_R.png"); // Imagen 11
-    resources.images[11] = al_load_bitmap("Resources/tortoise_L.png"); // Imagen 12
-    resources.images[12] = al_load_bitmap("Resources/frog_front.png"); // Imagen 13
-    resources.images[13] = al_load_bitmap("Resources/car4_L.png"); // Imagen 14
-    resources.images[14] = al_load_bitmap("Resources/crocodile.png"); // Imagen 15
+    resources.images[10] = al_load_bitmap("Resources/tortoise_2_L.png"); // Imagen 11
+    resources.images[11] = al_load_bitmap("Resources/tortoise_2_R.png"); // Imagen 12
+    resources.images[12] = al_load_bitmap("Resources/tortoise_3_L.png"); // Imagen 13
+    resources.images[13] = al_load_bitmap("Resources/tortoise_3_R.png"); // Imagen 14
+    resources.images[14] = al_load_bitmap("Resources/frog_front.png"); // Imagen 15
+    resources.images[15] = al_load_bitmap("Resources/car4_L.png"); // Imagen 16
+    resources.images[16] = al_load_bitmap("Resources/crocodile.png"); // Imagen 17
     
     /*ANALIZA SI LAS IMAGENES SE CARGARON CORRECTAMENTE*/
     for (uint16_t i = 0; i < 15; i++) 

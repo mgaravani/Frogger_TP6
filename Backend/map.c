@@ -126,7 +126,7 @@ void initialize_matrix()
 // Función auxiliar (hasta tener todo con la interfaz allegro)para imprimir la matriz
 void print_matrix() 
 {
-    for (int i = 0; i < ROWS; i++) 
+    for (int i = 1; i < ROWS; i++) 
     {
         for (int j = 0; j < COLUMNS; j++) 
         {
@@ -159,7 +159,7 @@ void shift_row(uint8_t row, uint8_t direction)
             map[row][0] = 0; // Limpiamos la primera columna si no hay punto
         }
         } 
-        else 
+    else 
         { // Desplazar a la izquierda
             // Guardamos el primer valor de la fila
             uint8_t first_value = map[row][0];
@@ -179,5 +179,3 @@ void shift_row(uint8_t row, uint8_t direction)
             }
         }
 }
-
-

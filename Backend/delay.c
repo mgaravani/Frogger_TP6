@@ -1,22 +1,23 @@
 /*------------INCLUDES-----------*/
 #include "delay.h"
 #include "map.h" // Incluyo map.h para saber la cantidad de filas utilizadas
+#include <stdio.h>
 
 /*------Function waiting_time------*/
 // Funcion para controlar el tiempo entre los desplazamientos de los objetos
 uint8_t waiting_time (uint8_t level, uint8_t row) 
 {
     static clock_t flags[ROWS] = {0};  // Inicializa el arreglo a 0
-    double elapsed_time = 0, time_reference = 0, speed = 1.0; 
+    double elapsed_time = 0, time_reference = 0, speed = 0; 
 
     // Configuración de velocidad de desplazamiento segun la fila
-    if (row >= 1 && row <= 5) 
+    if (row >= 0 && row <= 5) 
     {
-        speed = 1.0;
+        speed = 1;
     } 
     else
     {
-        speed = 1.25;
+        speed = 2;
     } 
 
     // Inicializa el temporizador para la fila específica si es la primera vez que se llama la función

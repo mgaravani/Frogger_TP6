@@ -23,20 +23,27 @@ void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS], uint8_t fro
 
 
     // Tamaño de cada celda
-    uint32_t cell_width = resources->width / COLUMNS;
+    uint32_t cell_width = (resources->width + 80) / (COLUMNS-6);
     uint32_t cell_height = resources->height / ROWS;
 
     // Dibujar elementos del mapa
     for (uint16_t i = 0; i < ROWS; i++) 
     {
+        float counter = 0;
+        float x = 0;
+
         for (uint16_t j = 0; j < COLUMNS; j++) 
         {
-            int x = j * cell_width;  // Coordenada x basada en la columna
-            int y = i * cell_height; // Coordenada y basada en la fila
+            float compensate = 1;
             ALLEGRO_BITMAP *image_to_draw = NULL;
 
-            if (map[i][j] == 1) 
-            { 
+            if (map[i][j] == 1) {
+                counter++;         
+            }
+            if ((map[i][j] == 0) && (counter > 0)){
+                
+            x =  (j - counter + (counter / 2.0) - 0.5) * cell_width;  // Coordenada x basada en la columna
+            int y = i * cell_height; // Coordenada y basada en la fila
                 switch (i) 
                 {
                     case 1:
@@ -47,8 +54,14 @@ void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS], uint8_t fro
                         break;
                     case 2:
                     case 5:
-                        image_to_draw = resources->images[11]; // Tortle
-                        y+=20;
+                        if (counter == 2){
+                            image_to_draw = resources->images[10]; // Tortle x2
+                            y+=20;
+                        } 
+                        else {
+                            image_to_draw = resources->images[12]; // Tortle x3
+                            y+=20;
+                        }
                         break;
                     case 7:
                         image_to_draw = resources->images[9]; // Truck
@@ -60,17 +73,18 @@ void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS], uint8_t fro
                         break;
                     case 9:
                         image_to_draw = resources->images[7]; // Car 3
-                        y+=10;
+                        compensate = 0.9;
+                        y+=8;
                         break;
                     case 10:
                         image_to_draw = resources->images[4]; // Car 2
                         break;
                     case 11:
-                        image_to_draw = resources->images[13]; // Car 4
+                        image_to_draw = resources->images[15]; // Car 4
                         break;
                     default:
                         break;
-                }
+            }
 
                 if (image_to_draw) 
                 {
@@ -80,14 +94,15 @@ void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS], uint8_t fro
                         0, 0, // Coordenadas de origen
                         al_get_bitmap_width(image_to_draw),  // Ancho original
                         al_get_bitmap_height(image_to_draw), // Alto original
-                        x, y, // Posición en la pantalla
-                        cell_width, cell_height, // Nuevo ancho y alto
+                        x-350, y, // Posición en la pantalla compensado por las columnas restantes
+                        cell_width * counter, cell_height * compensate, // Nuevo ancho y alto
                         0 // Sin banderas adicionales
                     );
                 }
+                counter = 0;
             }
 
-            //EMPROLIJAAAAAR
+            /* //EMPROLIJAAAAAR
             if(map[i][j] == 2)
             {
                 image_to_draw = resources->images[14]; // Crocodile
@@ -105,7 +120,7 @@ void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS], uint8_t fro
                         0 // Sin banderas adicionales
                     );
                 }
-            }
+            } */
 
             // Dibujar la rana
             if(frog_position[i][j] == 1)
@@ -113,11 +128,11 @@ void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS], uint8_t fro
                 int x = j * cell_width;  // Coordenada x basada en la columna
                 int y = i * cell_height; // Coordenada y basada en la fila
                 al_draw_scaled_bitmap(
-                    resources->images[12],
+                    resources->images[14],
                     0, 0, // Coordenadas de origen
-                    al_get_bitmap_width(resources->images[12]),  // Ancho original
-                    al_get_bitmap_height(resources->images[12]), // Alto original
-                    x, y, // Posición en la pantalla
+                    al_get_bitmap_width(resources->images[14]),  // Ancho original
+                    al_get_bitmap_height(resources->images[14]), // Alto original
+                    x-80, y, // Posición en la pantalla
                     cell_width, cell_height, // Nuevo ancho y alto
                     0 // Sin banderas adicionales
                 );
