@@ -1,0 +1,2 @@
+#include "frog.h"
+// EN ESTE ARCHIVO IRÍAN TODAS LAS FUNCIONES DE LA RANA
