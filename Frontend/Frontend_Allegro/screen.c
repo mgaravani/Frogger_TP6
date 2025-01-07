@@ -1,6 +1,7 @@
 /*------------INCLUDES-----------*/
 #include "allegro.h"
 #include <stdio.h>
+#include <unistd.h>
 #include "../../Backend/frog.h"
 
 /*------Function Screen------*/
@@ -23,7 +24,7 @@ void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS], frog_t *fro
 
 
     // Tamaño de cada celda
-    uint32_t cell_width = (resources->width + 80) / (COLUMNS-6);
+    uint32_t cell_width = (resources->width + 80) / (COLUMNS-5);
     uint32_t cell_height = resources->height / ROWS;
 
     // Dibujar elementos del mapa
@@ -94,7 +95,7 @@ void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS], frog_t *fro
                         0, 0, // Coordenadas de origen
                         al_get_bitmap_width(image_to_draw),  // Ancho original
                         al_get_bitmap_height(image_to_draw), // Alto original
-                        x-350, y, // Posición en la pantalla compensado por las columnas restantes
+                        x-300, y, // Posición en la pantalla compensado por las columnas restantes
                         cell_width * counter, cell_height * compensate, // Nuevo ancho y alto
                         0 // Sin banderas adicionales
                     );
@@ -123,21 +124,19 @@ void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS], frog_t *fro
             } */
             
         // Obtener las coordenadas de la rana desde la estructura frog
-        int frog_x = get_frog_x(frog); // Obtener coordenada X de la rana
-        int frog_y = get_frog_y(frog); // Obtener coordenada Y de la rana
-
+        float frog_x = get_frog_x(frog); // Obtener coordenada X de la rana
+        float frog_y = get_frog_y(frog) + 0.20; // Obtener coordenada Y de la rana
         // Calcula la posición en la pantalla (si es necesario ajustar la escala)
-        int screen_x = frog_x * cell_width;  // Ajusta si la coordenada X se refiere a una celda
-        int screen_y = frog_y * cell_height; // Ajusta si la coordenada Y se refiere a una celda
-
+        float screen_x = frog_x * cell_width;  // Ajusta si la coordenada X se refiere a una celda
+        float screen_y = frog_y * cell_height; // Ajusta si la coordenada Y se refiere a una celda
         // Dibujar la rana
         al_draw_scaled_bitmap(
             resources->images[14],                   // Imagen de la rana
             0, 0,                                    // Coordenadas de origen de la imagen
             al_get_bitmap_width(resources->images[14]), // Ancho original de la imagen
             al_get_bitmap_height(resources->images[14]), // Alto original de la imagen
-            screen_x, screen_y,                      // Posición de la rana en la pantalla
-            cell_width, cell_height,                 // Tamaño ajustado para la rana
+            screen_x, (screen_y),                      // Posición de la rana en la pantalla
+            cell_width*0.9, cell_height*0.9,                 // Tamaño ajustado para la rana
             0                                         // Sin banderas adicionales
         );
     }

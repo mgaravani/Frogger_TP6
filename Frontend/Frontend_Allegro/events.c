@@ -33,16 +33,14 @@ void events_managment(AllegroResources *resources, ALLEGRO_EVENT_QUEUE *event_qu
 
                 case ALLEGRO_KEY_DOWN:
                     printf("Tecla presionada: FLECHA ABAJO\n");
-                    set_frog_y(frog, get_frog_y(frog) + 1);
-                    printf("%d", get_frog_y(frog));
+                    set_frog_y(frog, get_frog_y(frog) + 0.96);
                     // Lógica para manejar FLECHA ABAJO
                     /* if (resources->selected_option < 3) 
                         resources->selected_option++; */
                     break;
                 case ALLEGRO_KEY_UP:
                     printf("Tecla presionada: FLECHA ARRIBA\n");
-                    set_frog_y(frog, get_frog_y(frog) - 1);
-                    printf("%d", get_frog_y(frog));
+                    set_frog_y(frog, get_frog_y(frog) - 0.96);
                     // Lógica para manejar FLECHA ARRIBA
 
                     /* if (resources->selected_option > 1) 
@@ -51,14 +49,12 @@ void events_managment(AllegroResources *resources, ALLEGRO_EVENT_QUEUE *event_qu
                 case ALLEGRO_KEY_LEFT:
                     printf("Tecla presionada: FLECHA IZQUIERDA\n");
                     set_frog_x(frog, get_frog_x(frog) - 1);
-                    printf("%d", get_frog_x(frog));
                     // Lógica para manejar FLECHA IZQUIERDA
                     break;
 
                 case ALLEGRO_KEY_RIGHT:
                     printf("Tecla presionada: FLECHA DERECHA\n");
                     set_frog_x(frog, get_frog_x(frog) + 1);
-                    printf("%d", get_frog_x(frog));
                     // Lógica para manejar FLECHA DERECHA
                     break;
 
