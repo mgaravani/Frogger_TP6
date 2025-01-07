@@ -32,7 +32,7 @@ void events_managment(AllegroResources *resources, ALLEGRO_EVENT_QUEUE *event_qu
             switch (event.keyboard.keycode) {
 
                 case ALLEGRO_KEY_DOWN:
-                    printf("Tecla presionada: FLECHA ABAJO\n");
+                    al_play_sample(resources->sounds[0], 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
                     set_frog_y(frog, get_frog_y(frog) + 0.96);
                     set_frog_state(frog, 1);
                     // Lógica para manejar FLECHA ABAJO
@@ -40,7 +40,7 @@ void events_managment(AllegroResources *resources, ALLEGRO_EVENT_QUEUE *event_qu
                         resources->selected_option++; */
                     break;
                 case ALLEGRO_KEY_UP:
-                    printf("Tecla presionada: FLECHA ARRIBA\n");
+                    al_play_sample(resources->sounds[0], 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
                     set_frog_y(frog, get_frog_y(frog) - 0.96);
                     set_frog_state(frog, 0);
                     // Lógica para manejar FLECHA ARRIBA
@@ -49,14 +49,14 @@ void events_managment(AllegroResources *resources, ALLEGRO_EVENT_QUEUE *event_qu
                         resources->selected_option--; */
                     break;
                 case ALLEGRO_KEY_LEFT:
-                    printf("Tecla presionada: FLECHA IZQUIERDA\n");
+                    al_play_sample(resources->sounds[0], 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
                     set_frog_x(frog, get_frog_x(frog) - 0.86);
                     set_frog_state(frog, 2);
                     // Lógica para manejar FLECHA IZQUIERDA
                     break;
 
                 case ALLEGRO_KEY_RIGHT:
-                    printf("Tecla presionada: FLECHA DERECHA\n");
+                    al_play_sample(resources->sounds[0], 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
                     set_frog_x(frog, get_frog_x(frog) + 0.86);
                     set_frog_state(frog, 3);
                     // Lógica para manejar FLECHA DERECHA

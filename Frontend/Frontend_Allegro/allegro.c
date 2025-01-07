@@ -26,6 +26,21 @@ AllegroResources allegro_init(uint8_t map[ROWS][COLUMNS])
         printf("No se pudo instalar el teclado.\n");
         exit(EXIT_FAILURE); //Ante un fallo termina el programa y borra los recursos
     }
+
+    if (!al_install_audio()) {
+    printf("Error al inicializar el sistema de audio.\n");
+    exit(EXIT_FAILURE);
+    }
+
+    if (!al_reserve_samples(10)) {
+        printf("Error al reservar muestras de audio.\n");
+        exit(EXIT_FAILURE);
+    }
+
+    if (!al_init_acodec_addon()) {
+        printf("Error al inicializar los codecs de audio.\n");
+        exit(EXIT_FAILURE);
+    }
     
     if (!al_init_font_addon()) 
     {
@@ -56,6 +71,20 @@ AllegroResources allegro_init(uint8_t map[ROWS][COLUMNS])
     {
         fprintf(stderr, "Fallo al crear la ventana.\n");
         exit(EXIT_FAILURE);
+    }
+
+    resources.sounds[0] = al_load_sample("Resources/move.wav");
+    if (!resources.sounds[0]) {
+    fprintf(stderr, "Error al cargar el sonido.\n");
+    exit(EXIT_FAILURE);
+    }
+    
+    for (int i = 0; i < 1; i++) {
+        if (!resources.sounds[i]) {
+            printf("Error al cargar el sonido %d!\n", i + 1);
+            al_destroy_display(resources.display);
+            exit(EXIT_FAILURE);
+        }
     }
 
     // Cargar las fuentes en la estructura resources, en el campo fuentes
@@ -120,7 +149,7 @@ AllegroResources allegro_init(uint8_t map[ROWS][COLUMNS])
     * como eventos de teclado y pantalla. Se asocia la pantalla del recurso 'resources.pantalla'     *
     * con la cola de eventos para monitorear eventos relacionados con esa pantalla.          
     *************************************************************************************************/        
-    ALLEGRO_EVENT_QUEUE *event_queue = init_events(resources.display);                             
+    //ALLEGRO_EVENT_QUEUE *event_queue = init_events(resources.display);                             
 
     /*************************************************************************************************
     * Bucle principal del menú                                                                       *
@@ -190,6 +219,13 @@ void allegro_menu(AllegroResources resources)
 //Borra todos los recursos utilizados
 void cleanup_allegro(AllegroResources *resources) 
 {
+
+    for (int i = 0; i < 1; i++) { // USAR UNA MACRO PARA MAXIMOS SONIDOS, IMAGENES, ETC.
+    if (resources->sounds[i]) {
+        al_destroy_sample(resources->sounds[i]);
+    }
+    }
+
     for (int i = 0; i < 10; i++) 
     {
         if (resources->fonts[i]) 
