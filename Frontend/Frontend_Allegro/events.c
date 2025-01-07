@@ -50,14 +50,14 @@ void events_managment(AllegroResources *resources, ALLEGRO_EVENT_QUEUE *event_qu
                     break;
                 case ALLEGRO_KEY_LEFT:
                     printf("Tecla presionada: FLECHA IZQUIERDA\n");
-                    set_frog_x(frog, get_frog_x(frog) - 1);
+                    set_frog_x(frog, get_frog_x(frog) - 0.86);
                     set_frog_state(frog, 2);
                     // Lógica para manejar FLECHA IZQUIERDA
                     break;
 
                 case ALLEGRO_KEY_RIGHT:
                     printf("Tecla presionada: FLECHA DERECHA\n");
-                    set_frog_x(frog, get_frog_x(frog) + 1);
+                    set_frog_x(frog, get_frog_x(frog) + 0.86);
                     set_frog_state(frog, 3);
                     // Lógica para manejar FLECHA DERECHA
                     break;
