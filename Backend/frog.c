@@ -1,9 +1,10 @@
 #include "frog.h"
 
 // Función para inicializar la rana con valores predeterminados
-void init_frog(frog_t *frog, float x, float y, uint8_t vidas, int16_t puntos, int8_t llegadas) {
+void init_frog(frog_t *frog, float x, float y, uint8_t state, uint8_t vidas, int16_t puntos, int8_t llegadas) {
     frog->x = x;
     frog->y = y;
+    frog->state = state;
     frog->vidas = vidas;
     frog->puntos = puntos;
     frog->llegadas = llegadas;
@@ -16,6 +17,10 @@ float get_frog_x(const frog_t *frog) {
 
 float get_frog_y(const frog_t *frog) {
     return frog->y;
+}
+
+uint8_t get_frog_state(const frog_t *frog) {
+    return frog->state;
 }
 
 uint8_t get_frog_vidas(const frog_t *frog) {
@@ -37,6 +42,10 @@ void set_frog_x(frog_t *frog, float x) {
 
 void set_frog_y(frog_t *frog, float y) {
     frog->y = y;
+}
+
+void set_frog_state(frog_t *frog, uint8_t state) {
+    frog->state = state;
 }
 
 void set_frog_vidas(frog_t *frog, uint8_t vidas) {

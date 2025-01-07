@@ -130,11 +130,28 @@ void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS], frog_t *fro
         float screen_x = frog_x * cell_width;  // Ajusta si la coordenada X se refiere a una celda
         float screen_y = frog_y * cell_height; // Ajusta si la coordenada Y se refiere a una celda
         // Dibujar la rana
+        switch (get_frog_state(frog)) 
+                {
+                    case 0:
+                        image_to_draw = resources->images[14] ;
+                        break;
+                    case 1:
+                        image_to_draw = resources->images[19];
+                        break;
+                    case 2:
+                        image_to_draw = resources->images[17];
+                        break;
+                    case 3:
+                        image_to_draw = resources->images[18];
+                        break;
+                    default:
+                    break;
+                }
         al_draw_scaled_bitmap(
-            resources->images[14],                   // Imagen de la rana
+            image_to_draw,                   // Imagen de la rana
             0, 0,                                    // Coordenadas de origen de la imagen
-            al_get_bitmap_width(resources->images[14]), // Ancho original de la imagen
-            al_get_bitmap_height(resources->images[14]), // Alto original de la imagen
+            al_get_bitmap_width(image_to_draw), // Ancho original de la imagen
+            al_get_bitmap_height(image_to_draw), // Alto original de la imagen
             screen_x, (screen_y),                      // Posición de la rana en la pantalla
             cell_width*0.9, cell_height*0.9,                 // Tamaño ajustado para la rana
             0                                         // Sin banderas adicionales

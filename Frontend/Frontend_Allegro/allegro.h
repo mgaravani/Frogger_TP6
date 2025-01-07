@@ -26,7 +26,7 @@ typedef struct
 {
     ALLEGRO_DISPLAY *display; //Puntero al tipo de dato ALLEGRO_DISPLAY para la pantalla
     ALLEGRO_FONT *fonts[10]; // Array de punteros al tipo ALLEGRO_FONT para las fuentes a utilizar
-    ALLEGRO_BITMAP *images[17]; // Array de punteros al tipo ALLEGRO_BITMAP para las imagenes a utilizar 
+    ALLEGRO_BITMAP *images[20]; // Array de punteros al tipo ALLEGRO_BITMAP para las imagenes a utilizar 
     uint32_t width; //Ancho de la pantalla
     uint32_t height; //Alto de la pantalla
     uint32_t selected_option; //Guardo la opcion seleccionada en el menu de inicio

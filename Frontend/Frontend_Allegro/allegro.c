@@ -99,6 +99,9 @@ AllegroResources allegro_init(uint8_t map[ROWS][COLUMNS])
     resources.images[14] = al_load_bitmap("Resources/frog_front.png"); // Imagen 15
     resources.images[15] = al_load_bitmap("Resources/car4_L.png"); // Imagen 16
     resources.images[16] = al_load_bitmap("Resources/crocodile.png"); // Imagen 17
+    resources.images[17] = al_load_bitmap("Resources/frog_L.png"); // Imagen 18
+    resources.images[18] = al_load_bitmap("Resources/frog_R.png"); // Imagen 19
+    resources.images[19] = al_load_bitmap("Resources/frog_back.png"); // Imagen 20
     
     /*ANALIZA SI LAS IMAGENES SE CARGARON CORRECTAMENTE*/
     for (uint16_t i = 0; i < 15; i++) 
