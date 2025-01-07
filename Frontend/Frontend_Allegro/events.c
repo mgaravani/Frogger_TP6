@@ -1,6 +1,6 @@
-
 #include "allegro.h"
-
+#include <stdio.h>
+#include "../../Backend/frog.h"
 
 ALLEGRO_EVENT_QUEUE *init_events(ALLEGRO_DISPLAY *display)
 {
@@ -23,50 +23,68 @@ ALLEGRO_EVENT_QUEUE *init_events(ALLEGRO_DISPLAY *display)
 
 /*FUNCION manejo_eventos*/
 //Utilizada para el manejo de los eventos
-void events_managment(AllegroResources *resources, ALLEGRO_EVENT_QUEUE *event_queue)
-{   
-    ALLEGRO_EVENT event; //Variable para almacenar el evento
-    al_get_next_event(event_queue, &event);
+void events_managment(AllegroResources *resources, ALLEGRO_EVENT_QUEUE *event_queue, frog_t *frog)
+{
+    ALLEGRO_EVENT event;
+    if (al_get_next_event(event_queue, &event)) {
+        // Manejo de teclado
+        if (event.type == ALLEGRO_EVENT_KEY_DOWN) {
+            switch (event.keyboard.keycode) {
 
-  
-    // Manejo de teclado
-    if (event.type == ALLEGRO_EVENT_KEY_DOWN) {
-        switch (event.keyboard.keycode) {
-            case ALLEGRO_KEY_DOWN:
-                if (resources->selected_option < 3) resources->selected_option++;
-                break;
-            case ALLEGRO_KEY_UP:
-                if (resources->selected_option > 1) resources->selected_option--;
-                break;
-            case ALLEGRO_KEY_ENTER:
-                // Maneja la selección de la opción
-                if(resources->selected_option == 1) //Si se eligio Play game
-                {
-                    //Codigo de inicio de partida
-                }
-                else if(resources->selected_option == 2) //Si se eligio High Scores
-                {
-                    // Código para High Scores
-                }
-                else
-                {
-                    exit(EXIT_SUCCESS);//Si se eligio Quit Game
-                }
-                break;
-            case ALLEGRO_KEY_ESCAPE:
-                // Salir del programa
-                cleanup_allegro(resources);
-                exit(EXIT_SUCCESS);
-                break;
+                case ALLEGRO_KEY_DOWN:
+                    printf("Tecla presionada: FLECHA ABAJO\n");
+                    set_frog_y(frog, get_frog_y(frog) + 1);
+                    printf("%d", get_frog_y(frog));
+                    // Lógica para manejar FLECHA ABAJO
+                    /* if (resources->selected_option < 3) 
+                        resources->selected_option++; */
+                    break;
+                case ALLEGRO_KEY_UP:
+                    printf("Tecla presionada: FLECHA ARRIBA\n");
+                    set_frog_y(frog, get_frog_y(frog) - 1);
+                    printf("%d", get_frog_y(frog));
+                    // Lógica para manejar FLECHA ARRIBA
+
+                    /* if (resources->selected_option > 1) 
+                        resources->selected_option--; */
+                    break;
+                case ALLEGRO_KEY_LEFT:
+                    printf("Tecla presionada: FLECHA IZQUIERDA\n");
+                    set_frog_x(frog, get_frog_x(frog) - 1);
+                    printf("%d", get_frog_x(frog));
+                    // Lógica para manejar FLECHA IZQUIERDA
+                    break;
+
+                case ALLEGRO_KEY_RIGHT:
+                    printf("Tecla presionada: FLECHA DERECHA\n");
+                    set_frog_x(frog, get_frog_x(frog) + 1);
+                    printf("%d", get_frog_x(frog));
+                    // Lógica para manejar FLECHA DERECHA
+                    break;
+
+                case ALLEGRO_KEY_ENTER:
+                    printf("ENTER\n");
+                    if (resources->selected_option == 1) {
+                        // Código de inicio de partida
+                    } else if (resources->selected_option == 2) {
+                        // Código para High Scores
+                    } else {
+                        exit(EXIT_SUCCESS); // Salir del juego
+                    }
+                    break;
+                case ALLEGRO_KEY_ESCAPE:
+                    printf("Saliendo del programa...\n");
+                    cleanup_allegro(resources);
+                    exit(EXIT_SUCCESS);
+                    break;
+            }
         }
-    
-    }
-    
-    /*CIERRE DE PANTALLA*/
-    //Verifica si se cierra la pantalla, entonces destruye la cola de eventos
-    if (event.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
-        al_destroy_event_queue(event_queue);
-        cleanup_allegro(resources);
-        exit(EXIT_SUCCESS);
+
+        // Manejo del cierre de la ventana
+        if (event.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
+            printf("Cerrando ventana...\n");
+            cleanup_allegro(resources);
+            exit(EXIT_SUCCESS);
+        }
     }
 }

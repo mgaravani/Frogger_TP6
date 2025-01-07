@@ -1,11 +1,11 @@
 /*------------INCLUDES-----------*/
 #include "allegro.h"
 #include <stdio.h>
-
+#include "../../Backend/frog.h"
 
 /*------Function Screen------*/
 // Función para mostrar la pantalla de juego
-void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS], uint8_t frog_position[ROWS][COLUMNS]) 
+void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS], frog_t *frog) 
 {
     // Limpiar pantalla
     al_clear_to_color(al_map_rgb(0, 0, 0)); // Fondo negro
@@ -121,26 +121,27 @@ void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS], uint8_t fro
                     );
                 }
             } */
+            
+        // Obtener las coordenadas de la rana desde la estructura frog
+        int frog_x = get_frog_x(frog); // Obtener coordenada X de la rana
+        int frog_y = get_frog_y(frog); // Obtener coordenada Y de la rana
 
-            // Dibujar la rana
-            if(frog_position[i][j] == 1)
-            {
-                int x = j * cell_width;  // Coordenada x basada en la columna
-                int y = i * cell_height; // Coordenada y basada en la fila
-                al_draw_scaled_bitmap(
-                    resources->images[14],
-                    0, 0, // Coordenadas de origen
-                    al_get_bitmap_width(resources->images[14]),  // Ancho original
-                    al_get_bitmap_height(resources->images[14]), // Alto original
-                    x-80, y, // Posición en la pantalla
-                    cell_width, cell_height, // Nuevo ancho y alto
-                    0 // Sin banderas adicionales
-                );
-            }
+        // Calcula la posición en la pantalla (si es necesario ajustar la escala)
+        int screen_x = frog_x * cell_width;  // Ajusta si la coordenada X se refiere a una celda
+        int screen_y = frog_y * cell_height; // Ajusta si la coordenada Y se refiere a una celda
 
-        }
+        // Dibujar la rana
+        al_draw_scaled_bitmap(
+            resources->images[14],                   // Imagen de la rana
+            0, 0,                                    // Coordenadas de origen de la imagen
+            al_get_bitmap_width(resources->images[14]), // Ancho original de la imagen
+            al_get_bitmap_height(resources->images[14]), // Alto original de la imagen
+            screen_x, screen_y,                      // Posición de la rana en la pantalla
+            cell_width, cell_height,                 // Tamaño ajustado para la rana
+            0                                         // Sin banderas adicionales
+        );
     }
-    
+  }
     // Muestra la ventana
     al_flip_display();
 }

@@ -1,5 +1,5 @@
 /*------------INCLUDES-----------*/
-#include <stdio.h>
+#include "../Backend/frog.h"
 #include "../Frontend/Frontend_Allegro/allegro.h"
 #include "../Backend/map.h"
 #include "delay.h"
@@ -8,13 +8,17 @@
 int main(void) 
 {
     extern map_t map; // Variable global de la matriz
-    extern frog_t frog; // Variable global de la rana
+    frog_t frog_position;
+    init_frog(&frog_position, 5, 10, 3, 0, 0);
     AllegroResources resources_for_main = allegro_init(map); // Inicializa allegro
-        
+    ALLEGRO_EVENT_QUEUE *event_queue = init_events(resources_for_main.display); // Crea la cola de eventos
+
+
     initialize_matrix();
-    //frog_position();
     while (1) 
     {
+        events_managment(&resources_for_main, event_queue, &frog_position);
+
         for (int fila = 0; fila < 6; fila++) 
         {
             // Desplazar fila par (de izquierda a derecha)
@@ -29,9 +33,8 @@ int main(void)
                 shift_row((2*fila) + 1, 0);  // Desplazar fila 1, 3, 5, etc. a la izquierda
             }
         }
-        print_matrix();
-        Screen(&resources_for_main, map,frog);
-        usleep(600000);
+        //print_matrix();
+        Screen(&resources_for_main, map, &frog_position);
     }
 
     //mostrar_mensaje(); // Funcion de allegro

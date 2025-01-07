@@ -1,7 +1,7 @@
 # Regla principal para compilar el ejecutable final 'main' a partir de los archivos objeto 'allegro.o' y 'main.o'
-main: Frontend/Frontend_Allegro/allegro.o Backend/frog_position.o Backend/main.o Frontend/Frontend_Allegro/events.o Backend/map.o Backend/delay.o Frontend/Frontend_Allegro/screen.o
+main: Frontend/Frontend_Allegro/allegro.o Backend/main.o Frontend/Frontend_Allegro/events.o Backend/map.o Backend/delay.o Backend/frog.o Frontend/Frontend_Allegro/screen.o
 	# Enlaza los archivos objeto y genera el ejecutable 'main', enlazando las bibliotecas necesarias
-	gcc Frontend/Frontend_Allegro/allegro.o Frontend/Frontend_Allegro/events.o Frontend/Frontend_Allegro/screen.o Backend/frog_position.o Backend/main.o Backend/map.o Backend/delay.o -g -o main -Wall -lallegro -lallegro_image -lallegro_primitives -lallegro_font -lallegro_ttf -lpthread
+	gcc Frontend/Frontend_Allegro/allegro.o Frontend/Frontend_Allegro/events.o Frontend/Frontend_Allegro/screen.o Backend/frog.o Backend/main.o Backend/map.o Backend/delay.o -g -o main -Wall -lallegro -lallegro_image -lallegro_primitives -lallegro_font -lallegro_ttf -lpthread
 
 # Regla para compilar 'allegro.c' en el archivo objeto 'allegro.o'
 Frontend/Frontend_Allegro/allegro.o: Frontend/Frontend_Allegro/allegro.c Frontend/Frontend_Allegro/allegro.h  
@@ -34,9 +34,9 @@ Backend/delay.o: Backend/delay.c
 	gcc Backend/delay.c -c -Wall -o Backend/delay.o
 
 # Regla para compilar 'frog_position.c' en el archivo objeto 'frog_position.o'
-Backend/frog_position.o: Backend/frog_position.c
-	# Compila 'frog_position.c' con advertencias habilitadas
-	gcc Backend/frog_position.c -c -Wall -o Backend/frog_position.o
+Backend/frog.o: Backend/frog.c
+	# Compila 'frog.c' con advertencias habilitadas
+	gcc Backend/frog.c -c -Wall -o Backend/frog.o
 
 
 # Regla de limpieza para eliminar los archivos objeto y el ejecutable

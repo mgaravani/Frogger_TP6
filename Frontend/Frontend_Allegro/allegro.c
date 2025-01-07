@@ -130,7 +130,7 @@ AllegroResources allegro_init(uint8_t map[ROWS][COLUMNS])
         // Se llama a la función 'manejo_eventos' que gestiona cualquier evento 
         // capturado en la cola de eventos. Esto incluye detectar entradas de teclado,
         // cierres de ventana, etc., y actuar en consecuencia.
-        events_managment(&resources, event_queue);
+        //    events_managment(&resources, event_queue);
         
         // 'menu_allegro' se llama en cada iteración del bucle para redibujar el menú
         // en función del estado actual. Dependiendo de la selección del usuario, el menú

@@ -11,6 +11,7 @@
 #include <allegro5/allegro_font.h> // Incluyo el addon font
 #include <allegro5/allegro_color.h> //Incluyo el addon color
 #include <allegro5/allegro_image.h> // Necesario para cargar imágenes
+#include "../../Backend/frog.h"
 
 /*-------DEFINES------*/
 #define ROWS 13
@@ -35,10 +36,10 @@ typedef struct
 
 /*------PROTOTYPES------*/
 AllegroResources allegro_init(uint8_t map[ROWS][COLUMNS]);
-void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS], uint8_t frog_position[ROWS][COLUMNS]);
+void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS], frog_t *frog);
 void cleanup_allegro(AllegroResources *resources);
 ALLEGRO_EVENT_QUEUE *init_events(ALLEGRO_DISPLAY *pantalla);
-void events_managment(AllegroResources *resources, ALLEGRO_EVENT_QUEUE * event_queue);
+void events_managment(AllegroResources *resources, ALLEGRO_EVENT_QUEUE * event_queue, frog_t *frog);
 void allegro_menu(AllegroResources resources);
 
 
