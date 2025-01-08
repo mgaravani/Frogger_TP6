@@ -1,4 +1,4 @@
-#include "funciones.h"
+#include "functions.h"
 #include "macros.h"
 //Los Macros DISP_CANT_Y/X_DOTS son definidas por el tamaño de la matriz de led dada, si se modifica se podra cambiar en Macros.h
 // Función para generar la matriz con valores aleatorios de 0 y 1

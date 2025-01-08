@@ -1,6 +1,7 @@
 <<<<<<< HEAD
 # Frogger_TP6
 MAURICIO GARAVANI
+BAUTISTA MIJALOVICH
 =======
 # Frogger_TP6
 #Fabrizio

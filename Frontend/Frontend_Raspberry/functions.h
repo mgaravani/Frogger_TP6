@@ -1,6 +1,6 @@
 
-#ifndef FUNCIONES_H
-#define FUNCIONES_H
+#ifndef FUNCTIONS_H
+#define FUNCTIONS_H
 
 #include <stdio.h>//Librerias estandares
 #include <unistd.h>
