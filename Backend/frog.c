@@ -23,15 +23,15 @@ uint8_t get_frog_state(const frog_t *frog) {
     return frog->state;
 }
 
-uint8_t get_frog_vidas(const frog_t *frog) {
+uint8_t get_frog_vidas(const frog_t *frog) { /*------PASAR A INGLES------*/
     return frog->vidas;
 }
 
-int16_t get_frog_puntos(const frog_t *frog) {
+int16_t get_frog_puntos(const frog_t *frog) { /*------PASAR A INGLES------*/
     return frog->puntos;
 }
 
-int8_t get_frog_llegadas(const frog_t *frog) {
+int8_t get_frog_llegadas(const frog_t *frog) { /*------PASAR A INGLES------*/
     return frog->llegadas;
 }
 
@@ -48,24 +48,24 @@ void set_frog_state(frog_t *frog, uint8_t state) {
     frog->state = state;
 }
 
-void set_frog_vidas(frog_t *frog, uint8_t vidas) {
+void set_frog_vidas(frog_t *frog, uint8_t vidas) { /*------PASAR A INGLES------*/
     frog->vidas = vidas;
 }
 
-void set_frog_puntos(frog_t *frog, int16_t puntos) {
+void set_frog_puntos(frog_t *frog, int16_t puntos) { /*------PASAR A INGLES------*/
     frog->puntos = puntos;
 }
 
-void set_frog_llegadas(frog_t *frog, int8_t llegadas) {
+void set_frog_llegadas(frog_t *frog, int8_t llegadas) { /*------PASAR A INGLES------*/
     frog->llegadas = llegadas;
 }
 
 // Funciones para actualizar valores de forma incremental
-void increase_frog_puntos(frog_t *frog, int16_t puntos) {
+void increase_frog_puntos(frog_t *frog, int16_t puntos) { /*------PASAR A INGLES------*/
     frog->puntos += puntos;
 }
 
-void decrease_frog_vidas(frog_t *frog, uint8_t vidas) {
+void decrease_frog_vidas(frog_t *frog, uint8_t vidas) { /*------PASAR A INGLES------*/
     if (frog->vidas > vidas) {
         frog->vidas -= vidas;
     } else {
@@ -73,7 +73,7 @@ void decrease_frog_vidas(frog_t *frog, uint8_t vidas) {
     }
 }
 
-void increase_frog_llegadas(frog_t *frog) {
+void increase_frog_llegadas(frog_t *frog) { /*------PASAR A INGLES------*/
     frog->llegadas++;
 }
 

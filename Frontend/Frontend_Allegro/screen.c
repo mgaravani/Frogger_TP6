@@ -102,26 +102,6 @@ void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS], frog_t *fro
                 }
                 counter = 0;
             }
-
-            /* //EMPROLIJAAAAAR
-            if(map[i][j] == 2)
-            {
-                image_to_draw = resources->images[14]; // Crocodile
-                y +=25;
-                if (image_to_draw) 
-                {
-                    // Dibujar la imagen escalada al tamaño de la celda
-                    al_draw_scaled_bitmap(
-                        image_to_draw,
-                        0, 0, // Coordenadas de origen
-                        al_get_bitmap_width(image_to_draw),  // Ancho original
-                        al_get_bitmap_height(image_to_draw), // Alto original
-                        x, y, // Posición en la pantalla
-                        cell_width, cell_height, // Nuevo ancho y alto
-                        0 // Sin banderas adicionales
-                    );
-                }
-            } */
             
         // Obtener las coordenadas de la rana desde la estructura frog
         float frog_x = get_frog_x(frog) - 0.25; // Obtener coordenada X de la rana
