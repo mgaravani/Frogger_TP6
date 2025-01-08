@@ -24,7 +24,7 @@ void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS], frog_t *fro
 
 
     // Tamaño de cada celda
-    uint32_t cell_width = (resources->width + 80) / (COLUMNS-6);
+    uint32_t cell_width = (resources->width + 60) / (COLUMNS-7);
     uint32_t cell_height = resources->height / ROWS;
 
     // Dibujar elementos del mapa
@@ -95,7 +95,7 @@ void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS], frog_t *fro
                         0, 0, // Coordenadas de origen
                         al_get_bitmap_width(image_to_draw),  // Ancho original
                         al_get_bitmap_height(image_to_draw), // Alto original
-                        x-300, y, // Posición en la pantalla compensado por las columnas restantes
+                        x-400, y, // Posición en la pantalla compensado por las columnas restantes
                         cell_width * counter, cell_height * compensate, // Nuevo ancho y alto
                         0 // Sin banderas adicionales
                     );
@@ -124,7 +124,7 @@ void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS], frog_t *fro
             } */
             
         // Obtener las coordenadas de la rana desde la estructura frog
-        float frog_x = get_frog_x(frog) - 0.40; // Obtener coordenada X de la rana
+        float frog_x = get_frog_x(frog) - 0.25; // Obtener coordenada X de la rana
         float frog_y = get_frog_y(frog) + 0.16; // Obtener coordenada Y de la rana
         // Calcula la posición en la pantalla (si es necesario ajustar la escala)
         float screen_x = frog_x * cell_width;  // Ajusta si la coordenada X se refiere a una celda

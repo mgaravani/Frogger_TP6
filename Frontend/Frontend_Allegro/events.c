@@ -50,14 +50,28 @@ void events_managment(AllegroResources *resources, ALLEGRO_EVENT_QUEUE *event_qu
                     break;
                 case ALLEGRO_KEY_LEFT:
                     al_play_sample(resources->sounds[0], 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
-                    set_frog_x(frog, get_frog_x(frog) - 0.86);
+                    if (get_frog_x(frog) > 1.6)
+                    {
+                        set_frog_x(frog, get_frog_x(frog) - 0.89);
+                    }
+                    else {
+                        set_frog_x(frog, get_frog_x(frog) - 0.7);
+
+                    }
                     set_frog_state(frog, 2);
                     // Lógica para manejar FLECHA IZQUIERDA
                     break;
 
                 case ALLEGRO_KEY_RIGHT:
                     al_play_sample(resources->sounds[0], 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
-                    set_frog_x(frog, get_frog_x(frog) + 0.86);
+                    if (get_frog_x(frog) > 1.4)
+                    {
+                        set_frog_x(frog, get_frog_x(frog) + 0.89);
+                    }
+                    else {
+                        set_frog_x(frog, get_frog_x(frog) + 0.7);
+
+                    }
                     set_frog_state(frog, 3);
                     // Lógica para manejar FLECHA DERECHA
                     break;

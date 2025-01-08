@@ -6,7 +6,7 @@
 
 /*-----------DEFINES--------*/
 #define ROWS 13
-#define COLUMNS 19
+#define COLUMNS 20
 
 /*-----------TYPEDEF--------*/
 typedef uint8_t map_t[ROWS][COLUMNS];
