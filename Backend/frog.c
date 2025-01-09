@@ -1,13 +1,13 @@
 #include "frog.h"
 
 // Función para inicializar la rana con valores predeterminados
-void init_frog(frog_t *frog, float x, float y, uint8_t state, uint8_t vidas, int16_t puntos, int8_t llegadas) {
+void init_frog(frog_t *frog, float x, float y, uint8_t state, uint8_t lives, int16_t points, int8_t arrivals) {
     frog->x = x;
     frog->y = y;
     frog->state = state;
-    frog->vidas = vidas;
-    frog->puntos = puntos;
-    frog->llegadas = llegadas;
+    frog->lives = lives;
+    frog->points = points;
+    frog->arrivals = arrivals;
 }
 
 // Funciones para obtener los valores
@@ -23,16 +23,16 @@ uint8_t get_frog_state(const frog_t *frog) {
     return frog->state;
 }
 
-uint8_t get_frog_vidas(const frog_t *frog) { /*------PASAR A INGLES------*/
-    return frog->vidas;
+uint8_t get_frog_lives(const frog_t *frog) {
+    return frog->lives;
 }
 
-int16_t get_frog_puntos(const frog_t *frog) { /*------PASAR A INGLES------*/
-    return frog->puntos;
+int16_t get_frog_points(const frog_t *frog) {
+    return frog->points;
 }
 
-int8_t get_frog_llegadas(const frog_t *frog) { /*------PASAR A INGLES------*/
-    return frog->llegadas;
+int8_t get_frog_arrivals(const frog_t *frog) {
+    return frog->arrivals;
 }
 
 // Funciones para modificar los valores
@@ -48,33 +48,33 @@ void set_frog_state(frog_t *frog, uint8_t state) {
     frog->state = state;
 }
 
-void set_frog_vidas(frog_t *frog, uint8_t vidas) { /*------PASAR A INGLES------*/
-    frog->vidas = vidas;
+void set_frog_lives(frog_t *frog, uint8_t lives) {
+    frog->lives = lives;
 }
 
-void set_frog_puntos(frog_t *frog, int16_t puntos) { /*------PASAR A INGLES------*/
-    frog->puntos = puntos;
+void set_frog_points(frog_t *frog, int16_t points) {
+    frog->points = points;
 }
 
-void set_frog_llegadas(frog_t *frog, int8_t llegadas) { /*------PASAR A INGLES------*/
-    frog->llegadas = llegadas;
+void set_frog_arrivals(frog_t *frog, int8_t arrivals) {
+    frog->arrivals = arrivals;
 }
 
 // Funciones para actualizar valores de forma incremental
-void increase_frog_puntos(frog_t *frog, int16_t puntos) { /*------PASAR A INGLES------*/
-    frog->puntos += puntos;
+void increase_frog_points(frog_t *frog, int16_t points) {
+    frog->points += points;
 }
 
-void decrease_frog_vidas(frog_t *frog, uint8_t vidas) { /*------PASAR A INGLES------*/
-    if (frog->vidas > vidas) {
-        frog->vidas -= vidas;
+void decrease_frog_lives(frog_t *frog, uint8_t lives) {
+    if (frog->lives > lives) {
+        frog->lives -= lives;
     } else {
-        frog->vidas = 0; // Evita valores negativos
+        frog->lives = 0; // Evita valores negativos
     }
 }
 
-void increase_frog_llegadas(frog_t *frog) { /*------PASAR A INGLES------*/
-    frog->llegadas++;
+void increase_frog_arrivals(frog_t *frog) {
+    frog->arrivals++;
 }
 
 // Función para mover la rana
@@ -82,3 +82,10 @@ void move_frog(frog_t *frog, float dx, float dy) {
     frog->x += dx;
     frog->y += dy;
 }
+
+// Limitadores
+/*uint16_t frog_in_range(frog_t *frog){
+    if (frog->x ){
+
+    }
+}*/
