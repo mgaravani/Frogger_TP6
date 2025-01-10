@@ -112,7 +112,7 @@ void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS], frog_t *fro
             }
             
         // Obtener las coordenadas de la rana desde la estructura frog
-        float frog_x = get_frog_x(frog) - 0.25; // Obtener coordenada X de la rana
+        float frog_x = get_frog_x(frog) - 0.38; // Obtener coordenada X de la rana
         float frog_y = get_frog_y(frog) + 0.16; // Obtener coordenada Y de la rana
         // Calcula la posición en la pantalla (si es necesario ajustar la escala)
         float screen_x = frog_x * cell_width;  // Ajusta si la coordenada X se refiere a una celda

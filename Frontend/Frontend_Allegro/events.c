@@ -32,21 +32,21 @@ void events_managment(AllegroResources *resources, ALLEGRO_EVENT_QUEUE *event_qu
             switch (event.keyboard.keycode) {
 
                 case ALLEGRO_KEY_DOWN:
-                    printf("FILA: %f\n", (get_frog_y(frog)));
-                    //printf("FILA: %f\n", (get_frog_y(frog)-11.04)/0.96);
                     al_play_sample(resources->sounds[0], 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
                     set_frog_y(frog, get_frog_y(frog) + 0.96);
                     set_frog_state(frog, 1);
+                    printf("FILA: %f\n", (-(get_frog_y(frog)-11.96))/0.96);
+                    //printf("FILA: %f\n", ((get_frog_y(frog)-12.16))/0.96);
                     // Lógica para manejar FLECHA ABAJO
                     /* if (resources->selected_option < 3) 
                         resources->selected_option++; */
                     break;
-                case ALLEGRO_KEY_UP:
-                    printf("FILA: %f\n", (get_frog_y(frog)));
-                    //printf("FILA: %f\n", (get_frog_y(frog)-11.04)/0.96);
+                case ALLEGRO_KEY_UP:        
                     al_play_sample(resources->sounds[0], 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
                     set_frog_y(frog, get_frog_y(frog) - 0.96);
                     set_frog_state(frog, 0);
+                    printf("FILA: %f\n", (-(get_frog_y(frog)-11.96))/0.96);
+                    //printf("FILA: %f\n", ((get_frog_y(frog)-0.16))/0.96);
 
                     // Lógica para manejar FLECHA ARRIBA
 
@@ -55,13 +55,15 @@ void events_managment(AllegroResources *resources, ALLEGRO_EVENT_QUEUE *event_qu
                     break;
                 case ALLEGRO_KEY_LEFT:
                     al_play_sample(resources->sounds[0], 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
-                    if (get_frog_x(frog) > 1.6)
+                    if (get_frog_x(frog) > 1)
                     {
-                        set_frog_x(frog, get_frog_x(frog) - 0.89);
+                        set_frog_x(frog, get_frog_x(frog) - 1);
+                        printf("COL: %f\n", ((get_frog_x(frog))));
+
                     }
                     else {
                         set_frog_x(frog, get_frog_x(frog) - 0.7);
-
+                        printf("COL: 0\n");
                     }
                     set_frog_state(frog, 2);
                     // Lógica para manejar FLECHA IZQUIERDA
@@ -69,12 +71,14 @@ void events_managment(AllegroResources *resources, ALLEGRO_EVENT_QUEUE *event_qu
 
                 case ALLEGRO_KEY_RIGHT:
                     al_play_sample(resources->sounds[0], 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
-                    if (get_frog_x(frog) > 1.4)
+                    if (get_frog_x(frog) >= 1)
                     {
-                        set_frog_x(frog, get_frog_x(frog) + 0.89);
+                        set_frog_x(frog, get_frog_x(frog) + 1);
+                        printf("COL: %f\n", ((get_frog_x(frog))));
                     }
                     else {
                         set_frog_x(frog, get_frog_x(frog) + 0.7);
+                        printf("COL: %f\n", ((get_frog_x(frog))));
 
                     }
                     set_frog_state(frog, 3);

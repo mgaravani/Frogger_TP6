@@ -29,7 +29,7 @@ uint8_t waiting_time (uint8_t level, uint8_t row)
     // Guarda el tiempo transcurrido desde que se reinicio
     elapsed_time = ((double)(clock() - flags[row])) / CLOCKS_PER_SEC;
     // Relacion de tiempo para comparar con el transcurrido en funcion del nivel y la velocidad
-    time_reference = 0.00001 / (level * speed);
+    time_reference = 1 / (level * speed);
 
 
     // Verifica si ha pasado el tiempo necesario
