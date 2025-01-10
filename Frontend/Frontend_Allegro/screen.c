@@ -53,9 +53,9 @@ void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS], frog_t *fro
                     case 4:
                     
                         image_to_draw = resources->images[1]; // Log
-                        if (counter == 2)  x-=39;
-                        else if (counter == 3) x-=65;
-                        else x-= 115;
+                        if (counter == 2)  x-=29;
+                        else if (counter == 3) x-=67;
+                        else x-= 100;
                         y+=25;
                         break;
                     case 2:
