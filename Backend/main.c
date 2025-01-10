@@ -3,6 +3,7 @@
 #include "../Frontend/Frontend_Allegro/allegro.h"
 #include "../Backend/map.h"
 #include "delay.h"
+#include <unistd.h>
 
 /* FUNCION MAIN */
 int main(void) 
@@ -33,8 +34,9 @@ int main(void)
                 shift_row((2*fila) + 1, 0);  // Desplazar fila 1, 3, 5, etc. a la izquierda
             }
         }
-        //print_matrix();
+        print_matrix();
         Screen(&resources_for_main, map, &frog_position);
+        usleep(8000000);
     }
 
     //mostrar_mensaje(); // Funcion de allegro

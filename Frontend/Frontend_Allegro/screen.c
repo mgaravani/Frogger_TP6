@@ -24,8 +24,9 @@ void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS], frog_t *fro
 
 
     // Tamaño de cada celda
-    uint32_t cell_width = (resources->width + 60) / (COLUMNS-7);
+    uint32_t cell_width = (resources->width) / (COLUMNS-6);
     uint32_t cell_height = resources->height / ROWS;
+    //printf("%d",cell_width);
 
     // Dibujar elementos del mapa
     for (uint16_t i = 0; i < ROWS; i++) 
@@ -50,22 +51,29 @@ void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS], frog_t *fro
                     case 1:
                     case 3:
                     case 4:
+                    
                         image_to_draw = resources->images[1]; // Log
-                        y +=25;
+                        if (counter == 2)  x-=39;
+                        else if (counter == 3) x-=65;
+                        else x-= 115;
+                        y+=25;
                         break;
                     case 2:
                     case 5:
                         if (counter == 2){
                             image_to_draw = resources->images[10]; // Tortle x2
+                            x-=30;
                             y+=20;
                         } 
                         else {
                             image_to_draw = resources->images[12]; // Tortle x3
+                            x-=69;
                             y+=20;
                         }
                         break;
                     case 7:
                         image_to_draw = resources->images[9]; // Truck
+                        x-=35;
                         y+=15;
                         break;
                     case 8:
@@ -95,7 +103,7 @@ void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS], frog_t *fro
                         0, 0, // Coordenadas de origen
                         al_get_bitmap_width(image_to_draw),  // Ancho original
                         al_get_bitmap_height(image_to_draw), // Alto original
-                        x-400, y, // Posición en la pantalla compensado por las columnas restantes
+                        x-213, y, // Posición en la pantalla compensado por las columnas restantes
                         cell_width * counter, cell_height * compensate, // Nuevo ancho y alto
                         0 // Sin banderas adicionales
                     );

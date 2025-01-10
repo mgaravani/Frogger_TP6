@@ -32,6 +32,8 @@ void events_managment(AllegroResources *resources, ALLEGRO_EVENT_QUEUE *event_qu
             switch (event.keyboard.keycode) {
 
                 case ALLEGRO_KEY_DOWN:
+                    printf("FILA: %f\n", (get_frog_y(frog)));
+                    //printf("FILA: %f\n", (get_frog_y(frog)-11.04)/0.96);
                     al_play_sample(resources->sounds[0], 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
                     set_frog_y(frog, get_frog_y(frog) + 0.96);
                     set_frog_state(frog, 1);
@@ -40,9 +42,12 @@ void events_managment(AllegroResources *resources, ALLEGRO_EVENT_QUEUE *event_qu
                         resources->selected_option++; */
                     break;
                 case ALLEGRO_KEY_UP:
+                    printf("FILA: %f\n", (get_frog_y(frog)));
+                    //printf("FILA: %f\n", (get_frog_y(frog)-11.04)/0.96);
                     al_play_sample(resources->sounds[0], 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
                     set_frog_y(frog, get_frog_y(frog) - 0.96);
                     set_frog_state(frog, 0);
+
                     // Lógica para manejar FLECHA ARRIBA
 
                     /* if (resources->selected_option > 1) 
