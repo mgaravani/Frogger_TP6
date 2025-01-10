@@ -37,10 +37,11 @@ int8_t get_frog_arrivals(const frog_t *frog) {
 
 // Funciones para modificar los valores
 void set_frog_x(frog_t *frog, float x) {
-    frog->x = x;
+            frog->x = x;
 }
 
 void set_frog_y(frog_t *frog, float y) {
+
     frog->y = y;
 }
 

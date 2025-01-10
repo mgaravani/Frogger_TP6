@@ -11,7 +11,7 @@ void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS], frog_t *fro
     // Limpiar pantalla
     al_clear_to_color(al_map_rgb(0, 0, 0)); // Fondo negro
 
-    // Dibuja la imagen escalada a 1000x800
+    // Dibuja el fondo escalado en 870X650
     al_draw_scaled_bitmap(
         resources->images[0],                  // Imagen original
         0, 0,                   // Coordenadas en la imagen original
@@ -22,11 +22,9 @@ void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS], frog_t *fro
         0                       // Sin banderas adicionales
     );
 
-
     // Tamaño de cada celda
     uint32_t cell_width = (resources->width) / (COLUMNS-6);
     uint32_t cell_height = resources->height / ROWS;
-    //printf("%d",cell_width);
 
     // Dibujar elementos del mapa
     for (uint16_t i = 0; i < ROWS; i++) 
@@ -39,12 +37,11 @@ void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS], frog_t *fro
             float compensate = 1;
             ALLEGRO_BITMAP *image_to_draw = NULL;
 
-            if (map[i][j] == 1) {
-                counter++;         
-            }
-            if ((map[i][j] == 0) && (counter > 0)){
-                
-            x =  (j - counter + (counter / 2.0) - 0.5) * cell_width;  // Coordenada x basada en la columna
+            if (map[i][j] == 1) counter++; // Funcion para el largo de troncos o tortugas
+
+            if ((map[i][j] == 0) && (counter > 0))
+            {
+            x =  (j - counter + (counter / 2.0) - 0.5) * cell_width;  // Centro el objeto segun el largo
             int y = i * cell_height; // Coordenada y basada en la fila
                 switch (i) 
                 {
@@ -52,28 +49,28 @@ void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS], frog_t *fro
                     case 3:
                     case 4:
                     
-                        image_to_draw = resources->images[1]; // Log
-                        if (counter == 2)  x-=29;
-                        else if (counter == 3) x-=67;
-                        else x-= 100;
+                        image_to_draw = resources->images[1]; // Tronco
+                        if (counter == 2)  x-=29; // Ajusto el largo de troncos de 2 
+                        else if (counter == 3) x-=67; // Ajusto el largo de troncos de 3
+                        else x-= 100; // Ajusto el largo de troncos de 4
                         y+=25;
                         break;
                     case 2:
                     case 5:
                         if (counter == 2){
                             image_to_draw = resources->images[10]; // Tortle x2
-                            x-=30;
+                            x-=30; // Ajusto el largo de tortugas de 2
                             y+=20;
                         } 
                         else {
                             image_to_draw = resources->images[12]; // Tortle x3
-                            x-=69;
+                            x-=69; // Ajusto el largo de tortugas de 3
                             y+=20;
                         }
                         break;
                     case 7:
                         image_to_draw = resources->images[9]; // Truck
-                        x-=35;
+                        x-=35; // Ajusto largo de camion
                         y+=15;
                         break;
                     case 8:

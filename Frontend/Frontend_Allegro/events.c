@@ -4,6 +4,12 @@
 
 ALLEGRO_EVENT_QUEUE *init_events(ALLEGRO_DISPLAY *display)
 {
+    /*************************************************************************************************
+    * Inicialización del sistema de eventos                                                          *
+    * Se crea una cola de eventos que manejará las entradas del sistema,                             *
+    * como eventos de teclado y pantalla.                                                            *
+    * con la cola de eventos para monitorear eventos relacionados con esa pantalla.          
+    *************************************************************************************************/ 
     ALLEGRO_EVENT_QUEUE *event_queue = al_create_event_queue(); //Crea una cola de eventos
 
     /*ANALIZA SI SE PUDO CREAR*/
@@ -32,57 +38,51 @@ void events_managment(AllegroResources *resources, ALLEGRO_EVENT_QUEUE *event_qu
             switch (event.keyboard.keycode) {
 
                 case ALLEGRO_KEY_DOWN:
-                    al_play_sample(resources->sounds[0], 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
-                    set_frog_y(frog, get_frog_y(frog) + 0.96);
-                    set_frog_state(frog, 1);
-                    printf("FILA: %f\n", (-(get_frog_y(frog)-11.96))/0.96);
-                    //printf("FILA: %f\n", ((get_frog_y(frog)-12.16))/0.96);
                     // Lógica para manejar FLECHA ABAJO
-                    /* if (resources->selected_option < 3) 
-                        resources->selected_option++; */
-                    break;
-                case ALLEGRO_KEY_UP:        
-                    al_play_sample(resources->sounds[0], 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
-                    set_frog_y(frog, get_frog_y(frog) - 0.96);
-                    set_frog_state(frog, 0);
+                    al_play_sample(resources->sounds[0], 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL); // Reproduce el sonido
+                    set_frog_y(frog, get_frog_y(frog) + 0.96); // Mueve a la rana en el mapa
+                    set_frog_state(frog, 1); // LOGICA PARA MOSTRAR LA RANA EN SUS 4 LADOS
                     printf("FILA: %f\n", (-(get_frog_y(frog)-11.96))/0.96);
-                    //printf("FILA: %f\n", ((get_frog_y(frog)-0.16))/0.96);
-
-                    // Lógica para manejar FLECHA ARRIBA
-
-                    /* if (resources->selected_option > 1) 
-                        resources->selected_option--; */
+                    break;
+                case ALLEGRO_KEY_UP:
+                    // Lógica para manejar FLECHA ARRIBA   
+                    al_play_sample(resources->sounds[0], 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL); // Reproduce el sonido
+                    set_frog_y(frog, get_frog_y(frog) - 0.96); // Mueve a la rana en el mapa
+                    set_frog_state(frog, 0); // LOGICA PARA MOSTRAR LA RANA EN SUS 4 LADOS
+                    printf("FILA: %f\n", (-(get_frog_y(frog)-11.96))/0.96);
                     break;
                 case ALLEGRO_KEY_LEFT:
-                    al_play_sample(resources->sounds[0], 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
+                    // Lógica para manejar FLECHA IZQUIERDA
+                    al_play_sample(resources->sounds[0], 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL); // Reproduce el sonido
                     if (get_frog_x(frog) > 1)
                     {
                         set_frog_x(frog, get_frog_x(frog) - 1);
-                        printf("COL: %f\n", ((get_frog_x(frog))));
+                        //printf("COL: %f\n", ((get_frog_x(frog))));
 
                     }
                     else {
                         set_frog_x(frog, get_frog_x(frog) - 0.7);
-                        printf("COL: 0\n");
+                        //printf("COL: 0\n");
                     }
-                    set_frog_state(frog, 2);
-                    // Lógica para manejar FLECHA IZQUIERDA
+                    printf("COL: %f\n", ((get_frog_x(frog))));
+                    set_frog_state(frog, 2); // LOGICA PARA MOSTRAR LA RANA EN SUS 4 LADOS
                     break;
 
                 case ALLEGRO_KEY_RIGHT:
-                    al_play_sample(resources->sounds[0], 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
+                    // Lógica para manejar FLECHA DERECHA
+                    al_play_sample(resources->sounds[0], 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL); // Reproduce el sonido
                     if (get_frog_x(frog) >= 1)
                     {
                         set_frog_x(frog, get_frog_x(frog) + 1);
-                        printf("COL: %f\n", ((get_frog_x(frog))));
+                        //printf("COL: %f\n", ((get_frog_x(frog))));
                     }
                     else {
                         set_frog_x(frog, get_frog_x(frog) + 0.7);
-                        printf("COL: %f\n", ((get_frog_x(frog))));
+                        //printf("COL: %f\n", ((get_frog_x(frog))));
 
                     }
-                    set_frog_state(frog, 3);
-                    // Lógica para manejar FLECHA DERECHA
+                    printf("COL: %f\n", ((get_frog_x(frog))));
+                    set_frog_state(frog, 3); // LOGICA PARA MOSTRAR LA RANA EN SUS 4 LADOS
                     break;
 
                 case ALLEGRO_KEY_ENTER:
@@ -96,18 +96,12 @@ void events_managment(AllegroResources *resources, ALLEGRO_EVENT_QUEUE *event_qu
                     }
                     break;
                 case ALLEGRO_KEY_ESCAPE:
+                    // Lógica para manejar FLECHA ESCAPE
                     printf("Saliendo del programa...\n");
                     cleanup_allegro(resources);
                     exit(EXIT_SUCCESS);
                     break;
             }
-        }
-
-        // Manejo del cierre de la ventana
-        if (event.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
-            printf("Cerrando ventana...\n");
-            cleanup_allegro(resources);
-            exit(EXIT_SUCCESS);
         }
     }
 }

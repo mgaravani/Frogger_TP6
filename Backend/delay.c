@@ -1,8 +1,6 @@
 /*------------INCLUDES-----------*/
 #include "delay.h"
 #include "map.h" // Incluyo map.h para saber la cantidad de filas utilizadas
-#include <stdio.h>
-
 /*------Function waiting_time------*/
 // Funcion para controlar el tiempo entre los desplazamientos de los objetos
 uint8_t waiting_time (uint8_t level, uint8_t row) 
