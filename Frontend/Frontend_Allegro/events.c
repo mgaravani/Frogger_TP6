@@ -1,5 +1,5 @@
-#include "allegro.h"
 #include <stdio.h>
+#include "allegro.h"
 #include "../../Backend/frog.h"
 
 ALLEGRO_EVENT_QUEUE *init_events(ALLEGRO_DISPLAY *display)
@@ -28,79 +28,27 @@ ALLEGRO_EVENT_QUEUE *init_events(ALLEGRO_DISPLAY *display)
 }
 
 /*FUNCION manejo_eventos*/
-//Utilizada para el manejo de los eventos
-void events_managment(AllegroResources *resources, ALLEGRO_EVENT_QUEUE *event_queue, frog_t *frog)
-{
+// Función principal de manejo de eventos
+void events_managment(AllegroResources *resources, ALLEGRO_EVENT_QUEUE *event_queue, frog_t *frog) {
     ALLEGRO_EVENT event;
     if (al_get_next_event(event_queue, &event)) {
-        // Manejo de teclado
         if (event.type == ALLEGRO_EVENT_KEY_DOWN) {
             switch (event.keyboard.keycode) {
-
                 case ALLEGRO_KEY_DOWN:
-                    // Lógica para manejar FLECHA ABAJO
-                    if (get_frog_y(frog) <= 11){ // LIMITO ABAJO HASTA 11
-                    al_play_sample(resources->sounds[0], 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL); // Reproduce el sonido
-                    printf("%f\n",get_frog_y(frog));
-                    set_frog_y(frog, get_frog_y(frog) + 0.96); // Mueve a la rana en el mapa
-                    set_frog_state(frog, 1); // LOGICA PARA MOSTRAR LA RANA EN SUS 4 LADOS
-                    }
-                    //printf("FILA: %f\n", (-(get_frog_y(frog)-11.96))/0.96);
+                    al_play_sample(resources->sounds[0], 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
+                    handle_move_down(frog);
                     break;
                 case ALLEGRO_KEY_UP:
-                    // Lógica para manejar FLECHA ARRIBA 
-                    if (get_frog_y(frog) > 1.3){ // LIMITO ARRIBA HASTA 1.3
-                    al_play_sample(resources->sounds[0], 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL); // Reproduce el sonido
-                    set_frog_y(frog, get_frog_y(frog) - 0.96); // Mueve a la rana en el mapa
-                    set_frog_state(frog, 0); // LOGICA PARA MOSTRAR LA RANA EN SUS 4 LADOS
-                    }
-                    //printf("FILA: %f\n", (-(get_frog_y(frog)-11.96))/0.96);
+                    al_play_sample(resources->sounds[0], 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
+                    handle_move_up(frog);
                     break;
                 case ALLEGRO_KEY_LEFT:
-                    // Lógica para manejar FLECHA IZQUIERDA
-                    if (get_frog_x(frog) > 1 ) 
-                    {
-                        al_play_sample(resources->sounds[0], 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL); // Reproduce el sonido
-                        set_frog_state(frog, 2); // LOGICA PARA MOSTRAR LA RANA EN SUS 4 LADOS
-                        set_frog_x(frog, get_frog_x(frog) - 1);
-                        //printf("COL: %f\n", ((get_frog_x(frog))));
-
-                    }
-                    if ((get_frog_x(frog) > 0.4) && (get_frog_x(frog) <= 1) ){ // LIMITO IZQUIERDA HASTA 0.4
-                        al_play_sample(resources->sounds[0], 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL); // Reproduce el sonido
-                        set_frog_state(frog, 2); // LOGICA PARA MOSTRAR LA RANA EN SUS 4 LADOS
-                        set_frog_x(frog, get_frog_x(frog) - 0.7);
-                        printf("COL: %f\n", get_frog_x(frog));
-                    }
+                    al_play_sample(resources->sounds[0], 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
+                    handle_move_left(frog);
                     break;
-
                 case ALLEGRO_KEY_RIGHT:
-                    // Lógica para manejar FLECHA DERECHA
-                    if ((get_frog_x(frog) >= 1) && (get_frog_x(frog) < 13)) // LIMITO DERECHA HASTA 13
-                    {
-                        al_play_sample(resources->sounds[0], 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL); // Reproduce el sonido
-                        set_frog_state(frog, 3); // LOGICA PARA MOSTRAR LA RANA EN SUS 4 LADOS
-                        set_frog_x(frog, get_frog_x(frog) + 1);
-                        //printf("COL: %f\n", ((get_frog_x(frog))));
-                    }
-                    if((get_frog_x(frog) < 1))
-                    {
-                        al_play_sample(resources->sounds[0], 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL); // Reproduce el sonido
-                        set_frog_state(frog, 3); // LOGICA PARA MOSTRAR LA RANA EN SUS 4 LADOS
-                        set_frog_x(frog, get_frog_x(frog) + 0.7);
-                        //printf("COL: %f\n", ((get_frog_x(frog))));
-                    }
-                    break;
-
-                case ALLEGRO_KEY_ENTER:
-                    printf("ENTER\n");
-                    if (resources->selected_option == 1) {
-                        // Código de inicio de partida
-                    } else if (resources->selected_option == 2) {
-                        // Código para High Scores
-                    } else {
-                        exit(EXIT_SUCCESS); // Salir del juego
-                    }
+                    al_play_sample(resources->sounds[0], 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
+                    handle_move_right(frog);
                     break;
                 case ALLEGRO_KEY_ESCAPE:
                     // Lógica para manejar FLECHA ESCAPE

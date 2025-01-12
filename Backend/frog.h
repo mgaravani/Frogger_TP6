@@ -3,6 +3,15 @@
 
 #include <stdint.h>
 
+
+// LÍMITES Y CONSTANTES USADAS
+#define FROG_LIMIT_UP 1.3
+#define FROG_LIMIT_DOWN 11.0
+#define FROG_LIMIT_LEFT 0.0
+#define FROG_LIMIT_RIGHT 13.0
+#define FROG_MOVE_STEP 0.96
+#define FROG_SMALL_STEP 0.7
+
 // Definición de la estructura para la rana
 typedef struct {
     float x;           // Coordenada x de la rana
@@ -40,7 +49,10 @@ void decrease_frog_lives(frog_t *frog, uint8_t lives);
 void increase_frog_arrivals(frog_t *frog);
 
 // Movimiento
-void move_frog(frog_t *frog, float dx, float dy);
+void handle_move_down(frog_t *frog);
+void handle_move_up(frog_t *frog);
+void handle_move_left(frog_t *frog);
+void handle_move_right(frog_t *frog);
 
 // Limitadores
 uint16_t frog_in_range(frog_t frog);

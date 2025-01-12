@@ -78,15 +78,40 @@ void increase_frog_arrivals(frog_t *frog) {
     frog->arrivals++;
 }
 
-// Función para mover la rana
-void move_frog(frog_t *frog, float dx, float dy) {
-    frog->x += dx;
-    frog->y += dy;
+// Funciones para el movimiento de la rana
+void handle_move_down(frog_t *frog) {
+    if (get_frog_y(frog) <= FROG_LIMIT_DOWN) {
+        set_frog_y(frog, get_frog_y(frog) + FROG_MOVE_STEP);
+        set_frog_state(frog, 1); // Mostrar rana hacia abajo
+    }
 }
 
-// Limitadores
-/*uint16_t frog_in_range(frog_t *frog){
-    if (frog->x ){
-
+void handle_move_up(frog_t *frog) {
+    if (get_frog_y(frog) > FROG_LIMIT_UP) {
+        set_frog_y(frog, get_frog_y(frog) - FROG_MOVE_STEP);
+        set_frog_state(frog, 0); // Mostrar rana hacia arriba
     }
-}*/
+}
+
+void handle_move_left(frog_t *frog) {
+    if (get_frog_x(frog) > 1) {
+        set_frog_x(frog, get_frog_x(frog) - 1.0);
+        set_frog_state(frog, 2); // Mostrar rana hacia la izquierda
+    } 
+    else if (get_frog_x(frog) == FROG_LIMIT_LEFT) {
+        set_frog_x(frog, get_frog_x(frog) - FROG_SMALL_STEP); // Es un paso distinto para que la rana siga quedando bien centrada
+        set_frog_state(frog, 2); // Mostrar rana hacia la izquierda
+    }
+}
+
+void handle_move_right(frog_t *frog) {
+     
+    if (get_frog_x(frog) == FROG_LIMIT_LEFT){
+        set_frog_x(frog, get_frog_x(frog) + FROG_SMALL_STEP); // Es un paso distinto para que la rana siga quedando bien centrada
+        set_frog_state(frog, 3); // Mostrar rana hacia la derecha
+    }
+    else if (get_frog_x(frog) < FROG_LIMIT_RIGHT) {
+        set_frog_x(frog, get_frog_x(frog) + 1.0);
+        set_frog_state(frog, 3); // Mostrar rana hacia la derecha
+    }
+}
