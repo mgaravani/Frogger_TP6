@@ -28,7 +28,7 @@ typedef struct
 {
     ALLEGRO_DISPLAY *display; //Puntero al tipo de dato ALLEGRO_DISPLAY para la pantalla
     ALLEGRO_FONT *fonts[10]; // Array de punteros al tipo ALLEGRO_FONT para las fuentes a utilizar
-    ALLEGRO_BITMAP *images[20]; // Array de punteros al tipo ALLEGRO_BITMAP para las imagenes a utilizar 
+    ALLEGRO_BITMAP *images[21]; // Array de punteros al tipo ALLEGRO_BITMAP para las imagenes a utilizar 
     ALLEGRO_SAMPLE *sounds[1]; // Para almacenar los sonidos cargados
 
     uint32_t width; //Ancho de la pantalla

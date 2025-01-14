@@ -10,7 +10,7 @@ int main(void)
 {
     extern map_t map; // Variable global de la matriz
     frog_t frog_position;
-    init_frog(&frog_position, 7, 11.96, 0, 3, 0, 0); // Inicializo la rana
+    init_frog(&frog_position, 7, 11.96, 1, 3, 0, 0); // Inicializo la rana
     AllegroResources resources_for_main = allegro_init(map); // Inicializa allegro
     ALLEGRO_EVENT_QUEUE *event_queue = init_events(resources_for_main.display); // Crea la cola de eventos
 
@@ -19,6 +19,7 @@ int main(void)
     while (1) 
     {
         events_managment(&resources_for_main, event_queue, &frog_position);
+        frog_in_range(map, frog_position);
 
         for (int fila = 0; fila < 6; fila++) 
         {

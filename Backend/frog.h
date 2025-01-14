@@ -2,6 +2,7 @@
 #define FROG_H
 
 #include <stdint.h>
+#include "map.h"
 
 
 // LÍMITES Y CONSTANTES USADAS
@@ -55,6 +56,6 @@ void handle_move_left(frog_t *frog);
 void handle_move_right(frog_t *frog);
 
 // Limitadores
-uint16_t frog_in_range(frog_t frog);
+uint16_t frog_in_range(map_t map,frog_t frog);
 
 #endif // FROG_H
