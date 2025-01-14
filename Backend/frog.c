@@ -120,18 +120,17 @@ void handle_move_right(frog_t *frog) {
 
 uint16_t frog_in_range(map_t map, frog_t frog){
         int col = (int)(get_frog_x(&frog) + 3);
-        int row = 12-(int)(((-(get_frog_y(&frog)-11.96))/0.96));
+        int row = 12-(int)(((-(get_frog_y(&frog)-11.96))/0.96)); // REVISAR FILA 0
         // Rango fijo: filas [0, 12], columnas [3, 15]
         for (int i = 0; i < ROWS; i++) {           // Iterar por las filas (0 a ROWS-1)
             for (int j = 3; j <= 15; j++) {       // Itclearerar por las columnas (3 a 15)
-                     if (i == 11){
+                     
                         if (map[i][j] == 1){
                             if ((i == row) && (j == col)) printf("CHOQUE\n");
                         }
                         else {
-                            printf("\n");
+                            printf("  ");
                         }
-                     }
                     }
             }            
         return (0);
