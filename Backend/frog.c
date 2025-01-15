@@ -161,7 +161,7 @@ uint16_t frog_in_range(map_t map, frog_t *frog) {
 
         }
       }
-      else if ((map[i][j] == 1) && (row <= 5)) // Si estoy en la primera mitad, puede ser tronco o tortuga
+      else if ((map[i][j] == 1) && (row <= 5 && row > 0)) // Si estoy en la primera mitad, puede ser tronco o tortuga
       {
         if ((i == row) && (j == col))
         {
@@ -169,7 +169,7 @@ uint16_t frog_in_range(map_t map, frog_t *frog) {
           // ACA VA EL REINICIO SI CHOCA, QUE VUELVA A EMPEZAR Y QUE DESCUENTE UNA VIDA //
         }
       }
-      else if ((map[i][j] == 0) && (row <= 5)) {
+      else if ((map[i][j] == 0) && (row <= 5 && row > 0)) {
         if ((i == row) && (j == col))
         {
           // HACER UNA FUNCION DE QUE LA RANA SE MUERE, QUE DESCUENTE VIDA, LLEVE AL INICIO Y TENGA ANIMACION DE MUERTE POR UNOS SEGUNDOS
