@@ -115,7 +115,8 @@ void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS], frog_t *fro
         float screen_x = frog_x * cell_width;  // Ajusta si la coordenada X se refiere a una celda
         float screen_y = frog_y * cell_height; // Ajusta si la coordenada Y se refiere a una celda
         // Dibujar la rana
-        if (get_frog_state(frog) == 0) {
+        if (get_frog_life(frog) == 0) 
+        {
             image_to_draw = resources->images[20];
         }
         else 

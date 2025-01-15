@@ -3,9 +3,10 @@
 #include <stdio.h>
 
 // Función para inicializar la rana con valores predeterminados
-void init_frog(frog_t *frog, float x, float y, uint8_t state, uint8_t lives, int16_t points, int8_t arrivals) {
+void init_frog(frog_t *frog, float x, float y, uint8_t state, uint8_t life, uint8_t lives, int16_t points, int8_t arrivals) {
     frog->x = x;
     frog->y = y;
+    frog->life = life;
     frog->state = state;
     frog->lives = lives;
     frog->points = points;
@@ -23,6 +24,10 @@ float get_frog_y(const frog_t *frog) {
 
 uint8_t get_frog_state(const frog_t *frog) {
     return frog->state;
+}
+
+uint8_t get_frog_life(const frog_t *frog) {
+    return frog->life;
 }
 
 uint8_t get_frog_lives(const frog_t *frog) {
@@ -49,6 +54,10 @@ void set_frog_y(frog_t *frog, float y) {
 
 void set_frog_state(frog_t *frog, uint8_t state) {
     frog->state = state;
+}
+
+void set_frog_life(frog_t *frog, uint8_t life) {
+    frog->life = life;
 }
 
 void set_frog_lives(frog_t *frog, uint8_t lives) {
@@ -118,20 +127,30 @@ void handle_move_right(frog_t *frog) {
     }
 }
 
-uint16_t frog_in_range(map_t map, frog_t frog){
-        int col = (int)(get_frog_x(&frog) + 3);
-        int row = 12-(int)(((-(get_frog_y(&frog)-11.96))/0.96)); // REVISAR FILA 0
+uint16_t frog_in_range(map_t map, frog_t *frog){
+        int col = (int)(get_frog_x(frog) + 3);
+        int row = 12-(int)(((-(get_frog_y(frog)-11.96))/0.96)); // REVISAR FILA 0
         // Rango fijo: filas [0, 12], columnas [3, 15]
-        for (int i = 0; i < ROWS; i++) {           // Iterar por las filas (0 a ROWS-1)
+        for (int i = 0; i < ROWS; i++) // Iterar por las filas (0 a ROWS-1)
+        {           
             for (int j = 3; j <= 15; j++) {       // Itclearerar por las columnas (3 a 15)
-                     
-                        if (map[i][j] == 1){
-                            if ((i == row) && (j == col)) printf("CHOQUE\n");
-                        }
-                        else {
-                            printf("  ");
-                        }
-                    }
-            }            
-        return (0);
+                if (map[i][j] == 1)
+                {
+                    if ((i == row) && (j == col))
+                    {
+                    printf("CHOQUE\n");
+                    set_frog_life(frog, 0);
+                    //printf("ESTADO:%d\n", get_frog_life(&frog));
+                    } 
+                }
+                else 
+                {
+                    //set_frog_life(&frog, 1);
+                    //printf("ESTADO:%d\n", get_frog_life(&frog));
+                            //set_frog_life(&frog, 1);
+                            //printf("  ");
+                }
+            }
+        }            
+    return (0);
 }
