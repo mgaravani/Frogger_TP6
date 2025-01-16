@@ -30,6 +30,7 @@ typedef struct {
 // Inicialización
 void init_frog(frog_t *frog, float x, float y, uint8_t state, uint8_t life, uint8_t lives, int16_t points, int8_t arrivals, int8_t move);
 
+
 // Accesores (getter)
 float get_frog_x(const frog_t *frog);
 float get_frog_y(const frog_t *frog);
@@ -64,5 +65,8 @@ void handle_move_right(frog_t *frog);
 
 // Limitadores
 uint16_t frog_in_range(map_t map,frog_t *frog);
+
+// Estado de vida
+void frog_life_state(frog_t *frog);
 
 #endif // FROG_H

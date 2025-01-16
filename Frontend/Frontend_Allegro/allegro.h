@@ -34,6 +34,7 @@ typedef struct
     uint32_t width; //Ancho de la pantalla
     uint32_t height; //Alto de la pantalla
     uint32_t selected_option; //Guardo la opcion seleccionada en el menu de inicio
+    uint8_t menu_state; //Guardo el estado del menu
 
 } AllegroResources;
 
@@ -43,8 +44,8 @@ AllegroResources allegro_init(uint8_t map[ROWS][COLUMNS]);
 void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS], frog_t *frog);
 void cleanup_allegro(AllegroResources *resources);
 ALLEGRO_EVENT_QUEUE *init_events(ALLEGRO_DISPLAY *pantalla);
-void events_managment(AllegroResources *resources, ALLEGRO_EVENT_QUEUE * event_queue, frog_t *frog);
-void allegro_menu(AllegroResources resources);
+void events_managment(AllegroResources *resources, ALLEGRO_EVENT_QUEUE * event_queue, frog_t *frog, uint8_t map[ROWS][COLUMNS]);
+void allegro_menu(AllegroResources *resources);
 
 
 #endif /* ALLEGRO_H */

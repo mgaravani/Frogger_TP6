@@ -26,7 +26,7 @@ void initialize_matrix()
             } 
             else if (i == 0) 
             { // Fila 0 (fila de llegada) es fija.
-                if (j == 1 || j == 4 || j == 7 || j == 10 || j == 13) 
+                if (j == 1 || j == 4 || j == 7 || j == 10 || j == 13) //CHEQUEAR ESTOS VALORES
                 { // Posiciones de posible llegada (objetivos).
                     map[i][j] = 1;
                 } 

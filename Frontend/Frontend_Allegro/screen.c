@@ -114,13 +114,7 @@ void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS], frog_t *fro
         // Calcula la posición en la pantalla (si es necesario ajustar la escala)
         float screen_x = frog_x * cell_width;  // Ajusta si la coordenada X se refiere a una celda
         float screen_y = frog_y * cell_height; // Ajusta si la coordenada Y se refiere a una celda
-        // Dibujar la rana
-        if (get_frog_life(frog) == 0) 
-        {
-            image_to_draw = resources->images[20];
-        }
-        else 
-        {
+
         switch (get_frog_state(frog)) 
                 {
                     case 0:
@@ -138,7 +132,6 @@ void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS], frog_t *fro
                     default:
                     break;
                 }
-        }
         al_draw_scaled_bitmap(
             image_to_draw,                   // Imagen de la rana
             0, 0,                                    // Coordenadas de origen de la imagen
@@ -148,8 +141,33 @@ void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS], frog_t *fro
             cell_width*0.9, cell_height*0.9,                 // Tamaño ajustado para la rana
             0                                         // Sin banderas adicionales
         );
+        /* //ESTA FUNCIONANDO MAL
+        // Dibujar la rana, no estaria funcionando correctamente
+        if (get_frog_life(frog) == 0) 
+        {
+            al_draw_scaled_bitmap(
+            resources->images[20],                   // Imagen de la rana
+            0, 0,                                    // Coordenadas de origen de la imagen
+            al_get_bitmap_width(image_to_draw), // Ancho original de la imagen
+            al_get_bitmap_height(image_to_draw), // Alto original de la imagen
+            screen_x, screen_y,                      // Posición de la rana en la pantalla
+            cell_width*0.9, cell_height*0.9,                 // Tamaño ajustado para la rana
+            0                                         // Sin banderas adicionales
+            );
+            // Dibuja un rectángulo con transparencia
+            al_draw_filled_rectangle(
+            0, resources->height/2 - 8, resources->width, resources->height/2 +41,             // Coordenadas (x1, y1, x2, y2)
+            al_map_rgba(0, 0, 0, 128)     // Color negro con  opacidad
+            );
+            al_draw_text(resources->fonts[4], al_map_rgb(66, 194, 29), resources->width / 2, resources->height/2 -15,
+            ALLEGRO_ALIGN_CENTRE, "Vida perdida");
+            al_flip_display();
+            al_rest(1);
+        }
+        */
+
+        }
     }
-  }
     // Muestra la ventana
     al_flip_display();
 }

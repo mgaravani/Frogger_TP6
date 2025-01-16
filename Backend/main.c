@@ -14,12 +14,13 @@ int main(void)
   init_frog(&frog_position, 7, 11.96, 0, 1, 3, 0, 0, 0); // Inicializo la rana
   AllegroResources resources_for_main = allegro_init(map); // Inicializa allegro
   ALLEGRO_EVENT_QUEUE *event_queue = init_events(resources_for_main.display); // Crea la cola de eventos
+  //allegro_menu(&resources_for_main);
   initialize_matrix();
 
   while (1) // EN VEZ DE WHILE 1, QUE FUNCIONE MIENTRAS NO SE APRIETE LA TECLA ESCAPE O SALIR DEL JUEGO
   {
     int row = 12 - (int)(((-(get_frog_y(&frog_position) - 11.96)) / 0.96));
-    events_managment(&resources_for_main, event_queue, &frog_position);
+    events_managment(&resources_for_main, event_queue, &frog_position, map);
 
 
     // ESTE FOR HABRIA QUE HACERLO DENTRO DE ALGUNA FUNCION Y LLAMAR SOLO LA FUNCION CON EL NIVEL Y VIDAS //
@@ -30,7 +31,8 @@ int main(void)
       if (waiting_time(5, 2 * fila)) // SI ES UNA FILA PAR
       {
         // SI LA FILA CONCUERDA CON LA POSICION DE LA RANA Y LA FLAG DE MOVERSE SE ACTIVA
-        if ((row == (2 * fila)) && (get_frog_move(&frog_position) == 1)) {
+        if ((row == (2 * fila)) && (get_frog_move(&frog_position) == 1)) 
+        {
           if ((int)(get_frog_x(&frog_position)) + 1 > 13) // IF PARA MORIR SI SE VA DE LOS LIMITES
             // DESPUES HACER UNA FUNCION MAS PROLIJA....
           {
@@ -58,6 +60,15 @@ int main(void)
         }
         shift_row((2 * fila) + 1, 0); // Desplazar fila 1, 3, 5, etc. a la izquierda
       }
+      
+
+      if(get_frog_lives(&frog_position) == 0) // SI LA RANA NO TIENE VIDAS, TERMINA EL JUEGO
+      {
+        resources_for_main.menu_state = 1;
+        allegro_menu(&resources_for_main);
+        return 0;
+      }
+      
     }
     //print_matrix();
     //usleep(900000);
@@ -65,6 +76,5 @@ int main(void)
     Screen(&resources_for_main, map, &frog_position);
   }
 
-  //mostrar_mensaje(); // Funcion de allegro
   return 0;
 }

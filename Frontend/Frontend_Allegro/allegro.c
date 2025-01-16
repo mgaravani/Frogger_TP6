@@ -6,7 +6,7 @@
 AllegroResources allegro_init(uint8_t map[ROWS][COLUMNS]) 
 {
     //Creo la instancia resources del tipo de dato estructura AllegroResources
-    AllegroResources resources = {.selected_option = 1}; 
+    AllegroResources resources = {.selected_option = 1 , .menu_state = 0}; 
 
     // Inicializa Allegro y sus addons
     if (!al_init()) 
@@ -74,13 +74,17 @@ AllegroResources allegro_init(uint8_t map[ROWS][COLUMNS])
     }
 
     resources.sounds[0] = al_load_sample("Resources/move.wav");
-    if (!resources.sounds[0]) {
+
+    if (!resources.sounds[0]) 
+    {
     fprintf(stderr, "Error al cargar el sonido.\n");
     exit(EXIT_FAILURE);
     }
     
-    for (int i = 0; i < 1; i++) {
-        if (!resources.sounds[i]) {
+    for (int i = 0; i < 1; i++) 
+    {
+        if (!resources.sounds[i]) 
+        {
             printf("Error al cargar el sonido %d!\n", i + 1);
             al_destroy_display(resources.display);
             exit(EXIT_FAILURE);
@@ -176,36 +180,36 @@ AllegroResources allegro_init(uint8_t map[ROWS][COLUMNS])
 
 
 //TODAVIA NO FUNCIONA DEL TODO BIEN ASI QUE NUNCA SE REALIZA EL LLAMADO A LA FUNCION
-void allegro_menu(AllegroResources resources)
+void allegro_menu(AllegroResources *resources)
 {   
     // Limpia la pantalla con el color negro
     al_clear_to_color(al_map_rgb(0, 0, 0)); 
 
     // Dibuja el título "FROGGER" en la parte superior central de la pantalla
-    al_draw_text(resources.fonts[0], al_map_rgb(66, 194, 29), resources.width / 2, resources.height / 8,
+    al_draw_text(resources->fonts[0], al_map_rgb(66, 194, 29), resources->width / 2, resources->height / 8,
                  ALLEGRO_ALIGN_CENTRE, "FROGGER");
 
     // Opciones del menú
     const char *options[3] = {"Play Game", "High Scores", "Quit Game"};
     //Coordenadas en Y para los rectangulos
     int y_positions[3] = {
-        (resources.height / 8) * 4, // Play Game
-        (resources.height / 8) * 5, // High Scores
-        (resources.height / 8) * 6  // Quit Game
+        (resources->height / 8) * 4, // Play Game
+        (resources->height / 8) * 5, // High Scores
+        (resources->height / 8) * 6  // Quit Game
     };
     //Para ver que opcion esta seleccionada y segun eso pintar la pantalla de determinada forma
     for (int i = 0; i < 3; i++) {
         //Me fijo que opcion esta seleccionada
-        if (resources.selected_option == i + 1) {
+        if (resources->selected_option == i+1 ) {
             //Obtengo el ancho del texto
-            int text_width = al_get_text_width(resources.fonts[4], options[i]);
+            int text_width = al_get_text_width(resources->fonts[4], options[i]);
             //Dibujo un rectangulo de color en funcion del ancho del texto alrededor de el
-            al_draw_rectangle(resources.width / 2 - text_width / 2 - 10, y_positions[i] - 10,
-                              resources.width / 2 + text_width / 2 + 10, y_positions[i] + 65 + 10,
+            al_draw_rectangle(resources->width / 2 - text_width / 2 - 10, y_positions[i] - 10,
+                              resources->width / 2 + text_width / 2 + 10, y_positions[i] + 65 + 10,
                               al_map_rgb(255, 255, 255), 3);
         }
         //Escribo el texto con las coordenadas correctas
-        al_draw_text(resources.fonts[4], al_map_rgb(66, 194, 29), resources.width / 2, y_positions[i],
+        al_draw_text(resources->fonts[4], al_map_rgb(66, 194, 29), resources->width / 2, y_positions[i],
                      ALLEGRO_ALIGN_CENTRE, options[i]);
     }
 
@@ -220,7 +224,9 @@ void allegro_menu(AllegroResources resources)
 //Borra todos los recursos utilizados
 void cleanup_allegro(AllegroResources *resources) 
 {
+    printf("Saliendo del programa...\n");
 
+    // Destruir los recursos utilizados
     for (int i = 0; i < 1; i++) { // USAR UNA MACRO PARA MAXIMOS SONIDOS, IMAGENES, ETC.
     if (resources->sounds[i]) {
         al_destroy_sample(resources->sounds[i]);
@@ -233,11 +239,16 @@ void cleanup_allegro(AllegroResources *resources)
         {
             al_destroy_font(resources->fonts[i]);
         }
-        if(resources->images[i])
+    }
+
+    for (int i = 0; i < 21; i++) 
+    {
+        if (resources->images[i]) 
         {
             al_destroy_bitmap(resources->images[i]);
         }
     }
+
     if (resources->display) 
     {
         al_destroy_display(resources->display);

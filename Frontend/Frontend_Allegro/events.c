@@ -29,26 +29,65 @@ ALLEGRO_EVENT_QUEUE *init_events(ALLEGRO_DISPLAY *display)
 
 /*FUNCION manejo_eventos*/
 // Función principal de manejo de eventos
-void events_managment(AllegroResources *resources, ALLEGRO_EVENT_QUEUE *event_queue, frog_t *frog) {
+void events_managment(AllegroResources *resources, ALLEGRO_EVENT_QUEUE *event_queue, frog_t *frog, uint8_t map[ROWS][COLUMNS]) {
     ALLEGRO_EVENT event;
     if (al_get_next_event(event_queue, &event)) {
         if (event.type == ALLEGRO_EVENT_KEY_DOWN) {
             switch (event.keyboard.keycode) {
                 case ALLEGRO_KEY_DOWN:
+                case ALLEGRO_KEY_S:
+                    if(resources->menu_state == 1)
+                    {
+                        if (resources->selected_option < 3) 
+                        {
+                            resources->selected_option++;
+                        }
+                    }
+                    else
+                    {
                     al_play_sample(resources->sounds[0], 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
                     handle_move_down(frog);
+                    }
                     break;
                 case ALLEGRO_KEY_UP:
+                case ALLEGRO_KEY_W:
+                    if(resources->menu_state == 1)
+                    {
+                        if (resources->selected_option > 1)
+                        {
+                            resources->selected_option--;
+                        }
+                    }
+                    else
+                    {
                     al_play_sample(resources->sounds[0], 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
                     handle_move_up(frog);
+                    }
                     break;
                 case ALLEGRO_KEY_LEFT:
+                case ALLEGRO_KEY_A:
                     al_play_sample(resources->sounds[0], 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
                     handle_move_left(frog);
                     break;
                 case ALLEGRO_KEY_RIGHT:
+                case ALLEGRO_KEY_D:
                     al_play_sample(resources->sounds[0], 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
                     handle_move_right(frog);
+                    break;
+                case ALLEGRO_KEY_ENTER:
+                if(resources->selected_option == 1) //Si se eligio Play game
+                {   
+                    resources->menu_state = 0;
+                    Screen(&resources, map ,&frog);
+                }
+                else if(resources->selected_option == 2) //Si se eligio High Scores
+                {
+                    // Código para High Scores
+                }
+                else
+                {
+                    exit(EXIT_SUCCESS);//Si se eligio Quit Game
+                }
                     break;
                 case ALLEGRO_KEY_ESCAPE:
                     // Lógica para manejar FLECHA ESCAPE
