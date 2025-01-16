@@ -73,8 +73,8 @@ void initialize_matrix()
                 }
             } 
             else if (i >= 8 && i <= 11) 
-            { // Filas 8, 9, 10 y 11 con máximo 3 unos
-                if (ones_count >= 3) 
+            { // Filas 8, 9, 10 y 11 con máximo 4 unos
+                if (ones_count >= 4) 
                 {
                     map[i][j] = 0; // Rellenar con ceros si se alcanzó el máximo de unos
                 } 
@@ -190,7 +190,7 @@ void initialize_matrix()
 // Función auxiliar (hasta tener todo con la interfaz allegro)para imprimir la matriz
 void print_matrix() 
 {
-    for (int i = 1; i < ROWS; i++) 
+    for (int i = 0; i < ROWS; i++) 
     {
         for (int j = 0; j < COLUMNS; j++) 
         {
