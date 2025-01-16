@@ -46,6 +46,7 @@ void cleanup_allegro(AllegroResources *resources);
 ALLEGRO_EVENT_QUEUE *init_events(ALLEGRO_DISPLAY *pantalla);
 void events_managment(AllegroResources *resources, ALLEGRO_EVENT_QUEUE * event_queue, frog_t *frog, uint8_t map[ROWS][COLUMNS]);
 void allegro_menu(AllegroResources *resources);
+//void draw_heart(uint32_t x, uint32_t y, uint32_t size);
 
 
 #endif /* ALLEGRO_H */
