@@ -108,66 +108,102 @@ void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS], frog_t *fro
                 counter = 0;
             }
             
-        // Obtener las coordenadas de la rana desde la estructura frog
-        float frog_x = get_frog_x(frog) - 0.38; // Obtener coordenada X de la rana
-        float frog_y = get_frog_y(frog) + 0.16; // Obtener coordenada Y de la rana
-        // Calcula la posición en la pantalla (si es necesario ajustar la escala)
-        float screen_x = frog_x * cell_width;  // Ajusta si la coordenada X se refiere a una celda
-        float screen_y = frog_y * cell_height; // Ajusta si la coordenada Y se refiere a una celda
+            // Obtener las coordenadas de la rana desde la estructura frog
+            float frog_x = get_frog_x(frog) - 0.38; // Obtener coordenada X de la rana
+            float frog_y = get_frog_y(frog) + 0.16; // Obtener coordenada Y de la rana
+            // Calcula la posición en la pantalla (si es necesario ajustar la escala)
+            float screen_x = frog_x * cell_width;  // Ajusta si la coordenada X se refiere a una celda
+            float screen_y = frog_y * cell_height; // Ajusta si la coordenada Y se refiere a una celda
 
-        switch (get_frog_state(frog)) 
-                {
-                    case 0:
-                        image_to_draw = resources->images[14];
+            switch (get_frog_state(frog)) 
+                    {
+                        case 0:
+                            image_to_draw = resources->images[14];
+                            break;
+                        case 1:
+                            image_to_draw = resources->images[19];
+                            break;
+                        case 2:
+                            image_to_draw = resources->images[17];
+                            break;
+                        case 3:
+                            image_to_draw = resources->images[18];
+                            break;
+                        default:
                         break;
-                    case 1:
-                        image_to_draw = resources->images[19];
-                        break;
-                    case 2:
-                        image_to_draw = resources->images[17];
-                        break;
-                    case 3:
-                        image_to_draw = resources->images[18];
-                        break;
-                    default:
-                    break;
-                }
-        al_draw_scaled_bitmap(
-            image_to_draw,                   // Imagen de la rana
-            0, 0,                                    // Coordenadas de origen de la imagen
-            al_get_bitmap_width(image_to_draw), // Ancho original de la imagen
-            al_get_bitmap_height(image_to_draw), // Alto original de la imagen
-            screen_x, screen_y,                      // Posición de la rana en la pantalla
-            cell_width*0.9, cell_height*0.9,                 // Tamaño ajustado para la rana
-            0                                         // Sin banderas adicionales
-        );
-        /* //ESTA FUNCIONANDO MAL
-        // Dibujar la rana, no estaria funcionando correctamente
-        if (get_frog_life(frog) == 0) 
-        {
+                    }
             al_draw_scaled_bitmap(
-            resources->images[20],                   // Imagen de la rana
-            0, 0,                                    // Coordenadas de origen de la imagen
-            al_get_bitmap_width(image_to_draw), // Ancho original de la imagen
-            al_get_bitmap_height(image_to_draw), // Alto original de la imagen
-            screen_x, screen_y,                      // Posición de la rana en la pantalla
-            cell_width*0.9, cell_height*0.9,                 // Tamaño ajustado para la rana
-            0                                         // Sin banderas adicionales
+                image_to_draw,                   // Imagen de la rana
+                0, 0,                                    // Coordenadas de origen de la imagen
+                al_get_bitmap_width(image_to_draw), // Ancho original de la imagen
+                al_get_bitmap_height(image_to_draw), // Alto original de la imagen
+                screen_x, screen_y,                      // Posición de la rana en la pantalla
+                cell_width*0.9, cell_height*0.9,                 // Tamaño ajustado para la rana
+                0                                         // Sin banderas adicionales
             );
-            // Dibuja un rectángulo con transparencia
-            al_draw_filled_rectangle(
-            0, resources->height/2 - 8, resources->width, resources->height/2 +41,             // Coordenadas (x1, y1, x2, y2)
-            al_map_rgba(0, 0, 0, 128)     // Color negro con  opacidad
-            );
-            al_draw_text(resources->fonts[4], al_map_rgb(66, 194, 29), resources->width / 2, resources->height/2 -15,
-            ALLEGRO_ALIGN_CENTRE, "Vida perdida");
-            al_flip_display();
-            al_rest(1);
-        }
-        */
 
         }
     }
+
+            // Dibujar la rana, no estaria funcionando correctamente
+            /* NO ESTA FUNCIONANDOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
+            if (get_frog_life(frog) == 0) 
+            {
+                al_draw_scaled_bitmap(
+                resources->images[20],                   // Imagen de la rana
+                0, 0,                                    // Coordenadas de origen de la imagen
+                al_get_bitmap_width(resources->images[20]), // Ancho original de la imagen
+                al_get_bitmap_height(resources->images[20]), // Alto original de la imagen
+                get_frog_x(frog) - 0.38, get_frog_y(frog) + 0.16,                      // Posición de la rana en la pantalla
+                cell_width*0.9, cell_height*0.9,                 // Tamaño ajustado para la rana
+                0                                         // Sin banderas adicionales
+                );
+                // Dibuja un rectángulo con transparencia
+                al_draw_filled_rectangle(
+                0, resources->height/2 - 8, resources->width, resources->height/2 +41,             // Coordenadas (x1, y1, x2, y2)
+                al_map_rgba(0, 0, 0, 128)     // Color negro con  opacidad
+                );
+                al_draw_text(resources->fonts[4], al_map_rgb(66, 194, 29), resources->width / 2, resources->height/2 -15,
+                ALLEGRO_ALIGN_CENTRE, "Vida perdida");
+                
+            }
+    if(get_frog_lives(frog) > 0)
+    {
+        draw_heart(resources->width -50, resources->height -50 ,50);
+    }*/
+    
     // Muestra la ventana
     al_flip_display();
 }
+
+/*
+void draw_heart(uint32_t x, uint32_t y, uint32_t size)
+{
+   // Radio de los círculos
+    float radius = size / 2.0;
+
+    // Coordenadas de los círculos
+    float left_circle_x = x - radius;
+    float right_circle_x = x + radius;
+    float circle_y = y - radius;
+
+    // Coordenadas para el triángulo inferior
+    float triangle_x1 = x - radius;
+    float triangle_y1 = y;
+    float triangle_x2 = x + radius;
+    float triangle_y2 = y;
+    float triangle_x3 = x;
+    float triangle_y3 = y + size;
+
+    // Dibujar los dos círculos
+    al_draw_filled_circle(left_circle_x, circle_y, radius, al_map_rgb(255, 0, 0));  // Rojo
+    al_draw_filled_circle(right_circle_x, circle_y, radius, al_map_rgb(255, 0, 0)); // Rojo
+
+    // Dibujar el triángulo
+    ALLEGRO_VERTEX vertices[3] = {
+        {triangle_x1, triangle_y1, 0, 0, 0},
+        {triangle_x2, triangle_y2, 0, 0, 0},
+        {triangle_x3, triangle_y3, 0, 0, 0}
+    };
+    al_draw_filled_polygon(vertices, 3, al_map_rgb(255, 0, 0)); // Rojo
+}*/

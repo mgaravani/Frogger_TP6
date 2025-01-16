@@ -231,7 +231,6 @@ uint16_t frog_in_range(map_t map, frog_t *frog)
 // Funcion para analizar el estado de vida de la rana
 void frog_life_state(frog_t *frog) {
   if (get_frog_life(frog) == 0) {
-    static uint8_t lives_counter = 2;
-    decrease_frog_lives(frog, lives_counter--);
+    decrease_frog_lives(frog, 1);
   }
 }

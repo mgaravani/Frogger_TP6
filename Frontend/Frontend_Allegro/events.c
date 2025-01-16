@@ -78,7 +78,6 @@ void events_managment(AllegroResources *resources, ALLEGRO_EVENT_QUEUE *event_qu
                 if(resources->selected_option == 1) //Si se eligio Play game
                 {   
                     resources->menu_state = 0;
-                    Screen(&resources, map ,&frog);
                 }
                 else if(resources->selected_option == 2) //Si se eligio High Scores
                 {
@@ -86,6 +85,8 @@ void events_managment(AllegroResources *resources, ALLEGRO_EVENT_QUEUE *event_qu
                 }
                 else
                 {
+                    printf("Saliendo del programa...\n");
+                    cleanup_allegro(resources);
                     exit(EXIT_SUCCESS);//Si se eligio Quit Game
                 }
                     break;

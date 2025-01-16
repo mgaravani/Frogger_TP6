@@ -14,8 +14,15 @@ int main(void)
   init_frog(&frog_position, 7, 11.96, 0, 1, 3, 0, 0, 0); // Inicializo la rana
   AllegroResources resources_for_main = allegro_init(map); // Inicializa allegro
   ALLEGRO_EVENT_QUEUE *event_queue = init_events(resources_for_main.display); // Crea la cola de eventos
-  //allegro_menu(&resources_for_main);
   initialize_matrix();
+
+  while(resources_for_main.menu_state == 1)
+  { 
+    events_managment(&resources_for_main, event_queue, &frog_position, map);
+    allegro_menu(&resources_for_main);
+  }
+
+  
 
   while (1) // EN VEZ DE WHILE 1, QUE FUNCIONE MIENTRAS NO SE APRIETE LA TECLA ESCAPE O SALIR DEL JUEGO
   {
@@ -65,7 +72,9 @@ int main(void)
       if(get_frog_lives(&frog_position) == 0) // SI LA RANA NO TIENE VIDAS, TERMINA EL JUEGO
       {
         resources_for_main.menu_state = 1;
-        //allegro_menu(&resources_for_main);
+        resources_for_main.selected_option = 1;
+        //allegro_menu(&resources_for_main); //LA idea es que llame a una funcion para guardar la puntuacion
+        //y luego esa funcion reinicie el programa empezando de cero todo
         cleanup_allegro(&resources_for_main);
         return 0;
       }

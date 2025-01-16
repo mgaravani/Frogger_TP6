@@ -6,7 +6,7 @@
 AllegroResources allegro_init(uint8_t map[ROWS][COLUMNS]) 
 {
     //Creo la instancia resources del tipo de dato estructura AllegroResources
-    AllegroResources resources = {.selected_option = 1 , .menu_state = 0}; 
+    AllegroResources resources = {.selected_option = 1 , .menu_state = 1}; 
 
     // Inicializa Allegro y sus addons
     if (!al_init()) 
@@ -146,34 +146,7 @@ AllegroResources allegro_init(uint8_t map[ROWS][COLUMNS])
             al_destroy_display(resources.display); //Destruye el display
             exit(EXIT_FAILURE); //Ante un fallo termina el programa y borra los recursos
         }
-    }
-
-    /*************************************************************************************************
-    * Inicialización del sistema de eventos                                                          *
-    * Se crea una cola de eventos que manejará las entradas del sistema,                             *
-    * como eventos de teclado y pantalla. Se asocia la pantalla del recurso 'resources.pantalla'     *
-    * con la cola de eventos para monitorear eventos relacionados con esa pantalla.          
-    *************************************************************************************************/        
-    //ALLEGRO_EVENT_QUEUE *event_queue = init_events(resources.display);                             
-
-    /*************************************************************************************************
-    * Bucle principal del menú                                                                       *
-    * El bucle se mantendrá activo hasta que 'done' sea verdadero.                                   *
-    * Inicialmente, 'done' está en 'false' para que el menú continúe corriendo.                      *
-    *************************************************************************************************/ 
-    bool done = true;
-    //inicio_partida(resources);
-    while (!done) {
-        // Se llama a la función 'manejo_eventos' que gestiona cualquier evento 
-        // capturado en la cola de eventos. Esto incluye detectar entradas de teclado,
-        // cierres de ventana, etc., y actuar en consecuencia.
-        //    events_managment(&resources, event_queue);
-        
-        // 'menu_allegro' se llama en cada iteración del bucle para redibujar el menú
-        // en función del estado actual. Dependiendo de la selección del usuario, el menú
-        // se actualizará visualmente, mostrando el rectángulo alrededor de la opción seleccionada.
-    }
-
+    }                       
 
     return resources;
 }
@@ -214,7 +187,7 @@ void allegro_menu(AllegroResources *resources)
     }
 
     al_flip_display();
-
+    
 }
 
 
