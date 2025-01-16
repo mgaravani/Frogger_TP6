@@ -65,7 +65,8 @@ int main(void)
       if(get_frog_lives(&frog_position) == 0) // SI LA RANA NO TIENE VIDAS, TERMINA EL JUEGO
       {
         resources_for_main.menu_state = 1;
-        allegro_menu(&resources_for_main);
+        //allegro_menu(&resources_for_main);
+        cleanup_allegro(&resources_for_main);
         return 0;
       }
       
