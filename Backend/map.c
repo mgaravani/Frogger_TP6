@@ -82,7 +82,8 @@ void initialize_matrix(void)
                 else if (j == 0 || map[i][j - 1] == 0) 
                 { 
                     // Decidir si colocar un 1 o 0
-                    int is_one = rand() % 2; // 50% probabilidad de colocar un 1
+                    int is_one = (rand() % 100) < 40; // 40% de probabilidad de que sea 1
+                    //int is_one = rand() % 2; // 50% probabilidad de colocar un 1
                     map[i][j] = is_one;
                     ones_count += is_one; // Incrementar contador si es un 1
                 } 
