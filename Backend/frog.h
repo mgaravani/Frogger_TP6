@@ -1,11 +1,12 @@
 #ifndef FROG_H
 #define FROG_H
 
+/*------------INCLUDES-----------*/
 #include <stdint.h>
 #include "map.h"
 
 
-// LÍMITES Y CONSTANTES USADAS
+/*-----LÍMITES Y CONSTANTES USADAS-----*/
 #define FROG_LIMIT_UP 1.3
 #define FROG_LIMIT_DOWN 11.0
 #define FROG_LIMIT_LEFT 0.0
@@ -13,6 +14,7 @@
 #define FROG_MOVE_STEP 0.96
 #define FROG_SMALL_STEP 0.7
 
+/*-----STRUCTS-----*/
 // Definición de la estructura para la rana
 typedef struct {
     float x;           // Coordenada x de la rana
@@ -25,7 +27,13 @@ typedef struct {
     int8_t arrivals;    // Cantidad de veces que el jugador llegó al final
 } frog_t;
 
-// Funciones relacionadas con la rana
+/*-----------PROTOTYPES--------*/
+
+/***************************************************************************
+*                                                                          *
+*                  FUNCIONES RELACIONADAS CON LA RANA                      *
+*                                                                          *
+***************************************************************************/
 
 // Inicialización
 void init_frog(frog_t *frog, float x, float y, uint8_t state, uint8_t life, uint8_t lives, int16_t points, int8_t arrivals, int8_t move);

@@ -81,7 +81,7 @@ AllegroResources allegro_init(uint8_t map[ROWS][COLUMNS])
     exit(EXIT_FAILURE);
     }
     
-    for (int i = 0; i < 1; i++) 
+    for (int i = 0; i < SOUNDS ; i++) 
     {
         if (!resources.sounds[i]) 
         {
@@ -92,21 +92,17 @@ AllegroResources allegro_init(uint8_t map[ROWS][COLUMNS])
     }
 
     // Cargar las fuentes en la estructura resources, en el campo fuentes
-    resources.fonts[0] = al_load_font("Resources/Bing Bam Boum.ttf", 200, ALLEGRO_ALIGN_CENTER); // Fuente 1
-    resources.fonts[1] = al_load_font("Resources/ChineseDragon.ttf", 200, ALLEGRO_ALIGN_CENTER); // Fuente 2
-    resources.fonts[2] = al_load_font("Resources/Chubby Relief.ttf", 200, ALLEGRO_ALIGN_CENTER); // Fuente 3
-    resources.fonts[3] = al_load_font("Resources/Copyduck.ttf", 250, ALLEGRO_ALIGN_CENTER); // TITULO FROGGER
-    resources.fonts[4] = al_load_font("Resources/Copyduck.ttf", 70, ALLEGRO_ALIGN_CENTER); // MENU INICIO
-    /*fea*/ resources.fonts[5] = al_load_font("Resources/Fluo Gums.ttf", 200, ALLEGRO_ALIGN_CENTER); // Fuente 6(solo mayuscula)
-    resources.fonts[6] = al_load_font("Resources/FunnyKid.ttf", 200, ALLEGRO_ALIGN_CENTER); // Fuente 7
-    resources.fonts[7] = al_load_font("Resources/Smasher 312 Custom.ttf", 200, ALLEGRO_ALIGN_CENTER); // Fuente 8
-    resources.fonts[8] = al_load_font("Resources/The Amazing Spider-Man.ttf", 200, ALLEGRO_ALIGN_CENTER); // Fuente 9
-    resources.fonts[9] = al_load_font("Resources/The Last Comic On Earth.ttf", 200, ALLEGRO_ALIGN_CENTER); // Fuente 10
+    resources.fonts[0] = al_load_font("Resources/Bing Bam Boum.ttf", 45, ALLEGRO_ALIGN_CENTER); // Fuente 1
+    resources.fonts[1] = al_load_font("Resources/ChineseDragon.ttf", 100, ALLEGRO_ALIGN_CENTER); // USADA PARA CALCULO DE RECTANGULOS BLANCOS EN MENU DE INICIO
+    resources.fonts[2] = al_load_font("Resources/Chubby Relief.ttf", 45, ALLEGRO_ALIGN_CENTER); // Fuente 3
+    resources.fonts[3] = al_load_font("Resources/Copyduck.ttf", 45, ALLEGRO_ALIGN_CENTER); // TITULO FROGGER
+    resources.fonts[4] = al_load_font("Resources/Copyduck.ttf", 45, ALLEGRO_ALIGN_CENTER); // HIGHSCORES
+    resources.fonts[5] = al_load_font("Resources/FunnyKid.ttf", 45, ALLEGRO_ALIGN_CENTER); // Fuente 6
 
     /*ANALIZA SI LAS FUENTES SE CARGARON CORRECTAMENTE*/
-    for (uint16_t i = 0; i < 10; i++) 
+    for (uint16_t i = 0; i < FONTS ; i++) 
     {
-        if (!resources.fonts[i]) 
+        if (!resources.fonts[i])
         {
             printf("Error al cargar la fuente %d!\n", i + 1);
             al_destroy_display(resources.display); //Destruye el display
@@ -136,9 +132,10 @@ AllegroResources allegro_init(uint8_t map[ROWS][COLUMNS])
     resources.images[18] = al_load_bitmap("Resources/frog_R.png"); // Imagen 19
     resources.images[19] = al_load_bitmap("Resources/frog_back.png"); // Imagen 20
     resources.images[20] = al_load_bitmap("Resources/frog_die.png"); // Imagen 21
+    resources.images[21] = al_load_bitmap("Resources/menubackground.png"); // Imagen 22
     
     /*ANALIZA SI LAS IMAGENES SE CARGARON CORRECTAMENTE*/
-    for (uint16_t i = 0; i < 15; i++) 
+    for (uint16_t i = 0; i < IMAGES ; i++) 
     {
         if (!resources.images[i]) 
         {
@@ -157,40 +154,88 @@ void allegro_menu(AllegroResources *resources)
 {   
     // Limpia la pantalla con el color negro
     al_clear_to_color(al_map_rgb(0, 0, 0)); 
-
-    // Dibuja el título "FROGGER" en la parte superior central de la pantalla
-    al_draw_text(resources->fonts[0], al_map_rgb(66, 194, 29), resources->width / 2, resources->height / 8,
-                 ALLEGRO_ALIGN_CENTRE, "FROGGER");
+    
+    // Dibuja el fondo escalado en 870X650
+    al_draw_scaled_bitmap(
+        resources->images[21],                  // Imagen original
+        0, 0,                   // Coordenadas en la imagen original
+        al_get_bitmap_width(resources->images[21]),  // Ancho original de la imagen
+        al_get_bitmap_height(resources->images[21]), // Altura original de la imagen
+        0, 0,                   // Posición en la pantalla
+        resources->width, resources->height,               // Nuevo ancho y alto de la imagen escalada
+        0                       // Sin banderas adicionales
+    );
 
     // Opciones del menú
     const char *options[3] = {"Play Game", "High Scores", "Quit Game"};
     //Coordenadas en Y para los rectangulos
-    int y_positions[3] = {
-        (resources->height / 8) * 4, // Play Game
-        (resources->height / 8) * 5, // High Scores
-        (resources->height / 8) * 6  // Quit Game
+    uint16_t y_positions[3] = {
+        (resources->height / 8) * 4.85, // Play Game
+        (resources->height / 8) * 5.65, // High Scores
+        (resources->height / 8) * 6.46  // Quit Game
     };
     //Para ver que opcion esta seleccionada y segun eso pintar la pantalla de determinada forma
-    for (int i = 0; i < 3; i++) {
+    for (uint16_t i = 0; i < 3; i++) {
         //Me fijo que opcion esta seleccionada
         if (resources->selected_option == i+1 ) {
             //Obtengo el ancho del texto
-            int text_width = al_get_text_width(resources->fonts[4], options[i]);
+            u_int32_t text_width = al_get_text_width(resources->fonts[1], options[i]);
             //Dibujo un rectangulo de color en funcion del ancho del texto alrededor de el
-            al_draw_rectangle(resources->width / 2 - text_width / 2 - 10, y_positions[i] - 10,
-                              resources->width / 2 + text_width / 2 + 10, y_positions[i] + 65 + 10,
+            al_draw_rectangle(resources->width / 2 - text_width / 3 - 10, y_positions[i] - 1,
+                              resources->width / 2 + text_width / 3 + 10, y_positions[i] + 31,
                               al_map_rgb(255, 255, 255), 3);
         }
-        //Escribo el texto con las coordenadas correctas
-        al_draw_text(resources->fonts[4], al_map_rgb(66, 194, 29), resources->width / 2, y_positions[i],
-                     ALLEGRO_ALIGN_CENTRE, options[i]);
+
     }
 
     al_flip_display();
     
 }
 
+void menu_highscores(FILE *pointer_highscores, AllegroResources *resources)
+{
+    if (pointer_highscores == NULL) 
+    {
+    fprintf(stderr, "Error: no se pudo abrir el archivo de highscores.\n");
+    return;
+    }
 
+    // Limpia la pantalla con el color negro
+    al_clear_to_color(al_map_rgb(0, 0, 0));
+
+    rewind(pointer_highscores); // Rebobina el archivo para leer desde el inicio
+
+    char lines[20][256]; // Almacena un máximo de 20 líneas de 256 caracteres cada una
+    u_int16_t line_count = 0;
+
+    // Leer todas las líneas del archivo
+    while (fgets(lines[line_count], sizeof(lines[line_count]), pointer_highscores)) 
+    {
+        // Elimina el salto de línea al final
+        lines[line_count][strcspn(lines[line_count], "\n")] = 0;
+        line_count++;
+        if (line_count >= 20) break; // Limitar a 20 líneas
+    }
+
+    // Tamaño y espaciado
+    const u_int16_t line_spacing = 50; // Espaciado entre líneas
+    u_int16_t total_height = line_count * line_spacing; // Altura total del bloque de texto
+    u_int16_t start_y = (resources->height - total_height) / 2; // Posición inicial para centrar
+
+    // Dibujar cada línea centrada
+    for (u_int16_t i = 0; i < line_count; i++) 
+    {
+        al_draw_text(resources->fonts[3], al_map_rgb(229 , 250 , 6), 
+                     resources->width / 2, start_y + i * line_spacing, 
+                     ALLEGRO_ALIGN_CENTRE, lines[i]);
+    }
+
+    al_flip_display(); // Muestra los cambios en pantalla
+    al_rest(5);        // Pausa para que el usuario pueda leer
+    fclose(pointer_highscores);
+
+    //aca deberia hacerte elegir si salir del juego o si volver al menu de inicio
+}
 
 
 /*------Function Cleanup_allegro------*/
@@ -200,13 +245,13 @@ void cleanup_allegro(AllegroResources *resources)
     printf("Saliendo del programa...\n");
 
     // Destruir los recursos utilizados
-    for (int i = 0; i < 1; i++) { // USAR UNA MACRO PARA MAXIMOS SONIDOS, IMAGENES, ETC.
+    for (int i = 0; i < SOUNDS; i++) { // USAR UNA MACRO PARA MAXIMOS SONIDOS, IMAGENES, ETC.
     if (resources->sounds[i]) {
         al_destroy_sample(resources->sounds[i]);
     }
     }
 
-    for (int i = 0; i < 10; i++) 
+    for (int i = 0; i < FONTS; i++) 
     {
         if (resources->fonts[i]) 
         {
@@ -214,7 +259,7 @@ void cleanup_allegro(AllegroResources *resources)
         }
     }
 
-    for (int i = 0; i < 21; i++) 
+    for (int i = 0; i < IMAGES; i++) 
     {
         if (resources->images[i]) 
         {

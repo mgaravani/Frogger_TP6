@@ -5,7 +5,7 @@
 #include <stdint.h>
 #include <time.h>
 
-/*------Funcion waiting_time------*/
+/*------Function waiting_time------*/
 /*
     @brief  Funcion para controlar el tiempo entre los desplazamientos de los objetos
 

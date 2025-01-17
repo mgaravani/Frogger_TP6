@@ -1,7 +1,10 @@
+/*------------INCLUDES-----------*/
 #include "frog.h"
 #include "map.h"
 #include <stdio.h>
 
+
+/*------Function init_frog------*/
 // Función para inicializar la rana con valores predeterminados
 void init_frog(frog_t *frog, float x, float y, uint8_t state, uint8_t life, uint8_t lives, int16_t points, int8_t arrivals, int8_t move) 
 {
@@ -15,95 +18,146 @@ void init_frog(frog_t *frog, float x, float y, uint8_t state, uint8_t life, uint
   frog->move = move;
 }
 
-// Funciones para obtener los valores
+/***************************************************************************
+*                                                                          *
+*                  FUNCIONES PARA OBTENER LOS VALORES                      *
+*                                                                          *
+***************************************************************************/
+
+/*-----Function get_frog_x-----*/
+// Función para obtener la coordenada x de la rana
 float get_frog_x(const frog_t *frog) 
 {
   return frog->x;
 }
 
+/*-----Function get_frog_y-----*/
+// Función para obtener la coordenada y de la rana
 float get_frog_y(const frog_t *frog) 
 {
   return frog->y;
 }
 
+/*-----Function get_frog_state-----*/
+// Función para obtener el estado de la rana
 uint8_t get_frog_state(const frog_t *frog) 
 {
   return frog->state;
 }
 
+/*-----Function get_frog_move-----*/
+// Función para obtener el estado de movimiento de la rana
 uint8_t get_frog_move(const frog_t *frog) 
 {
   return frog->move;
 }
 
+/*-----Function get_frog_life-----*/
+// Función para obtener el estado de vida de la rana
 uint8_t get_frog_life(const frog_t *frog) 
 {
   return frog->life;
 }
 
+/*-----Function get_frog_lives-----*/
+// Función para obtener la cantidad de vidas de la rana
 uint8_t get_frog_lives(const frog_t *frog) 
 {
   return frog->lives;
 }
 
+/*-----Function get_frog_points-----*/
+// Función para obtener los puntos acumulados por el jugador
 int16_t get_frog_points(const frog_t *frog) 
 {
   return frog->points;
 }
 
+/*-----Function get_frog_arrivals-----*/
+// Función para obtener la cantidad de veces que el jugador llegó al final
 int8_t get_frog_arrivals(const frog_t *frog) 
 {
   return frog->arrivals;
 }
 
-// Funciones para modificar los valores
+/***************************************************************************
+*                                                                          *
+*                  FUNCIONES PARA MODIFICAR LOS VALORES                    *
+*                                                                          *
+***************************************************************************/
+
+/*-----Function set_frog_x-----*/
+// Función para modificar la coordenada x de la rana
 void set_frog_x(frog_t *frog, float x) 
 {
   frog->x = x;
 }
 
+/*-----Function set_frog_y-----*/
+// Función para modificar la coordenada y de la rana
 void set_frog_y(frog_t *frog, float y) 
 {
 
   frog->y = y;
 }
 
+/*-----Function set_frog_state-----*/
+// Función para modificar el estado de la rana
 void set_frog_state(frog_t *frog, uint8_t state) 
 {
   frog->state = state;
 }
 
+/*-----Function set_frog_move-----*/
+// Función para modificar el estado de movimiento de la rana
 void set_frog_move(frog_t *frog, uint8_t move) 
 {
   frog->move = move;
 }
 
+/*-----Function set_frog_life-----*/
+// Función para modificar el estado de vida de la rana
 void set_frog_life(frog_t *frog, uint8_t life) 
 {
   frog->life = life;
 }
 
+/*-----Function set_frog_lives-----*/
+// Función para modificar la cantidad de vidas de la rana
 void set_frog_lives(frog_t *frog, uint8_t lives) 
 {
   frog->lives = lives;
 }
 
+/*-----Function set_frog_points-----*/
+// Función para modificar los puntos acumulados por el jugador
 void set_frog_points(frog_t *frog, int16_t points) 
 {
   frog->points = points;
 }
 
+/*-----Function set_frog_arrivals-----*/
+// Función para modificar la cantidad de veces que el jugador llegó al final
 void set_frog_arrivals(frog_t *frog, int8_t arrivals) 
 {
   frog->arrivals = arrivals;
 }
 
-// Funciones para actualizar valores de forma incremental
+/***************************************************************************
+*                                                                          *
+*       FUNCIONES PARA ACTUALIZAR VALORES DE FORMA INCREMENTAL             *
+*                                                                          *
+***************************************************************************/
+
+/*-----Function increase_frog_points-----*/
+// Función para incrementar los puntos acumulados por el jugador
 void increase_frog_points(frog_t *frog, int16_t points) 
 {
   frog->points += points;
 }
 
+/*-----Function decrease_frog_lives-----*/
+// Función para decrementar la cantidad de vidas de la rana
 void decrease_frog_lives(frog_t *frog, uint8_t lives) 
 {
   if (frog->lives > lives) 
@@ -116,12 +170,21 @@ void decrease_frog_lives(frog_t *frog, uint8_t lives)
   }
 }
 
+/*-----Function increase_frog_arrivals-----*/
+// Función para incrementar la cantidad de veces que el jugador llegó al final
 void increase_frog_arrivals(frog_t *frog) 
 {
   frog->arrivals++;
 }
 
-// Funciones para el movimiento de la rana
+/***************************************************************************
+*                                                                          *
+*          FUNCIONES PARA EL MOVIMIENTO y ESTADO DE LA RANA                *
+*                                                                          *
+***************************************************************************/
+
+/*-----Function handle_move_down-----*/
+// Función para mover la rana hacia abajo
 void handle_move_down(frog_t *frog) 
 {
   if (get_frog_y(frog) <= FROG_LIMIT_DOWN) 
@@ -131,6 +194,8 @@ void handle_move_down(frog_t *frog)
   }
 }
 
+/*-----Function handle_move_up-----*/
+// Función para mover la rana hacia arriba
 void handle_move_up(frog_t *frog) 
 {
   if (get_frog_y(frog) > FROG_LIMIT_UP) 
@@ -140,12 +205,16 @@ void handle_move_up(frog_t *frog)
   }
 }
 
+/*-----Function set_frog_start-----*/
+// Funcion para reiniciar la posicion de la rana
 void set_frog_start(frog_t *frog) 
 {
   set_frog_x(frog, 7);
   set_frog_y(frog, 11.96f);
 }
 
+/*-----Function handle_move_left-----*/
+// Función para mover la rana hacia la izquierda
 void handle_move_left(frog_t *frog) 
 {
   if (get_frog_x(frog) > 1) 
@@ -160,6 +229,8 @@ void handle_move_left(frog_t *frog)
   }
 }
 
+/*-----Function handle_move_right-----*/
+// Función para mover la rana hacia la derecha
 void handle_move_right(frog_t *frog) 
 {
 
@@ -175,6 +246,8 @@ void handle_move_right(frog_t *frog)
   }
 }
 
+/*-----Function frog_in_range-----*/
+// Función para verificar si la rana está en rango de colisión
 uint16_t frog_in_range(map_t map, frog_t *frog) 
 {
   int col = (int)(get_frog_x(frog) + 3); // Ajusto las columnas
@@ -183,7 +256,8 @@ uint16_t frog_in_range(map_t map, frog_t *frog)
   // Rango fijo: filas [0, 12], columnas [3, 15]
   for (int i = 0; i < ROWS; i++) // Iterar por las filas (0 a ROWS-1)
   {
-    for (int j = 3; j <= 15; j++) {       // por las columnas (3 a 15)
+    for (int j = 3; j <= 15; j++) // por las columnas (3 a 15)
+    {       
 
       if (map[i][j] == 1 && (row > 5)) // Si estoy despues de la mitad del mapa, solo veo colisiones
       {
@@ -218,6 +292,10 @@ uint16_t frog_in_range(map_t map, frog_t *frog)
           
         }
       }
+      ///////////!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      //AGREGAR UNO QUE DETECTE SI ESTAS O NO EN LA CASILLA DE LLEGADA CORRECTA, SI ESTA LIBRE QUE LA OCUPE
+      //Y AUMENTE LAS LLEGADAS, SI ESTA OCUPADA PERDES UNA VIDA, Y SI CAES ARRIBA PERO FUERA DE LA CASILLA PERDES OTRA
+
       else
       {
         set_frog_move(frog, 0);
@@ -228,9 +306,12 @@ uint16_t frog_in_range(map_t map, frog_t *frog)
   return (0);
 }
 
+/*-----Function frog_life_state*/
 // Funcion para analizar el estado de vida de la rana
-void frog_life_state(frog_t *frog) {
-  if (get_frog_life(frog) == 0) {
+void frog_life_state(frog_t *frog) 
+{
+  if (get_frog_life(frog) == 0) 
+  {
     decrease_frog_lives(frog, 1);
   }
 }

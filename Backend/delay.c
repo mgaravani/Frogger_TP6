@@ -1,6 +1,7 @@
 /*------------INCLUDES-----------*/
 #include "delay.h"
 #include "map.h" // Incluyo map.h para saber la cantidad de filas utilizadas
+
 /*------Function waiting_time------*/
 // Funcion para controlar el tiempo entre los desplazamientos de los objetos
 uint8_t waiting_time(uint8_t level, uint8_t row) 
@@ -11,19 +12,19 @@ uint8_t waiting_time(uint8_t level, uint8_t row)
     // Configuración de velocidad de desplazamiento según la fila
     if (row == 7) 
     {
-        speed = 12 + (level * 0.5);  // Incrementa la velocidad base por nivel
+        speed = 2 + (level * 0.5);  // Incrementa la velocidad base por nivel
     } 
     else if (row == 9 || row == 11)
     {
-        speed = 3 + (level * 0.5);  // Incrementa la velocidad base por nivel
+        speed = 2 + (level * 0.5);  // Incrementa la velocidad base por nivel
     }
     else if (row == 8) 
     {
-        speed = 5 + (level * 0.2);  // Incrementa la velocidad base más lentamente por nivel
+        speed = 2 + (level * 0.2);  // Incrementa la velocidad base más lentamente por nivel
     } 
     else if (row == 10)
     {
-        speed = 4 + (level * 0.2);
+        speed = 2 + (level * 0.2);
     }
     else if (row >= 0 && row <= 5) 
     {
