@@ -9,10 +9,11 @@ map_t map;
 
 /*------------ FUNCTIONS ----------------*/
 
-/*------Function initialize_matrix------*/
-void initialize_matrix() 
+/*------initialize_matrix------*/
+//Funcion encargada de inicializar la matriz de juego
+void initialize_matrix(void) 
 {
-    srand(time(NULL));
+    srand(time(NULL)); // Semilla para generar números aleatorios
 
     for (int i = 0; i < ROWS; i++) 
     {
@@ -187,7 +188,7 @@ void initialize_matrix()
 
 
 
-/*------Function print_matrix------*/
+/*------print_matrix------*/
 // Función auxiliar (hasta tener todo con la interfaz allegro)para imprimir la matriz
 void print_matrix() 
 {
@@ -201,7 +202,7 @@ void print_matrix()
     }
 }
 
-/*------Function shift_row------*/
+/*------shift_row------*/
 // Función para desplazar las filas de la matriz de juego (Derecha e izquierda)
 void shift_row(uint8_t row, uint8_t direction) 
 {

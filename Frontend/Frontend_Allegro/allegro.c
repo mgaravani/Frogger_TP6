@@ -74,12 +74,6 @@ AllegroResources allegro_init(uint8_t map[ROWS][COLUMNS])
     }
 
     resources.sounds[0] = al_load_sample("Resources/move.wav");
-
-    if (!resources.sounds[0]) 
-    {
-    fprintf(stderr, "Error al cargar el sonido.\n");
-    exit(EXIT_FAILURE);
-    }
     
     for (int i = 0; i < SOUNDS ; i++) 
     {
@@ -148,8 +142,9 @@ AllegroResources allegro_init(uint8_t map[ROWS][COLUMNS])
     return resources;
 }
 
-
-//TODAVIA NO FUNCIONA DEL TODO BIEN ASI QUE NUNCA SE REALIZA EL LLAMADO A LA FUNCION
+//FALTA CORREGIR EL RELLAMADO
+/*------Function allegro_menu------*/
+// Función para mostrar el menú de inicio
 void allegro_menu(AllegroResources *resources)
 {   
     // Limpia la pantalla con el color negro
@@ -192,6 +187,9 @@ void allegro_menu(AllegroResources *resources)
     
 }
 
+//TODAVIA NO DIBUJA COMO ME GUSTARIA
+/*------Function menu_highscores------*/
+// Función para mostrar los highscores
 void menu_highscores(FILE *pointer_highscores, AllegroResources *resources)
 {
     if (pointer_highscores == NULL) 
