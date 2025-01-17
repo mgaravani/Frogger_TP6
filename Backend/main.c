@@ -80,7 +80,13 @@ int main(void)
           fprintf(stderr, "Error: no se pudo abrir el archivo de highscores.\n");
         }
         
-        menu_highscores(pointer, &resources_for_main);
+        // Mientras el estado del menu de highscores sea 1, se ejecuta 
+        while(resources_for_main.highscores_state == 1)
+        { 
+          events_managment(&resources_for_main, event_queue, &frog_position, map);
+          menu_highscores(pointer, &resources_for_main);
+        }
+        fclose(pointer);
         cleanup_allegro(&resources_for_main);
         return 0;
       }

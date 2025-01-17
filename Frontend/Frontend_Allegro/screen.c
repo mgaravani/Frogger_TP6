@@ -12,17 +12,9 @@ void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS], frog_t *fro
     al_clear_to_color(al_map_rgb(0, 0, 0)); // Fondo negro
 
     // Dibuja el fondo escalado en 870X650
-    al_draw_scaled_bitmap(
-        resources->images[0],                  // Imagen original
-        0, 0,                   // Coordenadas en la imagen original
-        al_get_bitmap_width(resources->images[0]),  // Ancho original de la imagen
-        al_get_bitmap_height(resources->images[0]), // Altura original de la imagen
-        0, 0,                   // Posición en la pantalla
-        resources->width, resources->height,               // Nuevo ancho y alto de la imagen escalada
-        0                       // Sin banderas adicionales
-    );
-
+    image_drawing(resources->images[0], 0, 0, 0, 0, resources->width, resources->height);
     // Tamaño de cada celda
+
     uint32_t cell_width = (resources->width) / (COLUMNS-6);
     uint32_t cell_height = resources->height / ROWS;
 
@@ -47,8 +39,7 @@ void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS], frog_t *fro
                 {
                     case 1:
                     case 3:
-                    case 4:
-                    
+                    case 4:                   
                         image_to_draw = resources->images[1]; // Tronco
                         if (counter == 2)  x-=29; // Ajusto el largo de troncos de 2 
                         else if (counter == 3) x-=67; // Ajusto el largo de troncos de 3
@@ -56,6 +47,19 @@ void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS], frog_t *fro
                         y+=25;
                         break;
                     case 2:
+                        if (counter == 2)
+                        {
+                            image_to_draw = resources->images[11]; // Tortle x2
+                            x-=30; // Ajusto el largo de tortugas de 2
+                            y+=20;
+                        } 
+                        else 
+                        {
+                            image_to_draw = resources->images[13]; // Tortle x3
+                            x-=69; // Ajusto el largo de tortugas de 3
+                            y+=20;
+                        }
+                        break;
                     case 5:
                         if (counter == 2)
                         {
@@ -96,16 +100,7 @@ void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS], frog_t *fro
 
                 if (image_to_draw) 
                 {
-                    // Dibujar la imagen escalada al tamaño de la celda
-                    al_draw_scaled_bitmap(
-                        image_to_draw,
-                        0, 0, // Coordenadas de origen
-                        al_get_bitmap_width(image_to_draw),  // Ancho original
-                        al_get_bitmap_height(image_to_draw), // Alto original
-                        x-213, y, // Posición en la pantalla compensado por las columnas restantes
-                        cell_width * counter, cell_height * compensate, // Nuevo ancho y alto
-                        0 // Sin banderas adicionales
-                    );
+                    image_drawing(image_to_draw, 0, 0, x-213, y, cell_width * counter, cell_height * compensate);
                 }
                 counter = 0;
             }
@@ -134,78 +129,42 @@ void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS], frog_t *fro
                         default:
                         break;
                     }
-            al_draw_scaled_bitmap(
-                image_to_draw,                   // Imagen de la rana
-                0, 0,                                    // Coordenadas de origen de la imagen
-                al_get_bitmap_width(image_to_draw), // Ancho original de la imagen
-                al_get_bitmap_height(image_to_draw), // Alto original de la imagen
-                screen_x, screen_y,                      // Posición de la rana en la pantalla
-                cell_width*0.9, cell_height*0.9,                 // Tamaño ajustado para la rana
-                0                                         // Sin banderas adicionales
-            );
+
+            image_drawing(image_to_draw, 0, 0, screen_x, screen_y, cell_width*0.9, cell_height*0.9);
 
         }
     }
 
-            // Dibujar la rana, no estaria funcionando correctamente
-            /* NO ESTA FUNCIONANDOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
-            if (get_frog_life(frog) == 0) 
-            {
-                al_draw_scaled_bitmap(
-                resources->images[20],                   // Imagen de la rana
-                0, 0,                                    // Coordenadas de origen de la imagen
-                al_get_bitmap_width(resources->images[20]), // Ancho original de la imagen
-                al_get_bitmap_height(resources->images[20]), // Alto original de la imagen
-                get_frog_x(frog) - 0.38, get_frog_y(frog) + 0.16,                      // Posición de la rana en la pantalla
-                cell_width*0.9, cell_height*0.9,                 // Tamaño ajustado para la rana
-                0                                         // Sin banderas adicionales
-                );
-                // Dibuja un rectángulo con transparencia
-                al_draw_filled_rectangle(
-                0, resources->height/2 - 8, resources->width, resources->height/2 +41,             // Coordenadas (x1, y1, x2, y2)
-                al_map_rgba(0, 0, 0, 128)     // Color negro con  opacidad
-                );
-                al_draw_text(resources->fonts[4], al_map_rgb(66, 194, 29), resources->width / 2, resources->height/2 -15,
-                ALLEGRO_ALIGN_CENTRE, "Vida perdida");
-                
-            }
+    // Dibujar la rana, no estaria funcionando correctamente
+    //NO FUNCIONAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa
+    if (get_frog_life(frog) == 0) 
+    {     
+        printf("entre al if\n");    
+        image_drawing(resources->images[20], 0, 0, get_frog_x(frog) - 0.38, get_frog_y(frog) + 0.16, cell_width*0.9, cell_height*0.9);
+    }
+
     if(get_frog_lives(frog) > 0)
     {
-        draw_heart(resources->width -50, resources->height -50 ,50);
-    }*/
+        for(uint8_t i = 1 ; i <= get_frog_lives(frog) ; i++  )
+        {
+            image_drawing(resources->images[22], 0, 0, i*30 -20, 615, 30, 30);
+        }
+    }
     
     // Muestra la ventana
     al_flip_display();
 }
 
-/*
-void draw_heart(uint32_t x, uint32_t y, uint32_t size)
+void image_drawing(ALLEGRO_BITMAP *image_to_draw, float origin_x, float origin_y, float position_x , float position_y, float width, float height)
 {
-   // Radio de los círculos
-    float radius = size / 2.0;
+                al_draw_scaled_bitmap(
+                image_to_draw,                   // Imagen de la rana
+                origin_x, origin_y,                                    // Coordenadas de origen de la imagen
+                al_get_bitmap_width(image_to_draw), // Ancho original de la imagen
+                al_get_bitmap_height(image_to_draw), // Alto original de la imagen
+                position_x, position_y,                      // Posición  en la pantalla
+                width, height,                 // Tamaño ajustado para la figura
+                0                                         // Sin banderas adicionales
+            );
+}
 
-    // Coordenadas de los círculos
-    float left_circle_x = x - radius;
-    float right_circle_x = x + radius;
-    float circle_y = y - radius;
-
-    // Coordenadas para el triángulo inferior
-    float triangle_x1 = x - radius;
-    float triangle_y1 = y;
-    float triangle_x2 = x + radius;
-    float triangle_y2 = y;
-    float triangle_x3 = x;
-    float triangle_y3 = y + size;
-
-    // Dibujar los dos círculos
-    al_draw_filled_circle(left_circle_x, circle_y, radius, al_map_rgb(255, 0, 0));  // Rojo
-    al_draw_filled_circle(right_circle_x, circle_y, radius, al_map_rgb(255, 0, 0)); // Rojo
-
-    // Dibujar el triángulo
-    ALLEGRO_VERTEX vertices[3] = {
-        {triangle_x1, triangle_y1, 0, 0, 0},
-        {triangle_x2, triangle_y2, 0, 0, 0},
-        {triangle_x3, triangle_y3, 0, 0, 0}
-    };
-    al_draw_filled_polygon(vertices, 3, al_map_rgb(255, 0, 0)); // Rojo
-}*/

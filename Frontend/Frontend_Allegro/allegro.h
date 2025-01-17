@@ -42,6 +42,7 @@ typedef struct
     uint32_t height; //Alto de la pantalla
     uint32_t selected_option; //Guardo la opcion seleccionada en el menu de inicio
     uint8_t menu_state; //Guardo el estado del menu
+    uint8_t highscores_state; //Guardo el estado de los puntajes altos
 
 } AllegroResources;
 
@@ -76,9 +77,9 @@ void allegro_menu(AllegroResources *resources);
 // Función para mostrar los puntajes altos
 void menu_highscores(FILE *pointer_highscores, AllegroResources *resources);
 
-/*-----draw_heart-----*/
-// Función para dibujar un corazón
-//void draw_heart(uint32_t x, uint32_t y, uint32_t size);
+/*-----image_drawing-----*/
+// Función para dibujar una imagen
+void image_drawing(ALLEGRO_BITMAP *image_to_draw, float origin_x, float origin_y, float position_x , float position_y, float width, float height);
 
 
 #endif /* ALLEGRO_H */

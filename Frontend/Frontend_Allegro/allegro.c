@@ -6,7 +6,7 @@
 AllegroResources allegro_init(uint8_t map[ROWS][COLUMNS]) 
 {
     //Creo la instancia resources del tipo de dato estructura AllegroResources
-    AllegroResources resources = {.selected_option = 1 , .menu_state = 1}; 
+    AllegroResources resources = {.selected_option = 1 , .menu_state = 1, .highscores_state = 1}; 
 
     // Inicializa Allegro y sus addons
     if (!al_init()) 
@@ -151,16 +151,7 @@ void allegro_menu(AllegroResources *resources)
     // Limpia la pantalla con el color negro
     al_clear_to_color(al_map_rgb(0, 0, 0)); 
     
-    // Dibuja el fondo escalado en 870X650
-    al_draw_scaled_bitmap(
-        resources->images[21],                  // Imagen original
-        0, 0,                   // Coordenadas en la imagen original
-        al_get_bitmap_width(resources->images[21]),  // Ancho original de la imagen
-        al_get_bitmap_height(resources->images[21]), // Altura original de la imagen
-        0, 0,                   // Posición en la pantalla
-        resources->width, resources->height,               // Nuevo ancho y alto de la imagen escalada
-        0                       // Sin banderas adicionales
-    );
+    image_drawing(resources->images[21],0,0,0,0,resources->width, resources->height);
 
     // Opciones del menú
     const char *options[3] = {"Play Game", "High Scores", "Quit Game"};
@@ -193,47 +184,27 @@ void allegro_menu(AllegroResources *resources)
 // Función para mostrar los highscores
 void menu_highscores(FILE *pointer_highscores, AllegroResources *resources)
 {
-    if (pointer_highscores == NULL) 
-    {
-    fprintf(stderr, "Error: no se pudo abrir el archivo de highscores.\n");
-    return;
-    }
-
     // Limpia la pantalla con el color negro
     al_clear_to_color(al_map_rgb(0, 0, 0));
 
     rewind(pointer_highscores); // Rebobina el archivo para leer desde el inicio
 
-    char lines[20][256]; // Almacena un máximo de 20 líneas de 256 caracteres cada una
-    u_int16_t line_count = 0;
+    char line[256]; // Buffer para almacenar cada línea
+    u_int16_t y_position = resources->height / 4; // Comienza a dibujar en 1/4 de la pantalla
+    const u_int16_t line_spacing = 50;           // Espaciado entre líneas
 
-    // Leer todas las líneas del archivo
-    while (fgets(lines[line_count], sizeof(lines[line_count]), pointer_highscores)) 
+    while (fgets(line, sizeof(line), pointer_highscores)) 
     {
-        // Elimina el salto de línea al final
-        lines[line_count][strcspn(lines[line_count], "\n")] = 0;
-        line_count++;
-        if (line_count >= 20) break; // Limitar a 20 líneas
-    }
+        line[strcspn(line, "\n")] = 0; // Elimina el salto de línea al final
 
-    // Tamaño y espaciado
-    const u_int16_t line_spacing = 50; // Espaciado entre líneas
-    u_int16_t total_height = line_count * line_spacing; // Altura total del bloque de texto
-    u_int16_t start_y = (resources->height - total_height) / 2; // Posición inicial para centrar
+        al_draw_text(resources->fonts[4], al_map_rgb(220, 250, 6), 
+                     resources->width / 4, y_position, 0, line);
 
-    // Dibujar cada línea centrada
-    for (u_int16_t i = 0; i < line_count; i++) 
-    {
-        al_draw_text(resources->fonts[3], al_map_rgb(229 , 250 , 6), 
-                     resources->width / 2, start_y + i * line_spacing, 
-                     ALLEGRO_ALIGN_CENTRE, lines[i]);
+        y_position += line_spacing; // Ajusta la posición para la siguiente línea
     }
 
     al_flip_display(); // Muestra los cambios en pantalla
-    al_rest(5);        // Pausa para que el usuario pueda leer
-    fclose(pointer_highscores);
-
-    //aca deberia hacerte elegir si salir del juego o si volver al menu de inicio
+    //FALTA AGREGAR ALGO PARA QUE TE SAQUE DE ESTE MENU
 }
 
 
