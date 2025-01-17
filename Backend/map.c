@@ -64,7 +64,6 @@ void initialize_matrix(void)
 
                     if (j < COLUMNS - 1) 
                     {
-                        // Colocar ceros entre los grupos (al menos uno)
                         int num_zeros = rand() % 2 + 1; // 1 o 2 ceros entre grupos
                         for (int z = 0; z < num_zeros && j < COLUMNS - 1; z++) 
                         {
@@ -83,9 +82,8 @@ void initialize_matrix(void)
                 { 
                     // Decidir si colocar un 1 o 0
                     int is_one = (rand() % 100) < 40; // 40% de probabilidad de que sea 1
-                    //int is_one = rand() % 2; // 50% probabilidad de colocar un 1
                     map[i][j] = is_one;
-                    ones_count += is_one; // Incrementar contador si es un 1
+                    ones_count += is_one; // Aumentar el contador si es un 1
                 } 
                 else 
                 {
