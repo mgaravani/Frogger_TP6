@@ -1,7 +1,10 @@
+/*------------INCLUDES-----------*/
 #include <stdio.h>
 #include "allegro.h"
 #include "../../Backend/frog.h"
 
+/*-----Function init_events-----*/
+// Función para inicializar los eventos
 ALLEGRO_EVENT_QUEUE *init_events(ALLEGRO_DISPLAY *display)
 {
     /*************************************************************************************************
@@ -27,13 +30,17 @@ ALLEGRO_EVENT_QUEUE *init_events(ALLEGRO_DISPLAY *display)
     return event_queue;
 }
 
-/*FUNCION manejo_eventos*/
+/*-----Function events_managment-----*/
 // Función principal de manejo de eventos
-void events_managment(AllegroResources *resources, ALLEGRO_EVENT_QUEUE *event_queue, frog_t *frog, uint8_t map[ROWS][COLUMNS]) {
+void events_managment(AllegroResources *resources, ALLEGRO_EVENT_QUEUE *event_queue, frog_t *frog, uint8_t map[ROWS][COLUMNS]) 
+{
     ALLEGRO_EVENT event;
-    if (al_get_next_event(event_queue, &event)) {
-        if (event.type == ALLEGRO_EVENT_KEY_DOWN) {
-            switch (event.keyboard.keycode) {
+    if (al_get_next_event(event_queue, &event)) 
+    {
+        if (event.type == ALLEGRO_EVENT_KEY_DOWN) 
+        {
+            switch (event.keyboard.keycode) 
+            {
                 case ALLEGRO_KEY_DOWN:
                 case ALLEGRO_KEY_S:
                     if(resources->menu_state == 1)

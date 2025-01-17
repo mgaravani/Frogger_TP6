@@ -14,7 +14,7 @@ typedef uint8_t map_t[ROWS][COLUMNS];
 /*-----------PROTOTYPES--------*/
 
 /*------Function print_matrix------*/
-void print_matrix(); // BORRAR DESPUES DE NO USAR MAS (FUN PARA TESTEAT LA MAT)
+void print_matrix(void); // BORRAR DESPUES DE NO USAR MAS (FUN PARA TESTEAT LA MAT)
 
 /*------Funcion initialize_matrix------*/
 /*
@@ -25,8 +25,7 @@ void print_matrix(); // BORRAR DESPUES DE NO USAR MAS (FUN PARA TESTEAT LA MAT)
     TESTEADA
 */
 
-/*------Function initialize_matrix*/
-void initialize_matrix();
+void initialize_matrix(void);
 
 /*------Funcion shift_row------*/
 /*

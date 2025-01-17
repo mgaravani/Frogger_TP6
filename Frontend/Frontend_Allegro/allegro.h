@@ -1,6 +1,8 @@
 #ifndef ALLEGRO_H
 #define ALLEGRO_H
 
+//ESTARIA BUENO AGREGAR PARA CADA FUNCION UNA DESCRIPCION DE LO QUE HACE, LO QUE RECIBE Y LO QUE DEVUELVE
+
 /*-------INCLUDES------*/
 #include <stdio.h>  // Incluyo la librería estándar stdio
 #include <pthread.h> //Incluyo la libreria de threads
@@ -26,6 +28,7 @@
 #define IMAGES 22
 
 /*------STRUCTS------*/
+
 /*Creo un tipo de dato de estructura llamado AllegroResources 
 donde se guardan las fuentes, puntero a display y otros recursos*/
 typedef struct 
@@ -44,13 +47,37 @@ typedef struct
 
 
 /*------PROTOTYPES------*/
+
+/*-----allegro_init-----*/
+// Función para inicializar allegro
 AllegroResources allegro_init(uint8_t map[ROWS][COLUMNS]);
+
+/*-----Screen-----*/
+// Función para mostrar la pantalla
 void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS], frog_t *frog);
+
+/*-----cleanup_allegro-----*/
+// Función para limpiar allegro
 void cleanup_allegro(AllegroResources *resources);
+
+/*-----init_events-----*/
+// Función para inicializar los eventos
 ALLEGRO_EVENT_QUEUE *init_events(ALLEGRO_DISPLAY *pantalla);
+
+/*-----events_managment-----*/
+// Función para manejar los eventos
 void events_managment(AllegroResources *resources, ALLEGRO_EVENT_QUEUE * event_queue, frog_t *frog, uint8_t map[ROWS][COLUMNS]);
+
+/*-----allegro_menu-----*/
+// Función para mostrar el menu
 void allegro_menu(AllegroResources *resources);
+
+/*-----menu_highscores-----*/
+// Función para mostrar los puntajes altos
 void menu_highscores(FILE *pointer_highscores, AllegroResources *resources);
+
+/*-----draw_heart-----*/
+// Función para dibujar un corazón
 //void draw_heart(uint32_t x, uint32_t y, uint32_t size);
 
 
