@@ -73,8 +73,8 @@ void initialize_matrix()
                 }
             } 
             else if (i >= 8 && i <= 11) 
-            { // Filas 8, 9, 10 y 11 con máximo 4 unos
-                if (ones_count >= 4) 
+            { // Filas 8, 9, 10 y 11 con máximo 5 unos
+                if (ones_count >= 5) 
                 {
                     map[i][j] = 0; // Rellenar con ceros si se alcanzó el máximo de unos
                 } 
