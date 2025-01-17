@@ -81,18 +81,23 @@ void events_managment(AllegroResources *resources, ALLEGRO_EVENT_QUEUE *event_qu
                 }
                 else if(resources->selected_option == 2) //Si se eligio High Scores
                 {
-                    // Código para High Scores
+                    FILE* pointer = highscores(get_frog_points(&frog), "Jugador");
+                    if(pointer == NULL)
+                    {
+                        fprintf(stderr, "Error: no se pudo abrir el archivo de highscores.\n");
+                        return;
+                    }
+
+                    menu_highscores(pointer, resources);
                 }
                 else
                 {
-                    printf("Saliendo del programa...\n");
                     cleanup_allegro(resources);
                     exit(EXIT_SUCCESS);//Si se eligio Quit Game
                 }
                     break;
                 case ALLEGRO_KEY_ESCAPE:
                     // Lógica para manejar FLECHA ESCAPE
-                    printf("Saliendo del programa...\n");
                     cleanup_allegro(resources);
                     exit(EXIT_SUCCESS);
                     break;

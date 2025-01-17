@@ -14,12 +14,16 @@
 #include <allegro5/allegro_audio.h>
 #include <allegro5/allegro_acodec.h>
 #include "../../Backend/frog.h"
+#include "../../Backend/highscores.h"
 
 /*-------DEFINES------*/
 #define ROWS 13
 #define COLUMNS 20 // HAY DOS DEFINES CON EL MISMO NOMBRE, FUSIONAR ESTE CON MAP.H
 #define WIDTH 870
 #define HEIGHT 650
+#define SOUNDS 1
+#define FONTS 6
+#define IMAGES 22
 
 /*------STRUCTS------*/
 /*Creo un tipo de dato de estructura llamado AllegroResources 
@@ -27,9 +31,9 @@ donde se guardan las fuentes, puntero a display y otros recursos*/
 typedef struct 
 {
     ALLEGRO_DISPLAY *display; //Puntero al tipo de dato ALLEGRO_DISPLAY para la pantalla
-    ALLEGRO_FONT *fonts[10]; // Array de punteros al tipo ALLEGRO_FONT para las fuentes a utilizar
-    ALLEGRO_BITMAP *images[21]; // Array de punteros al tipo ALLEGRO_BITMAP para las imagenes a utilizar 
-    ALLEGRO_SAMPLE *sounds[1]; // Para almacenar los sonidos cargados
+    ALLEGRO_FONT *fonts[FONTS]; // Array de punteros al tipo ALLEGRO_FONT para las fuentes a utilizar
+    ALLEGRO_BITMAP *images[IMAGES]; // Array de punteros al tipo ALLEGRO_BITMAP para las imagenes a utilizar 
+    ALLEGRO_SAMPLE *sounds[SOUNDS]; // Para almacenar los sonidos cargados
 
     uint32_t width; //Ancho de la pantalla
     uint32_t height; //Alto de la pantalla
@@ -46,6 +50,7 @@ void cleanup_allegro(AllegroResources *resources);
 ALLEGRO_EVENT_QUEUE *init_events(ALLEGRO_DISPLAY *pantalla);
 void events_managment(AllegroResources *resources, ALLEGRO_EVENT_QUEUE * event_queue, frog_t *frog, uint8_t map[ROWS][COLUMNS]);
 void allegro_menu(AllegroResources *resources);
+void menu_highscores(FILE *pointer_highscores, AllegroResources *resources);
 //void draw_heart(uint32_t x, uint32_t y, uint32_t size);
 
 

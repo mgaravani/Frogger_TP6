@@ -75,6 +75,13 @@ int main(void)
         resources_for_main.selected_option = 1;
         //allegro_menu(&resources_for_main); //LA idea es que llame a una funcion para guardar la puntuacion
         //y luego esa funcion reinicie el programa empezando de cero todo
+        FILE* pointer = highscores(get_frog_points(&frog_position), "Jugador");
+        if(pointer == NULL)
+        {
+          fprintf(stderr, "Error: no se pudo abrir el archivo de highscores.\n");
+        }
+        
+        menu_highscores(pointer, &resources_for_main);
         cleanup_allegro(&resources_for_main);
         return 0;
       }
