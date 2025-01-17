@@ -25,7 +25,7 @@
 #define HEIGHT 650
 #define SOUNDS 1
 #define FONTS 6
-#define IMAGES 22
+#define IMAGES 23
 
 /*------STRUCTS------*/
 
