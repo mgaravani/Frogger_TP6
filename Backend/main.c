@@ -100,7 +100,7 @@ int main(void)
     }
     //print_matrix();
     //usleep(900000);
-    frog_in_range(map, &frog_position); // FUNCION QUE CHEQUEA QUE ESTE DENTRO DE LOS LIMITES
+    frog_in_range(&map, &frog_position); // FUNCION QUE CHEQUEA QUE ESTE DENTRO DE LOS LIMITES
     Screen(&resources_for_main, map, &frog_position);
   }
 
