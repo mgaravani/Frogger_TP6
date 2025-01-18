@@ -2,7 +2,7 @@
 #include "macros.h"
 //Los Macros DISP_CANT_Y/X_DOTS son definidas por el tamaño de la matriz de led dada, si se modifica se podra cambiar en Macros.h
 // Función para generar la matriz con valores aleatorios de 0 y 1
-void generar_matriz(uint8_t  matriz[DISP_CANT_Y_DOTS][DISP_CANT_X_DOTS]) {
+void generar_matriz(uint8_t  matriz[DISP_CANT_Y_DOTS][DISP_CANT_X_DOTS]) {//funcion generica para primer uso de generamiento de matriz
     srand(time(NULL));
 
     for (uint8_t  i = 0; i < DISP_CANT_Y_DOTS; i++) {
@@ -46,3 +46,29 @@ void moveMatrix(uint8_t target[DISP_CANT_X_DOTS][DISP_CANT_Y_DOTS], uint8_t sour
     }
 }
 
+
+/*do {
+        // Simular lectura del joystick
+        coord = joy_read(); // Función que lee la posición del joystick
+
+        if (coord.x > THRESHOLD && npos.x < DISP_MAX_X - 2) {
+            moveMatrix(Matriz, Sapo, ++npos.x, npos.y);
+        }
+        if (coord.x < -THRESHOLD && npos.x > DISP_MIN) {
+            moveMatrix(Matriz, Sapo, --npos.x, npos.y);
+        }
+        if (coord.y > THRESHOLD && npos.y < DISP_MAX_Y - 2) {
+            moveMatrix(Matriz, Sapo, npos.x, ++npos.y);
+        }
+        if (coord.y < -THRESHOLD && npos.y > DISP_MIN) {
+            moveMatrix(Matriz, Sapo, npos.x, --npos.y);
+        }
+
+        mostrar_matriz(Matriz);
+
+        // Actualizar la pantalla
+        disp_update();
+
+        // Simular una pausa para evitar la lectura excesiva
+
+    } while (coord.sw == J_NOPRESS ); */
