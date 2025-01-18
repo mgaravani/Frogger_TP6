@@ -1,41 +1,20 @@
-#include "funciones.h"
-#include "matrices.h"
+#include "functions.h"
+#include "arrays.h"
+#include <pthread.h>
+#include <stdio.h>
 
 int main()
 {
-     joy_init();
-    disp_init();
-    disp_clear();
-    joyinfo_t coord = {0, 0, J_NOPRESS};
-    dcoord_t npos = {DISP_MAX_X / 2, DISP_MAX_Y / 2};
+     joy_init();// inicia la lectura del joystick
+    disp_init();// inicia el display    
+    disp_clear();// borra el display
+    pthread_t frogger, map;
+
+    // Crear los hilos
+    pthread_create(&hilo1, NULL, hilo1_func, NULL);
+    pthread_create(&hilo2, NULL, hilo2_func, NULL);
 
 
-    do {
-        // Simular lectura del joystick
-        coord = joy_read(); // Función que lee la posición del joystick
-
-        if (coord.x > THRESHOLD && npos.x < DISP_MAX_X - 2) {
-            moveMatrix(Matriz, Sapo, ++npos.x, npos.y);
-        }
-        if (coord.x < -THRESHOLD && npos.x > DISP_MIN) {
-            moveMatrix(Matriz, Sapo, --npos.x, npos.y);
-        }
-        if (coord.y > THRESHOLD && npos.y < DISP_MAX_Y - 2) {
-            moveMatrix(Matriz, Sapo, npos.x, ++npos.y);
-        }
-        if (coord.y < -THRESHOLD && npos.y > DISP_MIN) {
-            moveMatrix(Matriz, Sapo, npos.x, --npos.y);
-        }
-
-        mostrar_matriz(Matriz);
-
-        // Actualizar la pantalla
-        disp_update();
-
-        // Simular una pausa para evitar la lectura excesiva
-
-    } while (coord.sw == J_NOPRESS ); 
-    // Limpiar y finalizar
     disp_clear();
     disp_update();
 
