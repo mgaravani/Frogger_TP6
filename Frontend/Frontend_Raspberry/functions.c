@@ -2,7 +2,7 @@
 #include "macros.h"
 //Los Macros DISP_CANT_Y/X_DOTS son definidas por el tamaño de la matriz de led dada, si se modifica se podra cambiar en Macros.h
 // Función para generar la matriz con valores aleatorios de 0 y 1
-void generar_matriz(uint8_t  matriz[DISP_CANT_Y_DOTS][DISP_CANT_X_DOTS]) {//funcion generica para primer uso de generamiento de matriz
+void generar_matriz(uint8_t  matriz[DISP_CANT_Y_DOTS][DISP_CANT_X_DOTS]) {//funcion generica para primer uso de generamiento de matriz alatorio de matriz
     srand(time(NULL));
 
     for (uint8_t  i = 0; i < DISP_CANT_Y_DOTS; i++) {
