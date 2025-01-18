@@ -168,4 +168,8 @@ uint16_t frog_in_range(map_t map,frog_t *frog);
 // Funcion para analizar el estado de vida de la rana
 void frog_life_state(frog_t *frog);
 
+/*------- Detectar llegada de la Rana ---------*/
+/* Devuelve 1 si la rana está en posición de llegada y devuelve 0 si no lo está.*/
+uint16_t detect_arrival(frog_t *frog, map_t map);
+
 #endif // FROG_H

@@ -315,3 +315,20 @@ void frog_life_state(frog_t *frog)
     decrease_frog_lives(frog, 1);
   }
 }
+
+/*------- Detectar llegada de la Rana ---------*/
+uint16_t detect_arrival(frog_t *frog, map_t map)
+{
+  int frog_col = (int)(get_frog_x(frog) + 3); // Ajusto las columnas
+  int frog_row = 12 - (int)(((-(get_frog_y(frog) - 11.96)) / 0.96)); // Ajusto las filas
+
+  if (frog_row == 0 && map[frog_row][frog_col] == 1)
+  {
+    map[frog_row][frog_col] = 2; // Pongo en 2 la posición a la que ya llegó asi si vuelve a esa misma posición se muere y para
+    return 1;                    // identificar en allegro y poner la imagen correspondiente
+  }
+  else 
+  {
+    return 0;
+  }
+}

@@ -69,6 +69,12 @@ int main(void)
         shift_row((2 * fila) + 1, 0); // Desplazar fila 1, 3, 5, etc. a la izquierda
       }
       
+      if (detect_arrival(&frog_position, &map))
+      {
+        // HACER EL RUIDO DE LLEGADA
+        // PONER LA IMAGEN DE LA RANA DE LLEGADA EN LAS COORDENADAS QUE ESTÁ ACTUALMENTE LA RANA
+        set_frog_start(&frog_position);
+      }
 
       if(get_frog_lives(&frog_position) == 0) // SI LA RANA NO TIENE VIDAS, TERMINA EL JUEGO
       {
