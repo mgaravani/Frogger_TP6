@@ -1,6 +1,6 @@
 # Variables
 CC = gcc
-CFLAGS = -Wall
+CFLAGS = -Wall -pthread
 OBJ = joydrv.o disdrv.o funciones.o
 HDR = joydrv.h disdrv.h matrices.h funciones.h #Librerias necesarias
 
