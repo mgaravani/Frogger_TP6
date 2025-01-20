@@ -279,14 +279,14 @@ uint16_t frog_in_range(map_t *map, frog_t *frog)
           return 1;
         }
       }
-      else if (((*map)[i][j] == 1) && (row <= 5 && row > 0)) // Si estoy en la primera mitad, puede ser tronco o tortuga
+      else if (((*map)[i][j] == 1) && (row >= 0 && row <= 5 )) // Si estoy en la primera mitad, puede ser tronco o tortuga
       {
         if ((i == row) && (j == col))
         {
           set_frog_move(frog, 1); // Flag para que la rana se desplace lo mismo que la fila en la dirección
         }
       }
-      else if (((*map)[i][j] == 0) && (row <= 5 && row > 0)) 
+      else if (((*map)[i][j] == 0) && (row >= 0 && row <= 5 )) 
       {
         if ((i == row) && (j == col))
         {

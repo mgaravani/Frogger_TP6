@@ -91,7 +91,7 @@ void events_managment(AllegroResources *resources, ALLEGRO_EVENT_QUEUE *event_qu
                 }
                 else if(resources->selected_option == 2) //Si se eligio High Scores
                 {
-                    FILE* pointer = highscores(get_frog_points(&frog), "Jugador");
+                    FILE* pointer = highscores(get_frog_points(frog), "Jugador");
                     if(pointer == NULL)
                     {
                         fprintf(stderr, "Error: no se pudo abrir el archivo de highscores.\n");

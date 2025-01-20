@@ -32,7 +32,6 @@ int main(void)
     // ESTE FOR HABRIA QUE HACERLO DENTRO DE ALGUNA FUNCION Y LLAMAR SOLO LA FUNCION CON EL NIVEL Y VIDAS //
     for (int fila = 0; fila < 6; fila++) // FOR PARA MOVER LAS DISTINTAS FILAS
     {
-
       // Desplazar fila par (de izquierda a derecha)
       if (waiting_time(5, 2 * fila)) // SI ES UNA FILA PAR
       {
@@ -74,6 +73,14 @@ int main(void)
         shift_row((2 * fila) + 1, 0); // Desplazar fila 1, 3, 5, etc. a la izquierda
       }
       
+      
+        if (detect_arrival(&frog_position, &map))
+        {
+          // HACER EL RUIDO DE LLEGADA
+          // PONER LA IMAGEN DE LA RANA DE LLEGADA EN LAS COORDENADAS QUE ESTÁ ACTUALMENTE LA RANA
+          set_frog_start(&frog_position);
+        }
+
         // Verifica el estado de la rana si está muerta
         if (get_frog_dead(&frog_position)) 
         {
