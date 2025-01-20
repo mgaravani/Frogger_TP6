@@ -141,9 +141,9 @@ void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS], frog_t *fro
     }
     
     // Dibujar la rana muerta si es necesario
-    if (get_frog_life(frog) == 0)
+    if (get_frog_dead(frog) == 1)
     {     
-         if (!showing_dead_frog) 
+         if (!showing_dead_frog)
         {
             // La rana acaba de morir: inicia el temporizador
             death_time = clock();
@@ -164,20 +164,22 @@ void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS], frog_t *fro
         }  //No siempre dibuja bien la rana muerta cuando se va del mapa
         else 
         {
+            printf("MEMORI\n");
+            // Reinicia la rana después de mostrarla
             // Finaliza la animación de la rana muerta
             showing_dead_frog = 0;
-            frog_life_state(frog);
-            set_frog_life(frog, 1);
             set_frog_dead(frog, 0);
+            set_frog_start(frog);
+            set_frog_life(frog, 0);
+            frog_life_state(frog);
             //No detecta bien la perdida de vidas y no reinicia la posicion porque crashea
             //Reinicia luego de la segunda colision en lugar de la primera
-            set_frog_start(frog);
         }
     }
 
     if(get_frog_lives(frog) > 0)
     {
-        for(uint8_t i = 1 ; i <= get_frog_lives(frog) ; i++  )
+        for(uint8_t i = 1 ; i <= get_frog_lives(frog) ; i++)
         {
             image_drawing(resources->images[22], 0, 0, i*30 -20, 615, 30, 30);
         }

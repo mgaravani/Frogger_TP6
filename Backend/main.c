@@ -82,21 +82,6 @@ int main(void)
           printf("GANASTE\n");
         }
 
-        // Verifica el estado de la rana si está muerta
-        if (get_frog_dead(&frog_position)) 
-        {
-            // Dibuja la rana muerta
-            printf("Dibujando rana muerta por salida de mapa\n");
-            Screen(&resources_for_main, map, &frog_position);
-            usleep(1000000); // Espera 1 segundo para mostrar la rana muerta
-
-            // Reinicia la rana después de mostrarla
-            set_frog_dead(&frog_position, 0);
-            set_frog_move(&frog_position, 0);
-            frog_life_state(&frog_position);
-            set_frog_start(&frog_position);
-        }
-
       if(get_frog_lives(&frog_position) == 0) // SI LA RANA NO TIENE VIDAS, TERMINA EL JUEGO
       {
         resources_for_main.menu_state = 1;
