@@ -1,5 +1,0 @@
-NAME        SCORE
-Fabrizio    1000
-Bautista    600
-Mauricio    400
-Emanuel     250    

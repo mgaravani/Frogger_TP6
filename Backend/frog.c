@@ -267,7 +267,7 @@ uint16_t frog_in_range(map_t *map, frog_t *frog)
   // Rango fijo: filas [0, 12], columnas [3, 15]
   for (int i = 0; i < ROWS; i++) // Iterar por las filas (0 a ROWS-1)
   {
-    for (int j = 3; j <= 15; j++) // por las columnas (3 a 15)
+    for (int j = 3; j <= 16; j++) // por las columnas (3 a 16)
     {       
       if ((*map)[i][j] == 1 && (row > 5)) // Si estoy después de la mitad del mapa, solo veo colisiones
       {
@@ -275,7 +275,7 @@ uint16_t frog_in_range(map_t *map, frog_t *frog)
         {
           set_frog_life(frog, 0);
           set_frog_move(frog, 0);
-          set_frog_dead(&frog, 1);
+          set_frog_dead(frog, 1);
           return 1;
         }
       }
@@ -292,7 +292,7 @@ uint16_t frog_in_range(map_t *map, frog_t *frog)
         {
           set_frog_life(frog, 0);
           set_frog_move(frog, 0);
-          set_frog_dead(&frog, 1); // Marca la rana como muerta
+          set_frog_dead(frog, 1); // Marca la rana como muerta
           return 1;
         }
       }

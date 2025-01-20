@@ -9,7 +9,7 @@ FILE* highscores(uint32_t newscore, char *name)
 {
     FILE *pointer_highscores; // Puntero al archivo de puntajes altos
 
-    pointer_highscores = fopen("highscores.txt", "r+"); // Abrir el archivo en modo lectura y escritura
+    pointer_highscores = fopen("highscores.txt", "r"); // Abrir el archivo en modo lectura y escritura
 
     if(pointer_highscores == NULL) // Si no se pudo abrir el archivo
     {
