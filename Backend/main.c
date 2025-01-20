@@ -30,7 +30,7 @@ int main(void)
     events_managment(&resources_for_main, event_queue, &frog_position, map);
 
     // ESTE FOR HABRIA QUE HACERLO DENTRO DE ALGUNA FUNCION Y LLAMAR SOLO LA FUNCION CON EL NIVEL Y VIDAS //
-    for (int fila = 0; fila < 6; fila++) // FOR PARA MOVER LAS DISTINTAS FILAS
+    for (int fila = 1; fila < 7; fila++) // FOR PARA MOVER LAS DISTINTAS FILAS
     {
       // Desplazar fila par (de izquierda a derecha)
       if (waiting_time(5, 2 * fila)) // SI ES UNA FILA PAR
@@ -56,10 +56,10 @@ int main(void)
         shift_row(2 * fila, 1); // Desplazar fila 0, 2, 4, 6, etc. a la derecha
       }
       // Desplazar fila impar (de derecha a izquierda)
-      if (waiting_time(1, ((2 * fila) + 1))) // SI ES UNA FILA IMPAR
+      if (waiting_time(1, ((2 * fila) - 1))) // SI ES UNA FILA IMPAR
       {
         // SI LA FILA CONCUERDA CON LA POSICION DE LA RANA Y LA FLAG DE MOVERSE SE ACTIVA
-        if ((row == ((2 * fila) + 1))  && (get_frog_move(&frog_position) == 1)) 
+        if ((row == ((2 * fila) - 1))  && (get_frog_move(&frog_position) == 1)) 
         {
           if ((int)(get_frog_x(&frog_position)) - 1 < 1) // IF PARA MORIR SI SE VA DE LOS LIMITES
           { 
@@ -70,7 +70,7 @@ int main(void)
           // SINO LA DESPLAZA
           else set_frog_x(&frog_position, get_frog_x(&frog_position) - 1);
         }
-        shift_row((2 * fila) + 1, 0); // Desplazar fila 1, 3, 5, etc. a la izquierda
+        shift_row((2 * fila) - 1, 0); // Desplazar fila 1, 3, 5, etc. a la izquierda
       }
       
       
@@ -79,6 +79,7 @@ int main(void)
           // HACER EL RUIDO DE LLEGADA
           // PONER LA IMAGEN DE LA RANA DE LLEGADA EN LAS COORDENADAS QUE ESTÁ ACTUALMENTE LA RANA
           set_frog_start(&frog_position);
+          printf("GANASTE\n");
         }
 
         // Verifica el estado de la rana si está muerta
