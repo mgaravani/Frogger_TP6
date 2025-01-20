@@ -6,6 +6,9 @@
 #include "map.h"
 
 
+
+
+
 /*-----LÍMITES Y CONSTANTES USADAS-----*/
 #define FROG_LIMIT_UP 1.3
 #define FROG_LIMIT_DOWN 11.0
@@ -25,9 +28,14 @@ typedef struct {
     uint8_t lives;      // Cantidad de vidas
     int16_t points;     // Puntos acumulados por el jugador
     int8_t arrivals;    // Cantidad de veces que el jugador llegó al final
+    int8_t is_dead;     // Flag para indicar si la rana está muerta
 } frog_t;
 
 /*-----------PROTOTYPES--------*/
+
+//TESTEO
+void set_frog_dead(frog_t *frog, uint8_t dead);
+uint8_t get_frog_dead(const frog_t *frog);
 
 /***************************************************************************
 *                                                                          *
@@ -37,7 +45,7 @@ typedef struct {
 
 /*-----init_frog-----*/
 // Función para inicializar la rana
-void init_frog(frog_t *frog, float x, float y, uint8_t state, uint8_t life, uint8_t lives, int16_t points, int8_t arrivals, int8_t move);
+void init_frog(frog_t *frog, float x, float y, uint8_t state, uint8_t life, uint8_t lives, int16_t points, int8_t arrivals, int8_t move, int8_t is_dead);
 
 
 /******************************

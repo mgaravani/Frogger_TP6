@@ -3,10 +3,20 @@
 #include "map.h"
 #include <stdio.h>
 
+//TESTEO
+void set_frog_dead(frog_t *frog, uint8_t dead) {
+    frog->is_dead = dead;
+}
+
+uint8_t get_frog_dead(const frog_t *frog) {
+    return frog->is_dead;
+}
+
+
 
 /*------Function init_frog------*/
 // Función para inicializar la rana con valores predeterminados
-void init_frog(frog_t *frog, float x, float y, uint8_t state, uint8_t life, uint8_t lives, int16_t points, int8_t arrivals, int8_t move) 
+void init_frog(frog_t *frog, float x, float y, uint8_t state, uint8_t life, uint8_t lives, int16_t points, int8_t arrivals, int8_t move, int8_t is_dead) 
 {
   frog->x = x;
   frog->y = y;
@@ -16,6 +26,7 @@ void init_frog(frog_t *frog, float x, float y, uint8_t state, uint8_t life, uint
   frog->points = points;
   frog->arrivals = arrivals;
   frog->move = move;
+  frog->is_dead = 0;
 }
 
 /***************************************************************************
@@ -263,8 +274,9 @@ uint16_t frog_in_range(map_t *map, frog_t *frog)
         if ((i == row) && (j == col)) // Si la col y fila actual concuerda con la rana
         {
           set_frog_life(frog, 0);
-          frog_life_state(frog);
-          set_frog_start(frog);
+          set_frog_move(frog, 0);
+          set_frog_dead(&frog, 1);
+          return 1;
         }
       }
       else if (((*map)[i][j] == 1) && (row <= 5 && row > 0)) // Si estoy en la primera mitad, puede ser tronco o tortuga
@@ -280,8 +292,8 @@ uint16_t frog_in_range(map_t *map, frog_t *frog)
         {
           set_frog_life(frog, 0);
           set_frog_move(frog, 0);
-          frog_life_state(frog);
-          set_frog_start(frog);
+          set_frog_dead(&frog, 1); // Marca la rana como muerta
+          return 1;
         }
       }
       else
@@ -293,6 +305,9 @@ uint16_t frog_in_range(map_t *map, frog_t *frog)
   }
   return 0;
 }
+
+
+
 
 
 /*-----Function frog_life_state*/
