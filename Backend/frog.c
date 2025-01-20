@@ -265,7 +265,7 @@ uint16_t frog_in_range(map_t *map, frog_t *frog)
   int row = 12 - (int)(((-(get_frog_y(frog) - 11.96)) / 0.96)); // Ajusto las filas
 
   // Rango fijo: filas [0, 12], columnas [3, 15]
-  for (int i = 1; i < ROWS; i++) // Iterar por las filas (0 a ROWS-1)
+  for (int i = 0; i < ROWS; i++) // Iterar por las filas (0 a ROWS-1)
   {
     for (int j = 3; j <= 16; j++) // por las columnas (3 a 16)
     {       
@@ -332,13 +332,6 @@ uint16_t detect_arrival(frog_t *frog, map_t *map)
         printf("ENTRE en %d\n", frog_col);
         (*map)[frog_row][frog_col] = 2; // Marca la posición como visitada
         return 1; // Indica que la rana llegó a esta posición
-    }
-    else if ((frog_row == 0) && (((*map)[frog_row][frog_col]) == 0)) 
-    {
-        printf("MORI en %d\n", frog_col);
-        (*map)[frog_row][frog_col] = 0; // Marca la posición como muerta
-        set_frog_life(frog, 0);
-        set_frog_dead(frog, 1);
     }
     return 0; // No llegó o no se cumplen las condiciones
 }
