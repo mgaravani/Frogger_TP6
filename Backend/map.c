@@ -4,8 +4,6 @@
 #include <time.h>
 #include "map.h"
 
-/*------------ GLOBAL VARIABLE ----------------*/
-map_t map;
 
 /*------------ FUNCTIONS ----------------*/
 

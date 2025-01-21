@@ -10,6 +10,8 @@
 
 /*-----------TYPEDEF--------*/
 typedef uint8_t map_t[ROWS][COLUMNS];
+/*------------ GLOBAL VARIABLE ----------------*/
+extern map_t map;
 
 /*-----------PROTOTYPES--------*/
 

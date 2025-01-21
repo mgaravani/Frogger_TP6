@@ -1,17 +1,17 @@
 # Variables
 CC = gcc
 CFLAGS = -Wall -pthread
-OBJ = joydrv.o disdrv.o funciones.o
-HDR = joydrv.h disdrv.h matrices.h funciones.h #Librerias necesarias
+OBJ = joydrv.o disdrv.o functions.o
+HDR = joydrv.h disdrv.h arrays.h functions.h ../../Backend/map.h #Librerias necesarias
 
 # Targets
 all: frontend_raspberry
 
-frontend_raspberry: raspberry.o $(OBJ)
+frontend_raspberry: raspberry.o $(OBJ) 
 	$(CC) $(CFLAGS) raspberry.o $(OBJ) -o frontend_raspberry
 
 # Compile object files
-raspberry.o: raspberry.c $(HDR)
+raspberry.o: raspberry.c $(HDR) raspberry.h
 	$(CC) $(CFLAGS) -c raspberry.c
 
 funciones.o: funciones.c $(HDR)
