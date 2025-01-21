@@ -11,7 +11,7 @@ int main(void)
 {
   extern map_t map; // Variable global de la matriz
   frog_t frog_position;
-  init_frog(&frog_position, 7, 11.96, 0, 1, 3, 0, 0, 0); // Inicializo la rana
+  init_frog(&frog_position, 7, 11.96, 0, 1, 3, 0, 0, 0, 0); // Inicializo la rana
   AllegroResources resources_for_main = allegro_init(map); // Inicializa allegro
   ALLEGRO_EVENT_QUEUE *event_queue = init_events(resources_for_main.display); // Crea la cola de eventos
   initialize_matrix(); // Inicializa la matriz
@@ -36,6 +36,7 @@ int main(void)
       // Desplazar fila par (de izquierda a derecha)
       if (waiting_time(5, 2 * fila)) // SI ES UNA FILA PAR
       {
+
         // SI LA FILA CONCUERDA CON LA POSICION DE LA RANA Y LA FLAG DE MOVERSE SE ACTIVA
         if ((row == (2 * fila)) && (get_frog_move(&frog_position) == 1)) 
         {
@@ -43,11 +44,14 @@ int main(void)
             // DESPUES HACER UNA FUNCION MAS PROLIJA....
           {
             set_frog_life(&frog_position, 0);
-            set_frog_start(&frog_position);
+            set_frog_dead(&frog_position, 1);
+            //set_frog_start(&frog_position);
           }
           // SINO LA DESPLAZA
-          else set_frog_x(&frog_position, get_frog_x(&frog_position) + 1);
-
+          else 
+          {
+            set_frog_x(&frog_position, get_frog_x(&frog_position) + 1);
+          }
         }
 
         shift_row(2 * fila, 1); // Desplazar fila 0, 2, 4, 6, etc. a la derecha
@@ -61,7 +65,8 @@ int main(void)
           if ((int)(get_frog_x(&frog_position)) - 1 < 1) // IF PARA MORIR SI SE VA DE LOS LIMITES
           { 
             set_frog_life(&frog_position, 0);
-            set_frog_start(&frog_position);
+            set_frog_dead(&frog_position, 1);
+            //set_frog_start(&frog_position);
           }
           // SINO LA DESPLAZA
           else set_frog_x(&frog_position, get_frog_x(&frog_position) - 1);
@@ -69,12 +74,20 @@ int main(void)
         shift_row((2 * fila) + 1, 0); // Desplazar fila 1, 3, 5, etc. a la izquierda
       }
       
-      if (detect_arrival(&frog_position, &map))
-      {
-        // HACER EL RUIDO DE LLEGADA
-        // PONER LA IMAGEN DE LA RANA DE LLEGADA EN LAS COORDENADAS QUE ESTÁ ACTUALMENTE LA RANA
-        set_frog_start(&frog_position);
-      }
+        // Verifica el estado de la rana si está muerta
+        if (get_frog_dead(&frog_position)) 
+        {
+            // Dibuja la rana muerta
+            printf("Dibujando rana muerta por salida de mapa\n");
+            Screen(&resources_for_main, map, &frog_position);
+            usleep(1000000); // Espera 1 segundo para mostrar la rana muerta
+
+            // Reinicia la rana después de mostrarla
+            set_frog_dead(&frog_position, 0);
+            set_frog_move(&frog_position, 0);
+            frog_life_state(&frog_position);
+            set_frog_start(&frog_position);
+        }
 
       if(get_frog_lives(&frog_position) == 0) // SI LA RANA NO TIENE VIDAS, TERMINA EL JUEGO
       {
@@ -96,11 +109,12 @@ int main(void)
         cleanup_allegro(&resources_for_main);
         return 0;
       }
-      
+
     }
     //print_matrix();
     //usleep(900000);
-    frog_in_range(map, &frog_position); // FUNCION QUE CHEQUEA QUE ESTE DENTRO DE LOS LIMITES
+
+    frog_in_range(&map, &frog_position); // FUNCION QUE CHEQUEA QUE ESTE DENTRO DE LOS LIMITES
     Screen(&resources_for_main, map, &frog_position);
   }
 

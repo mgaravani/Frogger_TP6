@@ -25,7 +25,7 @@ void initialize_matrix(void)
             } 
             else if (i == 0) 
             { // Fila 0 (fila de llegada) es fija.
-                if (j == 1 || j == 4 || j == 7 || j == 10 || j == 13) //CHEQUEAR ESTOS VALORES
+                if (j == 4 || j == 7 || j == 10 || j == 13 || j == 16) //CHEQUEAR ESTOS VALORES
                 { // Posiciones de posible llegada (objetivos).
                     map[i][j] = 1;
                 } 
@@ -217,27 +217,31 @@ void shift_row(uint8_t row, uint8_t direction)
         if (last_value != 0) 
         {
             map[row][0] = last_value;
-        } else {
+        } 
+        else 
+        {
             map[row][0] = 0; // Limpiamos la primera columna si no hay punto
         }
-        } 
+    } 
     else 
-        { // Desplazar a la izquierda
-            // Guardamos el primer valor de la fila
-            uint8_t first_value = map[row][0];
+    { // Desplazar a la izquierda
+        // Guardamos el primer valor de la fila
+        uint8_t first_value = map[row][0];
 
-            // Desplazamos todos los elementos hacia la izquierda
-            for (uint8_t i = 0; i < COLUMNS - 1; i++) 
-            {
-                map[row][i] = map[row][i + 1];
-            }
-
-            // Colocamos el valor del principio al final si era un punto válido
-            if (first_value != 0) 
-            {
-                map[row][COLUMNS - 1] = first_value;
-            } else {
-                map[row][COLUMNS - 1] = 0; // Limpiamos la última columna si no hay punto
-            }
+        // Desplazamos todos los elementos hacia la izquierda
+        for (uint8_t i = 0; i < COLUMNS - 1; i++) 
+        {
+            map[row][i] = map[row][i + 1];
         }
+
+        // Colocamos el valor del principio al final si era un punto válido
+        if (first_value != 0) 
+        {
+            map[row][COLUMNS - 1] = first_value;
+        } 
+        else
+        {
+            map[row][COLUMNS - 1] = 0; // Limpiamos la última columna si no hay punto
+        }
+    }
 }

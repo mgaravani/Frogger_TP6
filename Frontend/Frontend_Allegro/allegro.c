@@ -74,7 +74,7 @@ AllegroResources allegro_init(uint8_t map[ROWS][COLUMNS])
     }
 
     resources.sounds[0] = al_load_sample("Resources/move.wav");
-    resources.sounds[1] = al_load_sample("Resources/frog_arrival.wav");
+    //resources.sounds[1] = al_load_sample("Resources/frog_arrival.wav");
     
     for (int i = 0; i < SOUNDS ; i++) 
     {

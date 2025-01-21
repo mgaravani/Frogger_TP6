@@ -3,11 +3,16 @@
 #include <stdio.h>
 #include <unistd.h>
 #include "../../Backend/frog.h"
+#include <time.h>
 
 /*------Function Screen------*/
 // Función para mostrar la pantalla de juego
 void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS], frog_t *frog) 
 {
+    static clock_t death_time = 0; // Almacena el tiempo en que la rana murió
+    static u_int16_t showing_dead_frog = 0; // Indica si estamos mostrando la rana muerta
+    double dead_frog_duration = 1.0; // Duración de la animación en segundos
+
     // Limpiar pantalla
     al_clear_to_color(al_map_rgb(0, 0, 0)); // Fondo negro
 
@@ -134,13 +139,40 @@ void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS], frog_t *fro
 
         }
     }
-
-    // Dibujar la rana, no estaria funcionando correctamente
-    //NO FUNCIONAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa
-    if (get_frog_life(frog) == 0) 
+    
+    // Dibujar la rana muerta si es necesario
+    if (get_frog_life(frog) == 0)
     {     
-        printf("entre al if\n");    
-        image_drawing(resources->images[20], 0, 0, get_frog_x(frog) - 0.38, get_frog_y(frog) + 0.16, cell_width*0.9, cell_height*0.9);
+         if (!showing_dead_frog) 
+        {
+            // La rana acaba de morir: inicia el temporizador
+            death_time = clock();
+            showing_dead_frog = 1;
+        }
+        
+        // Calcula el tiempo transcurrido desde la muerte
+        double elapsed_time = (double)(clock() - death_time) / CLOCKS_PER_SEC;
+
+        if (elapsed_time <= dead_frog_duration) 
+        {
+            // Dibuja la rana muerta mientras no se haya cumplido la duración
+            printf("Mostrando rana muerta durante %.2f segundos\n", elapsed_time);
+            image_drawing(resources->images[20], 0, 0, 
+                          (get_frog_x(frog) - 0.38) * cell_width, 
+                          (get_frog_y(frog) + 0.16) * cell_height, 
+                          cell_width * 0.9, cell_height * 0.9);
+        }  //No siempre dibuja bien la rana muerta cuando se va del mapa
+        else 
+        {
+            // Finaliza la animación de la rana muerta
+            showing_dead_frog = 0;
+            frog_life_state(frog);
+            set_frog_life(frog, 1);
+            set_frog_dead(frog, 0);
+            //No detecta bien la perdida de vidas y no reinicia la posicion porque crashea
+            //Reinicia luego de la segunda colision en lugar de la primera
+            set_frog_start(frog);
+        }
     }
 
     if(get_frog_lives(frog) > 0)

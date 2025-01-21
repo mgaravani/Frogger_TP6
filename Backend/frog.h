@@ -6,6 +6,9 @@
 #include "map.h"
 
 
+
+
+
 /*-----LÍMITES Y CONSTANTES USADAS-----*/
 #define FROG_LIMIT_UP 1.3
 #define FROG_LIMIT_DOWN 11.0
@@ -25,9 +28,14 @@ typedef struct {
     uint8_t lives;      // Cantidad de vidas
     int16_t points;     // Puntos acumulados por el jugador
     int8_t arrivals;    // Cantidad de veces que el jugador llegó al final
+    int8_t is_dead;     // Flag para indicar si la rana está muerta
 } frog_t;
 
 /*-----------PROTOTYPES--------*/
+
+//TESTEO
+void set_frog_dead(frog_t *frog, uint8_t dead);
+uint8_t get_frog_dead(const frog_t *frog);
 
 /***************************************************************************
 *                                                                          *
@@ -37,7 +45,7 @@ typedef struct {
 
 /*-----init_frog-----*/
 // Función para inicializar la rana
-void init_frog(frog_t *frog, float x, float y, uint8_t state, uint8_t life, uint8_t lives, int16_t points, int8_t arrivals, int8_t move);
+void init_frog(frog_t *frog, float x, float y, uint8_t state, uint8_t life, uint8_t lives, int16_t points, int8_t arrivals, int8_t move, int8_t is_dead);
 
 
 /******************************
@@ -158,7 +166,7 @@ void handle_move_right(frog_t *frog);
 
 /*-----frog_in_range-----*/
 // Función para verificar si la rana está en rango de colisión
-uint16_t frog_in_range(map_t map,frog_t *frog);
+uint16_t frog_in_range(map_t *map,frog_t *frog);
 
 /******************************
 *      ESTADO DE VIDA         *
@@ -170,6 +178,6 @@ void frog_life_state(frog_t *frog);
 
 /*------- Detectar llegada de la Rana ---------*/
 /* Devuelve 1 si la rana está en posición de llegada y devuelve 0 si no lo está.*/
-uint16_t detect_arrival(frog_t *frog, map_t map);
+uint16_t detect_arrival(frog_t *frog, map_t *map);
 
 #endif // FROG_H

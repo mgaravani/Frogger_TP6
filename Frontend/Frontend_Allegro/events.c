@@ -41,6 +41,9 @@ void events_managment(AllegroResources *resources, ALLEGRO_EVENT_QUEUE *event_qu
         {
             switch (event.keyboard.keycode) 
             {
+                case ALLEGRO_KEY_P:
+                    //ACA VA COMO MANEJAR LA PAUSA
+                    break;
                 case ALLEGRO_KEY_DOWN:
                 case ALLEGRO_KEY_S:
                     if(resources->menu_state == 1)
