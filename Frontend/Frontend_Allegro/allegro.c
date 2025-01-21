@@ -74,7 +74,7 @@ AllegroResources allegro_init(uint8_t map[ROWS][COLUMNS])
     }
 
     resources.sounds[0] = al_load_sample("Resources/move.wav");
-    //resources.sounds[1] = al_load_sample("Resources/frog_arrival.wav");
+    resources.sounds[1] = al_load_sample("Resources/frog_arrival.wav");
     
     for (int i = 0; i < SOUNDS ; i++) 
     {
@@ -129,6 +129,7 @@ AllegroResources allegro_init(uint8_t map[ROWS][COLUMNS])
     resources.images[20] = al_load_bitmap("Resources/frog_die.png"); // Imagen 21
     resources.images[21] = al_load_bitmap("Resources/menubackground.png"); // Imagen 22
     resources.images[22] = al_load_bitmap("Resources/heart.png"); // Imagen 23
+    resources.images[23] = al_load_bitmap("Resources/arrival_frog.png"); // Imagen 24
     
     /*ANALIZA SI LAS IMAGENES SE CARGARON CORRECTAMENTE*/
     for (uint16_t i = 0; i < IMAGES ; i++) 

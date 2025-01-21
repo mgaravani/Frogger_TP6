@@ -3,7 +3,7 @@
 #include "map.h"
 #include <stdio.h>
 
-//TESTEO
+//FUNCIONAN LAS DOS UBICAR DONDE VAN PARA QUE QUEDE ORDENADO
 void set_frog_dead(frog_t *frog, uint8_t dead) {
     frog->is_dead = dead;
 }
@@ -16,7 +16,7 @@ uint8_t get_frog_dead(const frog_t *frog) {
 
 /*------Function init_frog------*/
 // Función para inicializar la rana con valores predeterminados
-void init_frog(frog_t *frog, float x, float y, uint8_t state, uint8_t life, uint8_t lives, int16_t points, int8_t arrivals, int8_t move, int8_t is_dead) 
+void init_frog(frog_t *frog, float x, float y, uint8_t state, uint8_t life, uint8_t lives, uint16_t points, uint8_t arrivals, uint8_t move, uint8_t is_dead, uint8_t arrived, uint16_t levels) 
 {
   frog->x = x;
   frog->y = y;
@@ -27,6 +27,8 @@ void init_frog(frog_t *frog, float x, float y, uint8_t state, uint8_t life, uint
   frog->arrivals = arrivals;
   frog->move = move;
   frog->is_dead = 0;
+  frog->arrival_state = 0;
+  frog->levels = levels;
 }
 
 /***************************************************************************
@@ -286,13 +288,23 @@ uint16_t frog_in_range(map_t *map, frog_t *frog)
           set_frog_move(frog, 1); // Flag para que la rana se desplace lo mismo que la fila en la dirección
         }
       }
-      else if (((*map)[i][j] == 0) && (row >= 0 && row <= 5 )) 
+      else if (((*map)[i][j] == 0) && (row >= 0 && row <= 5 )) //RANA AHOGADA
       {
         if ((i == row) && (j == col))
         {
           set_frog_life(frog, 0);
           set_frog_move(frog, 0);
           set_frog_dead(frog, 1); // Marca la rana como muerta
+          return 1;
+        }
+      }
+      else if((*map)[i][j] == 2) // Si la rana llego a la meta esa casilla se vuelve zona de muerte
+      {
+        if ((i == row) && (j == col))
+        {
+          set_frog_move(frog, 0);
+          set_frog_life(frog, 1);
+          set_frog_dead(frog, 1);
           return 1;
         }
       }
@@ -331,7 +343,9 @@ uint16_t detect_arrival(frog_t *frog, map_t *map)
     {
         printf("ENTRE en %d\n", frog_col);
         (*map)[frog_row][frog_col] = 2; // Marca la posición como visitada
+        frog->arrival_state = 1;
         return 1; // Indica que la rana llegó a esta posición
     }
+    
     return 0; // No llegó o no se cumplen las condiciones
 }

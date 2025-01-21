@@ -11,7 +11,7 @@ int main(void)
 {
   extern map_t map; // Variable global de la matriz
   frog_t frog_position;
-  init_frog(&frog_position, 7, 11.96, 0, 1, 3, 0, 0, 0, 0); // Inicializo la rana
+  init_frog(&frog_position, 7, 11.96, 0, 1, 3, 0, 0, 0, 0, 0, 1); // Inicializo la rana
   AllegroResources resources_for_main = allegro_init(map); // Inicializa allegro
   ALLEGRO_EVENT_QUEUE *event_queue = init_events(resources_for_main.display); // Crea la cola de eventos
   initialize_matrix(); // Inicializa la matriz
@@ -33,7 +33,7 @@ int main(void)
     for (int fila = 1; fila < 7; fila++) // FOR PARA MOVER LAS DISTINTAS FILAS
     {
       // Desplazar fila par (de izquierda a derecha)
-      if (waiting_time(5, 2 * fila)) // SI ES UNA FILA PAR
+      if (waiting_time(frog_position.levels+4, 2 * fila)) // SI ES UNA FILA PAR
       {
 
         // SI LA FILA CONCUERDA CON LA POSICION DE LA RANA Y LA FLAG DE MOVERSE SE ACTIVA
@@ -44,7 +44,6 @@ int main(void)
           {
             set_frog_life(&frog_position, 0);
             set_frog_dead(&frog_position, 1);
-            //set_frog_start(&frog_position);
           }
           // SINO LA DESPLAZA
           else 
@@ -56,7 +55,7 @@ int main(void)
         shift_row(2 * fila, 1); // Desplazar fila 0, 2, 4, 6, etc. a la derecha
       }
       // Desplazar fila impar (de derecha a izquierda)
-      if (waiting_time(1, ((2 * fila) - 1))) // SI ES UNA FILA IMPAR
+      if (waiting_time(frog_position.levels, ((2 * fila) - 1))) // SI ES UNA FILA IMPAR
       {
         // SI LA FILA CONCUERDA CON LA POSICION DE LA RANA Y LA FLAG DE MOVERSE SE ACTIVA
         if ((row == ((2 * fila) - 1))  && (get_frog_move(&frog_position) == 1)) 
@@ -65,7 +64,6 @@ int main(void)
           { 
             set_frog_life(&frog_position, 0);
             set_frog_dead(&frog_position, 1);
-            //set_frog_start(&frog_position);
           }
           // SINO LA DESPLAZA
           else set_frog_x(&frog_position, get_frog_x(&frog_position) - 1);
@@ -74,13 +72,12 @@ int main(void)
       }
       
       
-        if (detect_arrival(&frog_position, &map))
-        {
-          // HACER EL RUIDO DE LLEGADA
-          // PONER LA IMAGEN DE LA RANA DE LLEGADA EN LAS COORDENADAS QUE ESTÁ ACTUALMENTE LA RANA
-          set_frog_start(&frog_position);
-          printf("GANASTE\n");
-        }
+      if (detect_arrival(&frog_position, &map)) //Deteccion de llegada
+      {
+        set_frog_arrivals(&frog_position, get_frog_arrivals(&frog_position) + 1);
+        set_frog_start(&frog_position);
+        printf("LLEGASTE\n");
+      }
 
       if(get_frog_lives(&frog_position) == 0) // SI LA RANA NO TIENE VIDAS, TERMINA EL JUEGO
       {
@@ -103,9 +100,15 @@ int main(void)
         return 0;
       }
 
+      if(get_frog_arrivals(&frog_position) == 5) // SI LLEGASTE 5 VECES PASAS DE NIVEL
+      {
+        set_frog_arrivals(&frog_position, 0);
+        //set_frog_points(&frog_position, get_frog_points(&frog_position) + 1000);
+        frog_position.levels++;
+        set_frog_start(&frog_position);
+        printf("NIVEL COMPLETADO\n");
+      }
     }
-    //print_matrix();
-    //usleep(900000);
 
     frog_in_range(&map, &frog_position); // FUNCION QUE CHEQUEA QUE ESTE DENTRO DE LOS LIMITES
     Screen(&resources_for_main, map, &frog_position);

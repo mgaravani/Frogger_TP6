@@ -110,6 +110,7 @@ void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS], frog_t *fro
                 counter = 0;
             }
             
+
             // Obtener las coordenadas de la rana desde la estructura frog
             float frog_x = get_frog_x(frog) - 0.38; // Obtener coordenada X de la rana
             float frog_y = get_frog_y(frog) + 0.16; // Obtener coordenada Y de la rana
@@ -137,6 +138,18 @@ void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS], frog_t *fro
 
             image_drawing(image_to_draw, 0, 0, screen_x, screen_y, cell_width*0.9, cell_height*0.9);
 
+            //Dibuja las ranas de llegada
+            if(map[i][j] == 2)
+            {
+                float arrival_x = (j-3) * cell_width;
+                float arrival_y = 35;
+                image_drawing(resources->images[23], 0, 0, arrival_x -30, arrival_y, cell_width * 0.9, cell_height * 0.9);
+                if(frog->arrival_state == 1)
+                {
+                    al_play_sample(resources->sounds[1], 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
+                    frog->arrival_state = 0; //REUBICAR AL BACKEND, NO SE EN QUE PARTE FUNCIONA
+                }
+            }
         }
     }
     

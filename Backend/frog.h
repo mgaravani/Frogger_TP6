@@ -26,9 +26,11 @@ typedef struct {
     uint8_t life;      // Estado de vida de la rana
     uint8_t move;      // Estado de movimiento segun fila
     uint8_t lives;      // Cantidad de vidas
+    uint16_t levels;   // Niveles
     int16_t points;     // Puntos acumulados por el jugador
     int8_t arrivals;    // Cantidad de veces que el jugador llegó al final
     int8_t is_dead;     // Flag para indicar si la rana está muerta
+    int8_t arrival_state ; // Flag para indicar si la rana llego a la meta
 } frog_t;
 
 /*-----------PROTOTYPES--------*/
@@ -45,7 +47,7 @@ uint8_t get_frog_dead(const frog_t *frog);
 
 /*-----init_frog-----*/
 // Función para inicializar la rana
-void init_frog(frog_t *frog, float x, float y, uint8_t state, uint8_t life, uint8_t lives, int16_t points, int8_t arrivals, int8_t move, int8_t is_dead);
+void init_frog(frog_t *frog, float x, float y, uint8_t state, uint8_t life, uint8_t lives, uint16_t points, uint8_t arrivals, uint8_t move, uint8_t is_dead, uint8_t arrived, uint16_t levels);
 
 
 /******************************
