@@ -1,5 +1,13 @@
 #include "functions.h"
 #include "macros.h"
+#include "disdrv.h"
+#include "arrays.h"
+
+#define ROWS_ORIGINAL 13
+#define COLS_ORIGINAL 20
+#define ROWS_NEW 16
+#define COLS_NEW 16
+
 //Los Macros DISP_CANT_Y/X_DOTS son definidas por el tamaño de la matriz de led dada, si se modifica se podra cambiar en Macros.h
 // Función para generar la matriz con valores aleatorios de 0 y 1
 void generar_matriz(uint8_t  matriz[DISP_CANT_Y_DOTS][DISP_CANT_X_DOTS]) {//funcion generica para primer uso de generamiento de matriz alatorio de matriz
@@ -45,7 +53,25 @@ void moveMatrix(uint8_t target[DISP_CANT_X_DOTS][DISP_CANT_Y_DOTS], uint8_t sour
         }
     }
 }
+void cortar_y_copiar_matriz(int original[ROWS_ORIGINAL][COLS_ORIGINAL], int nueva[DISP_CANT_Y_DOTS][DISP_CANT_X_DOTS]) {
+    // Inicializar la nueva matriz con ceros
+    for (int i = 0; i < DISP_CANT_Y_DOTS; i++) {
+        for (int j = 0; j < DISP_CANT_X_DOTS; j++) {
+            nueva[i][j] = 0;
+        }
+    }
 
+    // Copiar las filas y columnas de la matriz original a la nueva
+    for (int i = 0; i < ROWS_ORIGINAL; i++) {
+        // Dejar 2 filas libres arriba y 1 abajo
+        int nueva_fila = i + 2;  // Las filas se trasladan hacia abajo por 2
+        if (nueva_fila < DISP_CANT_Y_DOTS - 1) {  // Evitar fuera de rango en la fila
+            for (int j = 2; j < DISP_CANT_X_DOTS - 2; j++) { // Cortar las 2 columnas de cada lado
+                nueva[nueva_fila][j] = original[i][j];
+            }
+        }
+    }
+}
 
 /*do {
         // Simular lectura del joystick
