@@ -26,9 +26,17 @@ uint8_t waiting_time(uint8_t level, uint8_t row)
     {
         speed = 2 + (level * 0.2);
     }
-    else if (row >= 0 && row <= 5) 
+    else if (row == 1 || row == 3) 
     {
-        speed = 1 + (level * 0.1);  // Incremento leve para las filas de 0 a 5
+        speed = 1 + (level * 0.3);  // Incremento alto para las filas 1 y 3
+    } 
+    else if (row == 2 || row == 4) 
+    {
+        speed = 1 + (level * 0.1);  // Incremento leve para las filas 2 y 4
+    } 
+    else if (row == 5) 
+    {
+        speed = 1 + (level * 0.2);  // Incremento estandar para las fila 5
     } 
     else 
     {
@@ -44,7 +52,7 @@ uint8_t waiting_time(uint8_t level, uint8_t row)
     // Guarda el tiempo transcurrido desde que se reinició
     elapsed_time = ((double)(clock() - flags[row])) / CLOCKS_PER_SEC;
     // Relación de tiempo para comparar con el transcurrido en función del nivel y la velocidad
-    time_reference = 1 / speed;
+    time_reference = 0.8 / speed;
 
     // Verifica si ha pasado el tiempo necesario
     if (elapsed_time >= time_reference) 

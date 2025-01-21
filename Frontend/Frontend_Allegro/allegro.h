@@ -23,9 +23,9 @@
 #define COLUMNS 20 // HAY DOS DEFINES CON EL MISMO NOMBRE, FUSIONAR ESTE CON MAP.H
 #define WIDTH 870
 #define HEIGHT 650
-#define SOUNDS 2
+#define SOUNDS 3
 #define FONTS 6
-#define IMAGES 24
+#define IMAGES 27
 
 /*------STRUCTS------*/
 

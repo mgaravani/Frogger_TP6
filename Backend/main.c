@@ -30,53 +30,54 @@ int main(void)
     int row = 12 - (int)(((-(get_frog_y(&frog_position) - 11.96)) / 0.96));
     events_managment(&resources_for_main, event_queue, &frog_position, map);
 
-    // ESTE FOR HABRIA QUE HACERLO DENTRO DE ALGUNA FUNCION Y LLAMAR SOLO LA FUNCION CON EL NIVEL Y VIDAS //
-    for (int fila = 1; fila < 7; fila++) // FOR PARA MOVER LAS DISTINTAS FILAS
-    {
-      // Desplazar fila par (de izquierda a derecha)
-      if (waiting_time(frog_position.levels+4, 2 * fila)) // SI ES UNA FILA PAR
-      {
 
+
+
+
+
+
+
+
+
+    // ESTE FOR HABRIA QUE HACERLO DENTRO DE ALGUNA FUNCION Y LLAMAR SOLO LA FUNCION CON EL NIVEL Y VIDAS //
+    for (int fila = 1; fila < 12; fila++) // FOR PARA MOVER LAS DISTINTAS FILAS
+    {
+      if (waiting_time(frog_position.levels, fila))
+      {
         // SI LA FILA CONCUERDA CON LA POSICION DE LA RANA Y LA FLAG DE MOVERSE SE ACTIVA
-        if ((row == (2 * fila)) && (get_frog_move(&frog_position) == 1)) 
+        if ((row == fila) && (get_frog_move(&frog_position) == 1)) 
         {
-          if ((int)(get_frog_x(&frog_position)) + 1 > 13) // IF PARA MORIR SI SE VA DE LOS LIMITES
+          if (((int)(get_frog_x(&frog_position)) + 1 > 13) || ((int)(get_frog_x(&frog_position)) - 1 < 1)) // IF PARA MORIR SI SE VA DE LOS LIMITES
             // DESPUES HACER UNA FUNCION MAS PROLIJA....
           {
             set_frog_life(&frog_position, 0);
             set_frog_dead(&frog_position, 1);
           }
-          // SINO LA DESPLAZA
-          else 
+          else // SINO LA DESPLAZA
           {
-            if (directions[2 * fila]) set_frog_x(&frog_position, get_frog_x(&frog_position) + 1);
+            if (directions[fila]) set_frog_x(&frog_position, get_frog_x(&frog_position) + 1);
             else set_frog_x(&frog_position, get_frog_x(&frog_position) - 1);   
           }
         }
+        shift_row(fila, directions[fila]); // Desplazar fila 0, 2, 4, 6, etc. a la derecha
+      }
 
-        shift_row(2 * fila, directions[2 * fila]); // Desplazar fila 0, 2, 4, 6, etc. a la derecha
-      }
-      // Desplazar fila impar (de derecha a izquierda)
-      if (waiting_time(frog_position.levels, ((2 * fila) - 1))) // SI ES UNA FILA IMPAR
-      {
-        // SI LA FILA CONCUERDA CON LA POSICION DE LA RANA Y LA FLAG DE MOVERSE SE ACTIVA
-        if ((row == ((2 * fila) - 1))  && (get_frog_move(&frog_position) == 1)) 
-        {
-          if ((int)(get_frog_x(&frog_position)) - 1 < 1) // IF PARA MORIR SI SE VA DE LOS LIMITES
-          { 
-            set_frog_life(&frog_position, 0);
-            set_frog_dead(&frog_position, 1);
-          }
-          // SINO LA DESPLAZA
-          else 
-          {
-              if (directions[(2 * fila) - 1]) set_frog_x(&frog_position, get_frog_x(&frog_position) + 1);
-              else set_frog_x(&frog_position, get_frog_x(&frog_position) - 1);     
-          }
-        }
-        shift_row((2 * fila) - 1, directions[(2 * fila) - 1]); // Desplazar fila 1, 3, 5, etc. a la izquierda
-      }
-      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       
       if (detect_arrival(&frog_position, &map)) //Deteccion de llegada
       {

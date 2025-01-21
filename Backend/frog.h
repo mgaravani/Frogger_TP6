@@ -148,19 +148,19 @@ void increase_frog_arrivals(frog_t *frog);
 
 /*-----handle_move_down-----*/
 // Función para mover la rana hacia abajo
-void handle_move_down(frog_t *frog);
+int handle_move_down(frog_t *frog);
 
 /*-----handle_move_up-----*/
 // Función para mover la rana hacia arriba
-void handle_move_up(frog_t *frog);
+int handle_move_up(frog_t *frog);
 
 /*-----handle_move_left-----*/
 // Función para mover la rana hacia la izquierda
-void handle_move_left(frog_t *frog);
+int handle_move_left(frog_t *frog);
 
 /*-----handle_move_right-----*/
 // Función para mover la rana hacia la derecha
-void handle_move_right(frog_t *frog);
+int handle_move_right(frog_t *frog);
 
 /******************************
 *        LIMITADORES          *

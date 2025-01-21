@@ -198,24 +198,28 @@ void increase_frog_arrivals(frog_t *frog)
 
 /*-----Function handle_move_down-----*/
 // Función para mover la rana hacia abajo
-void handle_move_down(frog_t *frog) 
+int handle_move_down(frog_t *frog) 
 {
-  if (get_frog_y(frog) <= FROG_LIMIT_DOWN) 
+  if ((get_frog_y(frog) <= FROG_LIMIT_DOWN)  && (get_frog_dead(frog) == 0)) 
   {
     set_frog_y(frog, get_frog_y(frog) + FROG_MOVE_STEP);
     set_frog_state(frog, 1); // Mostrar rana hacia abajo
+    return 1;
   }
+  return 0;
 }
 
 /*-----Function handle_move_up-----*/
 // Función para mover la rana hacia arriba
-void handle_move_up(frog_t *frog) 
+int handle_move_up(frog_t *frog) 
 {
-  if (get_frog_y(frog) > FROG_LIMIT_UP) 
+  if ((get_frog_y(frog) > FROG_LIMIT_UP)  && (get_frog_dead(frog) == 0)) 
   {
     set_frog_y(frog, get_frog_y(frog) - FROG_MOVE_STEP);
     set_frog_state(frog, 0); // Mostrar rana hacia arriba
+    return 1;
   }
+  return 0;
 }
 
 /*-----Function set_frog_start-----*/
@@ -228,35 +232,28 @@ void set_frog_start(frog_t *frog)
 
 /*-----Function handle_move_left-----*/
 // Función para mover la rana hacia la izquierda
-void handle_move_left(frog_t *frog) 
+int handle_move_left(frog_t *frog) 
 {
-  if (get_frog_x(frog) > 1) 
+  if ((get_frog_x(frog) > 1 )  && (get_frog_dead(frog) == 0)) 
   {
     set_frog_x(frog, get_frog_x(frog) - 1.0);
     set_frog_state(frog, 2); // Mostrar rana hacia la izquierda
+    return 1;
   }
-  else if (get_frog_x(frog) == FROG_LIMIT_LEFT) 
-  {
-    set_frog_x(frog, get_frog_x(frog) - FROG_SMALL_STEP); // Es un paso distinto para que la rana siga quedando bien centrada
-    set_frog_state(frog, 2); // Mostrar rana hacia la izquierda
-  }
+  return 0;
 }
 
 /*-----Function handle_move_right-----*/
 // Función para mover la rana hacia la derecha
-void handle_move_right(frog_t *frog) 
+int handle_move_right(frog_t *frog) 
 {
-
-  if (get_frog_x(frog) == FROG_LIMIT_LEFT) 
-  {
-    set_frog_x(frog, get_frog_x(frog) + FROG_SMALL_STEP); // Es un paso distinto para que la rana siga quedando bien centrada
-    set_frog_state(frog, 3); // Mostrar rana hacia la derecha
-  }
-  else if (get_frog_x(frog) < FROG_LIMIT_RIGHT) 
+  if ((get_frog_x(frog) < FROG_LIMIT_RIGHT)  && (get_frog_dead(frog) == 0)) 
   {
     set_frog_x(frog, get_frog_x(frog) + 1.0);
     set_frog_state(frog, 3); // Mostrar rana hacia la derecha
+    return 1;
   }
+  return 0;
 }
 
 /*-----Function frog_in_range-----*/
@@ -341,11 +338,15 @@ uint16_t detect_arrival(frog_t *frog, map_t *map)
     // Si la rana está en la fila 0 y la posición tiene un 1
     if ((frog_row == 0) && (((*map)[frog_row][frog_col]) == 1)) 
     {
-        printf("ENTRE en %d\n", frog_col);
         (*map)[frog_row][frog_col] = 2; // Marca la posición como visitada
         frog->arrival_state = 1;
         return 1; // Indica que la rana llegó a esta posición
     }
-    
+    else if ((frog_row == 0) && (((*map)[frog_row][frog_col]) == 2)) 
+    {
+      set_frog_move(frog, 0);
+      set_frog_life(frog, 1);
+      set_frog_dead(frog, 1);
+    }
     return 0; // No llegó o no se cumplen las condiciones
 }

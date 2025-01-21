@@ -55,8 +55,7 @@ void events_managment(AllegroResources *resources, ALLEGRO_EVENT_QUEUE *event_qu
                     }
                     else
                     {
-                    al_play_sample(resources->sounds[0], 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
-                    handle_move_down(frog);
+                    if (handle_move_down(frog)) al_play_sample(resources->sounds[0], 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
                     }
                     break;
                 case ALLEGRO_KEY_UP:
@@ -70,19 +69,16 @@ void events_managment(AllegroResources *resources, ALLEGRO_EVENT_QUEUE *event_qu
                     }
                     else
                     {
-                    al_play_sample(resources->sounds[0], 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
-                    handle_move_up(frog);
+                    if (handle_move_up(frog)) al_play_sample(resources->sounds[0], 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
                     }
                     break;
                 case ALLEGRO_KEY_LEFT:
                 case ALLEGRO_KEY_A:
-                    al_play_sample(resources->sounds[0], 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
-                    handle_move_left(frog);
+                    if (handle_move_left(frog)) al_play_sample(resources->sounds[0], 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
                     break;
                 case ALLEGRO_KEY_RIGHT:
                 case ALLEGRO_KEY_D:
-                    al_play_sample(resources->sounds[0], 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
-                    handle_move_right(frog);
+                   if (handle_move_right(frog)) al_play_sample(resources->sounds[0], 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
                     break;
                 case ALLEGRO_KEY_ENTER:
                 if(resources->selected_option == 1) //Si se eligio Play game
