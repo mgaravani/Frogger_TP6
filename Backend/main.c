@@ -11,6 +11,7 @@ int main(void)
 {
   extern map_t map; // Variable global de la matriz
   frog_t frog_position;
+  int directions[11] = {0,1,0,1,1,0,0,0,1,0,1}; 
   init_frog(&frog_position, 7, 11.96, 0, 1, 3, 0, 0, 0, 0, 0, 1); // Inicializo la rana
   AllegroResources resources_for_main = allegro_init(map); // Inicializa allegro
   ALLEGRO_EVENT_QUEUE *event_queue = init_events(resources_for_main.display); // Crea la cola de eventos
@@ -48,11 +49,12 @@ int main(void)
           // SINO LA DESPLAZA
           else 
           {
-            set_frog_x(&frog_position, get_frog_x(&frog_position) + 1);
+            if (directions[2 * fila]) set_frog_x(&frog_position, get_frog_x(&frog_position) + 1);
+            else set_frog_x(&frog_position, get_frog_x(&frog_position) - 1);   
           }
         }
 
-        shift_row(2 * fila, 1); // Desplazar fila 0, 2, 4, 6, etc. a la derecha
+        shift_row(2 * fila, directions[2 * fila]); // Desplazar fila 0, 2, 4, 6, etc. a la derecha
       }
       // Desplazar fila impar (de derecha a izquierda)
       if (waiting_time(frog_position.levels, ((2 * fila) - 1))) // SI ES UNA FILA IMPAR
@@ -66,9 +68,13 @@ int main(void)
             set_frog_dead(&frog_position, 1);
           }
           // SINO LA DESPLAZA
-          else set_frog_x(&frog_position, get_frog_x(&frog_position) - 1);
+          else 
+          {
+              if (directions[(2 * fila) - 1]) set_frog_x(&frog_position, get_frog_x(&frog_position) + 1);
+              else set_frog_x(&frog_position, get_frog_x(&frog_position) - 1);     
+          }
         }
-        shift_row((2 * fila) - 1, 0); // Desplazar fila 1, 3, 5, etc. a la izquierda
+        shift_row((2 * fila) - 1, directions[(2 * fila) - 1]); // Desplazar fila 1, 3, 5, etc. a la izquierda
       }
       
       

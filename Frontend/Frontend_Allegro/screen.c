@@ -54,13 +54,13 @@ void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS], frog_t *fro
                     case 2:
                         if (counter == 2)
                         {
-                            image_to_draw = resources->images[11]; // Tortle x2
+                            image_to_draw = resources->images[10]; // Tortle x2
                             x-=30; // Ajusto el largo de tortugas de 2
                             y+=20;
                         } 
                         else 
                         {
-                            image_to_draw = resources->images[13]; // Tortle x3
+                            image_to_draw = resources->images[12]; // Tortle x3
                             x-=69; // Ajusto el largo de tortugas de 3
                             y+=20;
                         }
