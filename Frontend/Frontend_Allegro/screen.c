@@ -153,6 +153,15 @@ void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS], frog_t *fro
         }
     }
     
+    //AGREGAR ALGO CON MILLIS PARA QUE SE VEA BIEN LA IMAGEN
+    if(frog->pass_level_state == 1)
+    {
+        //Aca iria el sonido de pasar nivel
+        //al_play_sample(resources->sounds[3], 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
+        image_drawing(resources->images[27],0,0,WIDTH/3,HEIGHT/2 - 9,cell_width*4, cell_height);
+        frog->pass_level_state = 0;
+    }
+
     // Dibujar la rana muerta si es necesario
     if (get_frog_dead(frog) == 1)
     {     
@@ -217,7 +226,17 @@ void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS], frog_t *fro
             image_drawing(resources->images[22], 0, 0, i*30 -20, 615, 30, 30);
         }
     }
+
+    //Score, falta agregar un borde para que quede mejor
+    image_drawing(resources->images[28], 0, 0, 110, 615, 100, 30);    
     
+    // Convertir el número a texto
+    char text[50];
+    sprintf(text, "%d", frog->points);
+
+    //Dibuja el texto de puntuacion
+    al_draw_text(resources->fonts[5], al_map_rgb(220, 250, 6), 220, 615, 0, text);
+
     // Muestra la ventana
     al_flip_display();
 }

@@ -11,8 +11,14 @@ int main(void)
 {
   extern map_t map; // Variable global de la matriz
   frog_t frog_position;
-  int directions[11] = {0,1,0,1,1,0,0,0,1,0,1}; 
+  uint8_t directions[11] = {0,1,0,1,1,0,0,0,1,0,1}; 
   init_frog(&frog_position, 7, 11.96, 0, 1, 3, 0, 0, 0, 0, 0, 1); // Inicializo la rana
+  frog_position.pass_level_state = 0;
+  frog_position.paused_state = 0;
+  for(uint8_t i = 0; i < ROWS; i++)
+  {
+    frog_position.reached_rows[i] = 0 ; // Vector para conteo de puntos
+  }
   AllegroResources resources_for_main = allegro_init(map); // Inicializa allegro
   ALLEGRO_EVENT_QUEUE *event_queue = init_events(resources_for_main.display); // Crea la cola de eventos
   initialize_matrix(); // Inicializa la matriz
@@ -31,7 +37,7 @@ int main(void)
     events_managment(&resources_for_main, event_queue, &frog_position, map);
 
     // ESTE FOR HABRIA QUE HACERLO DENTRO DE ALGUNA FUNCION Y LLAMAR SOLO LA FUNCION CON EL NIVEL Y VIDAS //
-    for (int fila = 1; fila < 12; fila++) // FOR PARA MOVER LAS DISTINTAS FILAS
+    for (int fila = 1; fila < 12; fila++) // FOR PARA MOVER LAS DISTINTAS FILAS, escribir en ingles
     {
       if (waiting_time(frog_position.levels, fila))
       {
@@ -83,7 +89,6 @@ int main(void)
 
       if(get_frog_arrivals(&frog_position) == 5) // SI LLEGASTE 5 VECES PASAS DE NIVEL
       {
-        // AGREGAR INTERZAZ DE ALLEGRO PARA CUANDO PASA DE NIVEL FABRIII
         pass_level(&frog_position);
       }
     }

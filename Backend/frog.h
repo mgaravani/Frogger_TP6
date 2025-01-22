@@ -27,10 +27,13 @@ typedef struct {
     uint8_t move;      // Estado de movimiento segun fila
     uint8_t lives;      // Cantidad de vidas
     uint16_t levels;   // Niveles
-    int16_t points;     // Puntos acumulados por el jugador
-    int8_t arrivals;    // Cantidad de veces que el jugador llegó al final
-    int8_t is_dead;     // Flag para indicar si la rana está muerta
-    int8_t arrival_state ; // Flag para indicar si la rana llego a la meta
+    uint16_t points;     // Puntos acumulados por el jugador
+    uint8_t arrivals;    // Cantidad de veces que el jugador llegó al final
+    uint8_t is_dead;     // Flag para indicar si la rana está muerta
+    uint8_t arrival_state ; // Flag para indicar si la rana llego a la meta
+    uint8_t pass_level_state; // Flag para indicar si la rana paso de nivel
+    uint8_t paused_state; // Flag para indicar si el juego esta pausado
+    uint8_t reached_rows[ROWS]; // Vector para conteo de puntos
 } frog_t;
 
 /*-----------PROTOTYPES--------*/
@@ -116,11 +119,11 @@ void set_frog_lives(frog_t *frog, uint8_t lives);
 
 /*-----set_frog_points-----*/
 // Función para modificar los puntos acumulados por el jugador
-void set_frog_points(frog_t *frog, int16_t points);
+void set_frog_points(frog_t *frog, uint16_t points);
 
 /*-----set_frog_arrivals-----*/
 // Función para modificar la cantidad de veces que el jugador llegó al final
-void set_frog_arrivals(frog_t *frog, int8_t arrivals);
+void set_frog_arrivals(frog_t *frog, uint8_t arrivals);
 
 /*-----set_frog_start-----*/
 // Función para llevar a la rana al inicio
@@ -132,7 +135,7 @@ void set_frog_start(frog_t *frog);
 
 /*-----increase_frog_points*/
 // Función para incrementar los puntos acumulados por el jugador
-void increase_frog_points(frog_t *frog, int16_t points);
+void increase_frog_points(frog_t *frog, uint16_t points);
 
 /*-----decrease_frog_lives-----*/
 // Función para decrementar la cantidad de vidas de la rana

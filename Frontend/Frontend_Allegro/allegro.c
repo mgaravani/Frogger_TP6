@@ -88,12 +88,12 @@ AllegroResources allegro_init(uint8_t map[ROWS][COLUMNS])
     }
 
     // Cargar las fuentes en la estructura resources, en el campo fuentes
-    resources.fonts[0] = al_load_font("Resources/Bing Bam Boum.ttf", 45, ALLEGRO_ALIGN_CENTER); // Fuente 1
+    resources.fonts[0] = al_load_font("Resources/Bing Bam Boum.ttf", 30, ALLEGRO_ALIGN_CENTER); // Fuente 1
     resources.fonts[1] = al_load_font("Resources/ChineseDragon.ttf", 100, ALLEGRO_ALIGN_CENTER); // USADA PARA CALCULO DE RECTANGULOS BLANCOS EN MENU DE INICIO
     resources.fonts[2] = al_load_font("Resources/Chubby Relief.ttf", 45, ALLEGRO_ALIGN_CENTER); // Fuente 3
     resources.fonts[3] = al_load_font("Resources/Copyduck.ttf", 45, ALLEGRO_ALIGN_CENTER); // TITULO FROGGER
-    resources.fonts[4] = al_load_font("Resources/Copyduck.ttf", 45, ALLEGRO_ALIGN_CENTER); // HIGHSCORES
-    resources.fonts[5] = al_load_font("Resources/FunnyKid.ttf", 45, ALLEGRO_ALIGN_CENTER); // Fuente 6
+    resources.fonts[4] = al_load_font("Resources/Copyduck.ttf", 45, ALLEGRO_ALIGN_CENTER); // HIGHSCORES y MENU
+    resources.fonts[5] = al_load_font("Resources/FunnyKid.ttf", 40, ALLEGRO_ALIGN_CENTER); // Fuente 6
 
     /*ANALIZA SI LAS FUENTES SE CARGARON CORRECTAMENTE*/
     for (uint16_t i = 0; i < FONTS ; i++) 
@@ -134,6 +134,8 @@ AllegroResources allegro_init(uint8_t map[ROWS][COLUMNS])
     resources.images[24] = al_load_bitmap("Resources/frog_die_1.png"); // Imagen 24
     resources.images[25] = al_load_bitmap("Resources/frog_die_2.png"); // Imagen 25
     resources.images[26] = al_load_bitmap("Resources/frog_die_3.png"); // Imagen 26
+    resources.images[27] = al_load_bitmap("Resources/level_up.png"); // Imagen 27
+    resources.images[28] = al_load_bitmap("Resources/score.png"); // Imagen 28
     
     /*ANALIZA SI LAS IMAGENES SE CARGARON CORRECTAMENTE*/
     for (uint16_t i = 0; i < IMAGES ; i++) 

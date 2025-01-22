@@ -4,11 +4,13 @@
 #include <stdio.h>
 
 //FUNCIONAN LAS DOS UBICAR DONDE VAN PARA QUE QUEDE ORDENADO
-void set_frog_dead(frog_t *frog, uint8_t dead) {
+void set_frog_dead(frog_t *frog, uint8_t dead) 
+{
     frog->is_dead = dead;
 }
 
-uint8_t get_frog_dead(const frog_t *frog) {
+uint8_t get_frog_dead(const frog_t *frog) 
+{
     return frog->is_dead;
 }
 
@@ -144,14 +146,14 @@ void set_frog_lives(frog_t *frog, uint8_t lives)
 
 /*-----Function set_frog_points-----*/
 // Función para modificar los puntos acumulados por el jugador
-void set_frog_points(frog_t *frog, int16_t points) 
+void set_frog_points(frog_t *frog, uint16_t points) 
 {
   frog->points = points;
 }
 
 /*-----Function set_frog_arrivals-----*/
 // Función para modificar la cantidad de veces que el jugador llegó al final
-void set_frog_arrivals(frog_t *frog, int8_t arrivals) 
+void set_frog_arrivals(frog_t *frog, uint8_t arrivals) 
 {
   frog->arrivals = arrivals;
 }
@@ -164,7 +166,7 @@ void set_frog_arrivals(frog_t *frog, int8_t arrivals)
 
 /*-----Function increase_frog_points-----*/
 // Función para incrementar los puntos acumulados por el jugador
-void increase_frog_points(frog_t *frog, int16_t points) 
+void increase_frog_points(frog_t *frog, uint16_t points) 
 {
   frog->points += points;
 }
@@ -217,6 +219,17 @@ int handle_move_up(frog_t *frog)
   {
     set_frog_y(frog, get_frog_y(frog) - FROG_MOVE_STEP);
     set_frog_state(frog, 0); // Mostrar rana hacia arriba
+    /*for(uint16_t i = ROWS-1; i >= 0; i--)
+    {
+      if(frog->reached_rows[i] == 0)
+      {
+        printf("Llegaste a la fila %d\n", i);
+        frog->reached_rows[i] = 1;
+        increase_frog_points(frog, 10);
+        break;
+      } 
+    }*/
+
     return 1;
   }
   return 0;
@@ -340,6 +353,7 @@ uint16_t detect_arrival(frog_t *frog, map_t *map)
     {
         (*map)[frog_row][frog_col] = 2; // Marca la posición como visitada
         frog->arrival_state = 1;
+        frog->points += 50; // Suma 50 puntos por llegar a la meta
         return 1; // Indica que la rana llegó a esta posición
     }
     else if ((frog_row == 0) && (((*map)[frog_row][frog_col]) == 2)) 
@@ -355,8 +369,14 @@ uint16_t detect_arrival(frog_t *frog, map_t *map)
 // Resetea todos los parámetros necesarios para iniciar un nuevo nivel
 void pass_level(frog_t *frog)
 {
+  frog->pass_level_state = 1;
   frog->levels++;
+  frog->points += 1000; // Suma 1000 puntos por pasar de nivel
   set_frog_arrivals(frog, 0);
+  for(uint8_t i = 0; i < ROWS; i++)
+  {
+    frog->reached_rows[i] = 0 ; // Vector para conteo de puntos
+  }
   set_frog_start(frog);
   set_map_ToZero();
   initialize_matrix();
