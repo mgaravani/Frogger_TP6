@@ -350,3 +350,15 @@ uint16_t detect_arrival(frog_t *frog, map_t *map)
     }
     return 0; // No llegó o no se cumplen las condiciones
 }
+
+/*----- Para pasar de nivel ------*/
+// Resetea todos los parámetros necesarios para iniciar un nuevo nivel
+void pass_level(frog_t *frog)
+{
+  frog->levels++;
+  set_frog_arrivals(frog, 0);
+  set_frog_start(frog);
+  set_map_ToZero();
+  initialize_matrix();
+  printf("Pasaste al nivel %d \n", frog->levels);
+}

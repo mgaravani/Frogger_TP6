@@ -30,15 +30,6 @@ int main(void)
     int row = 12 - (int)(((-(get_frog_y(&frog_position) - 11.96)) / 0.96));
     events_managment(&resources_for_main, event_queue, &frog_position, map);
 
-
-
-
-
-
-
-
-
-
     // ESTE FOR HABRIA QUE HACERLO DENTRO DE ALGUNA FUNCION Y LLAMAR SOLO LA FUNCION CON EL NIVEL Y VIDAS //
     for (int fila = 1; fila < 12; fila++) // FOR PARA MOVER LAS DISTINTAS FILAS
     {
@@ -61,23 +52,6 @@ int main(void)
         }
         shift_row(fila, directions[fila]); // Desplazar fila 0, 2, 4, 6, etc. a la derecha
       }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
       
       if (detect_arrival(&frog_position, &map)) //Deteccion de llegada
       {
@@ -109,11 +83,8 @@ int main(void)
 
       if(get_frog_arrivals(&frog_position) == 5) // SI LLEGASTE 5 VECES PASAS DE NIVEL
       {
-        set_frog_arrivals(&frog_position, 0);
-        //set_frog_points(&frog_position, get_frog_points(&frog_position) + 1000);
-        frog_position.levels++;
-        set_frog_start(&frog_position);
-        printf("NIVEL COMPLETADO\n");
+        // AGREGAR INTERZAZ DE ALLEGRO PARA CUANDO PASA DE NIVEL FABRIII
+        pass_level(&frog_position);
       }
     }
 

@@ -4,6 +4,7 @@
 #include <time.h>
 #include "map.h"
 
+map_t map;
 
 /*------------ FUNCTIONS ----------------*/
 
@@ -242,6 +243,17 @@ void shift_row(uint8_t row, uint8_t direction)
         else
         {
             map[row][COLUMNS - 1] = 0; // Limpiamos la última columna si no hay punto
+        }
+    }
+}
+
+void set_map_ToZero(void)
+{
+    for (uint16_t i = 0; i < ROWS; i++)
+    {
+        for (uint16_t j = 0; j < COLUMNS; j++)
+        {
+            map[i][j] = 0;
         }
     }
 }

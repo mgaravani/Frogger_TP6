@@ -11,7 +11,7 @@
 /*-----------TYPEDEF--------*/
 typedef uint8_t map_t[ROWS][COLUMNS];
 /*------------ GLOBAL VARIABLE ----------------*/
-extern map_t map;
+
 
 /*-----------PROTOTYPES--------*/
 
@@ -38,5 +38,16 @@ void initialize_matrix(void);
     TESTEADA
 */
 void shift_row(uint8_t row, uint8_t direction);
+
+
+/*------Funcion set_map_ToZero------*/
+/*
+    @brief  Setea toda la matriz en 0
+
+    @param  N/A
+
+    TESTEADA
+*/
+void set_map_ToZero(void);
 
 #endif

@@ -182,4 +182,9 @@ void frog_life_state(frog_t *frog);
 /* Devuelve 1 si la rana está en posición de llegada y devuelve 0 si no lo está.*/
 uint16_t detect_arrival(frog_t *frog, map_t *map);
 
+
+/*----- Para pasar de nivel ------*/
+// Resetea todos los parámetros necesarios para iniciar un nuevo nivel
+void pass_level(frog_t *frog);
+
 #endif // FROG_H

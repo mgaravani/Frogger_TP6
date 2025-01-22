@@ -171,7 +171,7 @@ void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS], frog_t *fro
         if (elapsed_time <= dead_frog_duration*0.3) 
         {
             // Dibuja la rana muerta mientras no se haya cumplido la duración
-            printf("Mostrando rana muerta durante %.2f segundos\n", elapsed_time);
+            //printf("Mostrando rana muerta durante %.2f segundos\n", elapsed_time);
             image_drawing(resources->images[24], 0, 0, 
                           (get_frog_x(frog) - 0.38) * cell_width, 
                           (get_frog_y(frog) + 0.16) * cell_height, 
@@ -180,7 +180,7 @@ void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS], frog_t *fro
             else if ((elapsed_time > dead_frog_duration*0.3) && (elapsed_time < dead_frog_duration*0.7)) 
         {
             // Dibuja la rana muerta mientras no se haya cumplido la duración
-            printf("Mostrando rana muerta durante %.2f segundos\n", elapsed_time);
+            //printf("Mostrando rana muerta durante %.2f segundos\n", elapsed_time);
             image_drawing(resources->images[25], 0, 0, 
                           (get_frog_x(frog) - 0.38) * cell_width, 
                           (get_frog_y(frog) + 0.16) * cell_height, 
