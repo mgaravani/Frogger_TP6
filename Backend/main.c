@@ -15,6 +15,7 @@ int main(void)
   init_frog(&frog_position, 7, 11.96, 0, 1, 3, 0, 0, 0, 0, 0, 1); // Inicializo la rana
   frog_position.pass_level_state = 0;
   frog_position.paused_state = 0;
+  frog_position.actual_row = ROWS - 1;
   for(uint8_t i = 0; i < ROWS; i++)
   {
     frog_position.reached_rows[i] = 0 ; // Vector para conteo de puntos

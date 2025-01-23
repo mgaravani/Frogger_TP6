@@ -3,18 +3,6 @@
 #include "map.h"
 #include <stdio.h>
 
-//FUNCIONAN LAS DOS UBICAR DONDE VAN PARA QUE QUEDE ORDENADO
-void set_frog_dead(frog_t *frog, uint8_t dead) 
-{
-    frog->is_dead = dead;
-}
-
-uint8_t get_frog_dead(const frog_t *frog) 
-{
-    return frog->is_dead;
-}
-
-
 
 /*------Function init_frog------*/
 // Función para inicializar la rana con valores predeterminados
@@ -65,6 +53,13 @@ uint8_t get_frog_state(const frog_t *frog)
 uint8_t get_frog_move(const frog_t *frog) 
 {
   return frog->move;
+}
+
+/*-----Function get_frog_dead-----*/
+// Función para obtener el estado de vida de la rana
+uint8_t get_frog_dead(const frog_t *frog) 
+{
+    return frog->is_dead;
 }
 
 /*-----Function get_frog_life-----*/
@@ -128,6 +123,13 @@ void set_frog_state(frog_t *frog, uint8_t state)
 void set_frog_move(frog_t *frog, uint8_t move) 
 {
   frog->move = move;
+}
+
+/*-----Function set_frog_dead-----*/
+// Función para modificar el estado de vida de la rana
+void set_frog_dead(frog_t *frog, uint8_t dead) 
+{
+    frog->is_dead = dead;
 }
 
 /*-----Function set_frog_life-----*/
@@ -206,6 +208,8 @@ int handle_move_down(frog_t *frog)
   {
     set_frog_y(frog, get_frog_y(frog) + FROG_MOVE_STEP);
     set_frog_state(frog, 1); // Mostrar rana hacia abajo
+    ++frog->actual_row;
+    printf("FILA ACTUAL: %d\n", frog->actual_row);
     return 1;
   }
   return 0;
@@ -219,17 +223,13 @@ int handle_move_up(frog_t *frog)
   {
     set_frog_y(frog, get_frog_y(frog) - FROG_MOVE_STEP);
     set_frog_state(frog, 0); // Mostrar rana hacia arriba
-    /*for(uint16_t i = ROWS-1; i >= 0; i--)
+    if(frog->reached_rows[frog->actual_row] == 0 )
     {
-      if(frog->reached_rows[i] == 0)
-      {
-        printf("Llegaste a la fila %d\n", i);
-        frog->reached_rows[i] = 1;
+        frog->reached_rows[frog->actual_row] = 1;
         increase_frog_points(frog, 10);
-        break;
-      } 
-    }*/
-
+    } 
+    --frog->actual_row;
+    printf("FILA ACTUAL: %d\n", frog->actual_row);
     return 1;
   }
   return 0;
@@ -241,6 +241,7 @@ void set_frog_start(frog_t *frog)
 {
   set_frog_x(frog, 7);
   set_frog_y(frog, 11.96f);
+  frog->actual_row = ROWS - 1;
 }
 
 /*-----Function handle_move_left-----*/
@@ -328,10 +329,6 @@ uint16_t frog_in_range(map_t *map, frog_t *frog)
   return 0;
 }
 
-
-
-
-
 /*-----Function frog_life_state*/
 // Funcion para analizar el estado de vida de la rana
 void frog_life_state(frog_t *frog) 
@@ -354,6 +351,10 @@ uint16_t detect_arrival(frog_t *frog, map_t *map)
         (*map)[frog_row][frog_col] = 2; // Marca la posición como visitada
         frog->arrival_state = 1;
         frog->points += 50; // Suma 50 puntos por llegar a la meta
+        for(uint8_t i = 0; i < ROWS; i++)
+        {
+          frog->reached_rows[i] = 0 ; // Vector para conteo de puntos
+        }
         return 1; // Indica que la rana llegó a esta posición
     }
     else if ((frog_row == 0) && (((*map)[frog_row][frog_col]) == 2)) 
@@ -381,4 +382,27 @@ void pass_level(frog_t *frog)
   set_map_ToZero();
   initialize_matrix();
   printf("Pasaste al nivel %d \n", frog->levels);
+}
+
+//NO SE SI VA ACA, pero por ahora si
+
+void restart(frog_t *frog)
+{
+  frog->points = 0;
+  frog->levels = 0;
+  frog->lives = 3;
+  frog->pass_level_state = 0;
+  frog->arrival_state = 0;
+  frog->is_dead = 0;
+  frog->paused_state = 0;
+  frog->points = 0;
+  frog->arrivals = 0;
+  for(uint8_t i = 0; i < ROWS; i++)
+  {
+    frog->reached_rows[i] = 0 ; // Vector para conteo de puntos
+  }
+  set_frog_start(frog);
+  set_map_ToZero();
+  initialize_matrix();
+  printf("Reiniciaste el juego\n");
 }

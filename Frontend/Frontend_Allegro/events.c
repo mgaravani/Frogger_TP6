@@ -41,9 +41,17 @@ void events_managment(AllegroResources *resources, ALLEGRO_EVENT_QUEUE *event_qu
         {
             switch (event.keyboard.keycode) 
             {
+                // Lógica para manejar la pausa
+                //AGREGAR MENSAJE DE JUEGO PAUSADO
                 case ALLEGRO_KEY_P:
                     frog->paused_state = !frog->paused_state;
                     break;
+                // Lógica para manejar el reinicio
+                //AGREGAR MENSAJE DE JUEGO REINICIADO
+                case ALLEGRO_KEY_R:
+                    restart(frog);
+                    break;
+                // Lógica para manejar la flecha abajo y la tecla S
                 case ALLEGRO_KEY_DOWN:
                 case ALLEGRO_KEY_S:
                     if(resources->menu_state == 1)
@@ -53,11 +61,12 @@ void events_managment(AllegroResources *resources, ALLEGRO_EVENT_QUEUE *event_qu
                             resources->selected_option++;
                         }
                     }
-                    else
+                    else if(frog->paused_state == 0)
                     {
-                    if (handle_move_down(frog)) al_play_sample(resources->sounds[0], 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
+                        if (handle_move_down(frog)) al_play_sample(resources->sounds[0], 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
                     }
                     break;
+                // Lógica para manejar la flecha arriba y la tecla W    
                 case ALLEGRO_KEY_UP:
                 case ALLEGRO_KEY_W:
                     if(resources->menu_state == 1)
@@ -67,19 +76,28 @@ void events_managment(AllegroResources *resources, ALLEGRO_EVENT_QUEUE *event_qu
                             resources->selected_option--;
                         }
                     }
-                    else
+                    else if(frog->paused_state == 0)
                     {
-                    if (handle_move_up(frog)) al_play_sample(resources->sounds[0], 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
+                        if (handle_move_up(frog)) al_play_sample(resources->sounds[0], 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
                     }
                     break;
+                // Lógica para manejar la flecha izquierda y la tecla A
                 case ALLEGRO_KEY_LEFT:
                 case ALLEGRO_KEY_A:
-                    if (handle_move_left(frog)) al_play_sample(resources->sounds[0], 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
+                    if (frog->paused_state == 0)
+                    {
+                        if (handle_move_left(frog)) al_play_sample(resources->sounds[0], 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
+                    }
                     break;
+                // Lógica para manejar la flecha derecha y la tecla D
                 case ALLEGRO_KEY_RIGHT:
                 case ALLEGRO_KEY_D:
-                   if (handle_move_right(frog)) al_play_sample(resources->sounds[0], 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
+                    if (frog->paused_state == 0)
+                    {
+                        if (handle_move_right(frog)) al_play_sample(resources->sounds[0], 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
+                    }
                     break;
+                // Lógica para manejar la tecla ENTER
                 case ALLEGRO_KEY_ENTER:
                 if(resources->selected_option == 1) //Si se eligio Play game
                 {   
@@ -104,8 +122,10 @@ void events_managment(AllegroResources *resources, ALLEGRO_EVENT_QUEUE *event_qu
                     exit(EXIT_SUCCESS);//Si se eligio Quit Game
                 }
                     break;
+                // Lógica para manejar la tecla ESCAPE
                 case ALLEGRO_KEY_ESCAPE:
                     // Lógica para manejar FLECHA ESCAPE
+                    //DEBERIA LLEVARTE AL MENU PRINCIPAL
                     cleanup_allegro(resources);
                     exit(EXIT_SUCCESS);
                     break;

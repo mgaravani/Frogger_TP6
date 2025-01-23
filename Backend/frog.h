@@ -5,10 +5,6 @@
 #include <stdint.h>
 #include "map.h"
 
-
-
-
-
 /*-----LÍMITES Y CONSTANTES USADAS-----*/
 #define FROG_LIMIT_UP 1.3
 #define FROG_LIMIT_DOWN 11.0
@@ -34,13 +30,13 @@ typedef struct {
     uint8_t pass_level_state; // Flag para indicar si la rana paso de nivel
     uint8_t paused_state; // Flag para indicar si el juego esta pausado
     uint8_t reached_rows[ROWS]; // Vector para conteo de puntos
+    uint8_t actual_row; // Fila actual de la rana
 } frog_t;
 
 /*-----------PROTOTYPES--------*/
 
-//TESTEO
-void set_frog_dead(frog_t *frog, uint8_t dead);
-uint8_t get_frog_dead(const frog_t *frog);
+//NO DEBERIA IR ACA, PERO POR AHORA SIRVE
+void restart(frog_t *frog);
 
 /***************************************************************************
 *                                                                          *
@@ -81,6 +77,10 @@ uint8_t get_frog_state(const frog_t *frog);
 // Función para obtener la cantidad de vidas de la rana
 uint8_t get_frog_lives(const frog_t *frog);
 
+/*-----get_frog_dead-----*/
+// Función para obtener el estado de vida de la rana
+uint8_t get_frog_dead(const frog_t *frog);
+
 /*-----get_frog_points-----*/
 // Función para obtener los puntos acumulados por el jugador
 int16_t get_frog_points(const frog_t *frog);
@@ -116,6 +116,10 @@ void set_frog_state(frog_t *frog, uint8_t state);
 /*-----set_frog_lives-----*/
 // Función para modificar la cantidad de vidas de la rana
 void set_frog_lives(frog_t *frog, uint8_t lives);
+
+/*-----set_frog_dead-----*/
+// Función para modificar el estado de vida de la rana
+void set_frog_dead(frog_t *frog, uint8_t dead);
 
 /*-----set_frog_points-----*/
 // Función para modificar los puntos acumulados por el jugador

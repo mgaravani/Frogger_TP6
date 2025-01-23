@@ -13,6 +13,10 @@ void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS], frog_t *fro
     static u_int16_t showing_dead_frog = 0; // Indica si estamos mostrando la rana muerta
     double dead_frog_duration = 1.0; // Duración de la animación en segundos
 
+    static clock_t level_pass_state = 0; // Almacena el tiempo en que la rana pasó de nivel
+    static u_int16_t showing_level_pass = 0; // Indica si estamos mostrando la rana pasando de nivel
+    double level_pass_duration = 1.0; // Duración de la animación en segundos
+
     // Limpiar pantalla
     al_clear_to_color(al_map_rgb(0, 0, 0)); // Fondo negro
 
@@ -156,10 +160,28 @@ void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS], frog_t *fro
     //AGREGAR ALGO CON MILLIS PARA QUE SE VEA BIEN LA IMAGEN
     if(frog->pass_level_state == 1)
     {
-        //Aca iria el sonido de pasar nivel
-        //al_play_sample(resources->sounds[3], 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
-        image_drawing(resources->images[27],0,0,WIDTH/3,HEIGHT/2 - 9,cell_width*4, cell_height);
+        if(!showing_level_pass)
+        {
+            level_pass_state = clock();
+            showing_level_pass = 1;
+            //Aca iria el sonido de pasar nivel
+            //al_play_sample(resources->sounds[3], 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
+        }
+
+        double elapsed_time = (double)(clock() - level_pass_state) / CLOCKS_PER_SEC;
+
+        if (elapsed_time <= level_pass_duration * 5.35) 
+        {
+        // Calcular el desplazamiento en función del tiempo transcurrido
+        float progress = elapsed_time / (level_pass_duration * 5.05); // Progreso entre 0 y 1
+        uint32_t offset = (uint32_t)((progress - 0.5) * 600); // Rango de -300 a +300
+        image_drawing(resources->images[27], 0, 0, WIDTH / 3 + offset, HEIGHT / 2 - 9, cell_width * 4, cell_height);
+        }
+        else 
+        {
+        showing_level_pass = 0;
         frog->pass_level_state = 0;
+        }
     }
 
     // Dibujar la rana muerta si es necesario
