@@ -57,7 +57,10 @@ int main(void)
             else set_frog_x(&frog_position, get_frog_x(&frog_position) - 1);   
           }
         }
+        if(frog_position.paused_state == 0)
+        {
         shift_row(fila, directions[fila]); // Desplazar fila 0, 2, 4, 6, etc. a la derecha
+        }
       }
       
       if (detect_arrival(&frog_position, &map)) //Deteccion de llegada
@@ -100,3 +103,18 @@ int main(void)
 
   return 0;
 }
+
+
+//NO FUNCIONAAA
+/*
+void go_back_to_menu(AllegroResources *resources_for_main, ALLEGRO_EVENT_QUEUE *event_queue, frog_t *frog_position, uint8_t map[ROWS][COLUMNS])
+{
+  restart(frog_position);
+  while(resources_for_main->menu_state == 1)
+  { 
+    events_managment(&resources_for_main, event_queue, &frog_position, map);
+    allegro_menu(&resources_for_main);
+  }
+  initialize_matrix();
+
+}*/

@@ -157,7 +157,7 @@ void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS], frog_t *fro
         }
     }
     
-    //AGREGAR ALGO CON MILLIS PARA QUE SE VEA BIEN LA IMAGEN
+    // Dibujar mensaje de pasar nivel
     if(frog->pass_level_state == 1)
     {
         if(!showing_level_pass)
@@ -184,7 +184,7 @@ void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS], frog_t *fro
         }
     }
 
-    // Dibujar la rana muerta si es necesario
+    // Dibujar la rana muerta 
     if (get_frog_dead(frog) == 1)
     {     
          if (!showing_dead_frog)
@@ -241,6 +241,13 @@ void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS], frog_t *fro
         }
     }
 
+    //Dibuja el mensaje de pausa
+    if(frog->paused_state == 1)
+    {
+        image_drawing(resources->images[29], 0, 0, WIDTH/3 +20 , HEIGHT / 2 -9 , cell_width * 4, cell_height );
+    }
+
+    //Dibuja las vidas de la rana
     if(get_frog_lives(frog) > 0)
     {
         for(uint8_t i = 1 ; i <= get_frog_lives(frog) ; i++)
@@ -263,6 +270,8 @@ void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS], frog_t *fro
     al_flip_display();
 }
 
+/*------Function image_drawing------*/
+// Función para dibujar una imagen
 void image_drawing(ALLEGRO_BITMAP *image_to_draw, float origin_x, float origin_y, float position_x , float position_y, float width, float height)
 {
                 al_draw_scaled_bitmap(

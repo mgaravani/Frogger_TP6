@@ -403,6 +403,5 @@ void restart(frog_t *frog)
   }
   set_frog_start(frog);
   set_map_ToZero();
-  initialize_matrix();
   printf("Reiniciaste el juego\n");
 }

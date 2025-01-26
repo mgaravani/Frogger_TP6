@@ -38,6 +38,7 @@ typedef struct {
 //NO DEBERIA IR ACA, PERO POR AHORA SIRVE
 void restart(frog_t *frog);
 
+
 /***************************************************************************
 *                                                                          *
 *                  FUNCIONES RELACIONADAS CON LA RANA                      *

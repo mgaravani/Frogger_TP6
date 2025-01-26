@@ -42,14 +42,20 @@ void events_managment(AllegroResources *resources, ALLEGRO_EVENT_QUEUE *event_qu
             switch (event.keyboard.keycode) 
             {
                 // Lógica para manejar la pausa
-                //AGREGAR MENSAJE DE JUEGO PAUSADO
                 case ALLEGRO_KEY_P:
+                    if(resources->menu_state == 0)
+                    {
                     frog->paused_state = !frog->paused_state;
+                    }
                     break;
                 // Lógica para manejar el reinicio
                 //AGREGAR MENSAJE DE JUEGO REINICIADO
                 case ALLEGRO_KEY_R:
+                    if(resources->menu_state == 0)
+                    {
                     restart(frog);
+                    initialize_matrix();
+                    }
                     break;
                 // Lógica para manejar la flecha abajo y la tecla S
                 case ALLEGRO_KEY_DOWN:
