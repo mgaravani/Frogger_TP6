@@ -1,7 +1,7 @@
 #include "functions.h"
 #include "macros.h"
 #include "disdrv.h"
-#include "arrays.h"
+
 
 #define ROWS_ORIGINAL 13
 #define COLS_ORIGINAL 20
