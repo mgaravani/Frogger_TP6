@@ -9,4 +9,11 @@
 #include "../../Backend/highscores.h"
 #include "../../Backend/map.h"
 
+void handleJoystickInput(int *choice);
+void playGame();
+void showFrogger();
+int8_t showMenu();
+void initializeFroggerBitmap(uint8_t bitmap[DISP_CANT_Y_DOTS][64]);//inicializa la matriz inicial de mostrar el juego
+void shiftDisplay(uint8_t display[DISP_CANT_Y_DOTS][DISP_CANT_X_DOTS], uint8_t bitmap[DISP_CANT_Y_DOTS][64], int offset);//mueve la matriz mostrada
+
 #endif
