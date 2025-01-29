@@ -1,8 +1,8 @@
 # Variables
 CC = gcc
 CFLAGS = -Wall -pthread
-OBJ = joydrv.o disdrv.o functions.o
-HDR = joydrv.h disdrv.h arrays.h functions.h ../../Backend/map.h #Librerias necesarias
+OBJ = joydrv.o disdrv.o functions.o ../../Backend/map.o ../../Backend/frog.o #Objetos necesarios
+HDR = joydrv.h disdrv.h arrays.h functions.h ../../Backend/map.h ../../Backend/frog.h #Librerias necesarias
 
 # Targets
 all: frontend_raspberry
