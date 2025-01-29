@@ -2,7 +2,7 @@
 
 void ShowFrogger(void); // Declaración de ShowFrogger
 int8_t ShowMenu(void); // Declaración de ShowMenu
-
+extern map_t map;
 int main() {
     int choice = 0;
     int running = 1; // Variable de control para mantener el programa en ejecución
@@ -100,47 +100,103 @@ int8_t ShowMenu(void) {
 }
 
 
+
+
+// Hilo de la matriz
+void *matrix_thread(void *arg) {
+    (void)arg;  // Evitar warning por argumento no usado
+
+    initialize_matrix(); // Generar la matriz inicial
+    joyinfo_t coord;
+
+    // Declarar la matriz recortada de 13x16
+    uint8_t map_recortada[DISP_CANT_X_DOTS][DISP_CANT_Y_DOTS];  
+
+    do {
+        for (uint8_t fila = 2; fila <= 15; fila++) {
+            uint8_t direccion = (fila % 2 == 0) ? 1 : 0;  // Par → derecha (1), Impar → izquierda (0)
+            desplazar_fila(map, fila, direccion);  // Usar map, que es 13x20
+        }
+
+        // Recortar map (13x20) a map_recortada (13x16)
+        recortar_matriz(map, map_recortada);
+
+        mostrar_matriz(map_recortada);  // Mostrar la matriz recortada en el display
+        usleep(500000);       // Esperar 500 ms
+
+        coord = joy_read();    // Leer estado del joystick para salir si es necesario
+    } while (coord.sw == J_NOPRESS);
+
+    return NULL;
+}
+
+// Función principal del juego
 int playGame(int choice) {
     printf("\n[Iniciando el juego...]\n");
-    joy_init();										//inicializa el joystick
-	disp_init();									//inicializa el display
-	disp_clear();									//limpia todo el display
-	dcoord_t pos = {DISP_MAX_X>>1 , DISP_MAX_Y>>1};	//pos es la posición actual, empieza en el centro de la matriz
-	dcoord_t npos = pos;							//npos es la próxima posición
-	joyinfo_t coord = {0,0,J_NOPRESS};							//coordenadas medidas del joystick
-	do
-	{
-		disp_update();	//Actualiza el display con el contenido del buffer
-		coord = joy_read();	//Guarda las coordenadas medidas
-		
-		//Establece la próxima posición según las coordenadas medidas
-		if(coord.x > THRESHOLD && npos.x < DISP_MAX_X)
-		{
-			npos.x++;
-		}
-		if(coord.x < -THRESHOLD && npos.x > DISP_MIN)
-		{
-			npos.x--;
-		}
-		if(coord.y > THRESHOLD && npos.y > DISP_MIN)
-		{
-			npos.y--;
-		}
-		if(coord.y < -THRESHOLD && npos.y < DISP_MAX_Y)
-		{
-			npos.y++;
-		}
-		
-		disp_write(pos,D_OFF);	//apaga la posición vieja en el buffer
-		disp_write(npos,D_ON);	//enciende la posición nueva en el buffer
-		pos = npos;				//actualiza la posición actual
-		
-	} while( coord.sw == J_NOPRESS );	//termina si se presiona el switch
-	//Borro el display al salir
-	disp_clear();
+    joy_init();
+    disp_init();
+    disp_clear();
+
+    frog_t frog;
+    init_frog(&frog, 7, 11.96, 0, 1, 3, 0, 0, 0, 0, 0, 1);
+
+    frog.pass_level_state = 0;
+    frog.paused_state = 0;
+    frog.actual_row = ROWS - 1;
+
+    dcoord_t pos = {DISP_MAX_X >> 1, DISP_MAX_Y - 1};
+    dcoord_t npos = pos;
+    joyinfo_t coord = {0, 0, J_NOPRESS};
+    uint8_t can_move = 1;
+
+    pthread_t matrix_tid;
+    pthread_create(&matrix_tid, NULL, matrix_thread, NULL);  // Crear el hilo de la matriz
+
+    do {
+        disp_update();
+        coord = joy_read();
+
+        if (coord.x > -THRESHOLD_OFF && coord.x < THRESHOLD_OFF &&
+            coord.y > -THRESHOLD_OFF && coord.y < THRESHOLD_OFF) {
+            can_move = 1;
+        }
+
+        if (can_move && coord.x > THRESHOLD && npos.x < DISP_MAX_X) {
+            handle_move_right(&frog);
+            npos.x++;
+            can_move = 0;
+        }
+        if (can_move && coord.x < -THRESHOLD && npos.x > DISP_MIN) {
+            handle_move_left(&frog);
+            npos.x--;
+            can_move = 0;
+        }
+        if (can_move && coord.y > THRESHOLD && npos.y > DISP_MIN) {
+            handle_move_up(&frog);
+            npos.y--;
+            can_move = 0;
+        }
+        if (can_move && coord.y < -THRESHOLD && npos.y < DISP_MAX_Y) {
+            handle_move_down(&frog);
+            npos.y++;
+            can_move = 0;
+        }
+
+        disp_write(pos, D_OFF);
+        disp_write(npos, D_ON);
+        pos = npos;
+
+    } while (coord.sw == J_NOPRESS);
+
+    disp_clear();
     disp_update();
-    return choice = 0;
+
+    pthread_join(matrix_tid, NULL);  // Esperar que termine el hilo de la matriz
+    return 0;
 }
+
+
+
 void shiftDisplay(uint8_t display[DISP_CANT_Y_DOTS][DISP_CANT_X_DOTS], uint8_t bitmap[DISP_CANT_Y_DOTS][46], int offset) {
     // Copiar una ventana de 16x16 del bitmap al display
     for (int y = 0; y < DISP_CANT_Y_DOTS; y++) {
