@@ -2,7 +2,8 @@
 #include "../Backend/frog.h"
 #include "../Frontend/Frontend_Allegro/allegro.h"
 #include "../Backend/map.h"
-#include "delay.h"
+#include "../Backend/topScore.h"
+#include "../Backend/delay.h"
 #include <stdio.h>
 #include <unistd.h>
 
@@ -74,7 +75,24 @@ int main(void)
       {
         resources_for_main.menu_state = 1;
         resources_for_main.selected_option = 1;
-        FILE* pointer = highscores(get_frog_points(&frog_position), "Jugador"); //ACA DEBERIA PASAR EL NOMBRE INGRESADO POR EL USUARIO
+        resources_for_main.name_state = 1;
+        
+        player players[MAX_PLAYERS];
+
+        // Cargar puntajes desde el archivo
+        loadScores("highscores.txt", players);
+
+        enter_player_name(event_queue, &resources_for_main);
+
+        player newPlayer;
+        strcpy(newPlayer.name, resources_for_main.player_name);  // Copia la cadena en el array
+        newPlayer.score = get_frog_points(&frog_position);      // Asigna el puntaje
+        newScore(players, newPlayer);                            // Agrega el nuevo puntaje
+
+        // Guardar los puntajes actualizados
+        saveScores("highscores.txt", players);
+
+        FILE* pointer = fopen("highscores.txt", "r");
         if(pointer == NULL)
         {
           fprintf(stderr, "Error: no se pudo abrir el archivo de highscores.\n");
@@ -87,7 +105,7 @@ int main(void)
           menu_highscores(pointer, &resources_for_main);
         }
         fclose(pointer);
-        cleanup_allegro(&resources_for_main);
+        cleanup_allegro(&resources_for_main); //CREO QUE ESTAS TRES COSAS SON INNECESARIAS ACA
         return 0;
       }
 

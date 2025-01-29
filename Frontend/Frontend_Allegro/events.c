@@ -1,7 +1,10 @@
 /*------------INCLUDES-----------*/
 #include <stdio.h>
+#include <string.h>
 #include "allegro.h"
 #include "../../Backend/frog.h"
+
+#define MAX_NAME_LENGTH 20
 
 /*-----Function init_events-----*/
 // Función para inicializar los eventos
@@ -111,7 +114,7 @@ void events_managment(AllegroResources *resources, ALLEGRO_EVENT_QUEUE *event_qu
                 }
                 else if(resources->selected_option == 2) //Si se eligio High Scores
                 {
-                    FILE* pointer = highscores(get_frog_points(frog), "Jugador");
+                    FILE* pointer = fopen("highscores.txt", "r");
                     if(pointer == NULL)
                     {
                         fprintf(stderr, "Error: no se pudo abrir el archivo de highscores.\n");
@@ -135,6 +138,51 @@ void events_managment(AllegroResources *resources, ALLEGRO_EVENT_QUEUE *event_qu
                     cleanup_allegro(resources);
                     exit(EXIT_SUCCESS);
                     break;
+            }
+        }
+    }
+}
+
+
+// Función para manejar la entrada del nombre del jugador
+//No deja apretar escape para salir
+void enter_player_name(ALLEGRO_EVENT_QUEUE *event_queue, AllegroResources *resources) 
+{
+    ALLEGRO_EVENT event;
+    uint16_t name_length = 0;
+    resources->player_name[0] = '\0'; // Inicializa el string vacío
+
+    while (1) 
+    {
+        al_wait_for_event(event_queue, &event);
+
+        if (event.type == ALLEGRO_EVENT_KEY_DOWN) 
+        {
+            uint16_t key = event.keyboard.keycode;
+
+            // Si se presiona Enter, finaliza la entrada del nombre
+            if (key == ALLEGRO_KEY_ENTER && name_length > 0) 
+            {
+                resources->name_state = 0;
+                break;
+            }
+            // Si se presiona Backspace, borra el último carácter
+            else if (key == ALLEGRO_KEY_BACKSPACE && name_length > 0) 
+            {
+                resources->player_name[--name_length] = '\0';
+            }
+            // Si se presiona una letra y no se supera el límite
+            else if (name_length < MAX_NAME_LENGTH - 1) 
+            {
+                if ((key >= ALLEGRO_KEY_A && key <= ALLEGRO_KEY_Z) || key == ALLEGRO_KEY_SPACE) 
+                {
+                    resources->player_name[name_length++] = (key == ALLEGRO_KEY_SPACE) ? ' ' : ('A' + (key - ALLEGRO_KEY_A));
+                    resources->player_name[name_length] = '\0'; // Asegura que la cadena termine en NULL
+                }
+            }
+            else if (key == ALLEGRO_KEY_ESCAPE)
+            {
+                //AGREGAR LO QUE DEBERIA HACER ACA
             }
         }
     }

@@ -16,7 +16,6 @@
 #include <allegro5/allegro_audio.h>
 #include <allegro5/allegro_acodec.h>
 #include "../../Backend/frog.h"
-#include "../../Backend/highscores.h"
 
 /*-------DEFINES------*/
 #define ROWS 13
@@ -25,7 +24,7 @@
 #define HEIGHT 650
 #define SOUNDS 3
 #define FONTS 6
-#define IMAGES 30
+#define IMAGES 33
 
 /*------STRUCTS------*/
 
@@ -43,6 +42,8 @@ typedef struct
     uint32_t selected_option; //Guardo la opcion seleccionada en el menu de inicio
     uint8_t menu_state; //Guardo el estado del menu
     uint8_t highscores_state; //Guardo el estado de los puntajes altos
+    uint8_t name_state; //Guardo el estado del nombre del jugador
+    char player_name[20]; //Guardo el nombre del jugador
 
 } AllegroResources;
 
@@ -60,6 +61,10 @@ void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS], frog_t *fro
 /*-----cleanup_allegro-----*/
 // Función para limpiar allegro
 void cleanup_allegro(AllegroResources *resources);
+
+/*-----enter_player_name-----*/
+// Función para manejar la entrada del nombre del jugador
+void enter_player_name(ALLEGRO_EVENT_QUEUE *event_queue, AllegroResources *resources);
 
 /*-----init_events-----*/
 // Función para inicializar los eventos

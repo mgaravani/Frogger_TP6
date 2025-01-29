@@ -6,6 +6,8 @@
         "allegro_color.h": "c",
         "allegro_image.h": "c",
         "frog.h": "c",
-        "topscore.h": "c"
+        "delay.h": "c",
+        "typeinfo": "c",
+        "allegro_audio.h": "c"
     }
 }

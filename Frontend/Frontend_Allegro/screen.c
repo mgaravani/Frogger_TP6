@@ -241,11 +241,23 @@ void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS], frog_t *fro
         }
     }
 
+    //AGREGAR DIBUJO DEL MENSAJE DE GAME OVER
+
+
     //Dibuja el mensaje de pausa
     if(frog->paused_state == 1)
     {
         image_drawing(resources->images[29], 0, 0, WIDTH/3 +20 , HEIGHT / 2 -9 , cell_width * 4, cell_height );
     }
+
+    if(resources->name_state == 1)
+    {
+        image_drawing(resources->images[30], 0, 0, WIDTH/3 +20 , HEIGHT / 2 -9 , cell_width * 4, cell_height );
+        al_draw_text(resources->fonts[5], al_map_rgb(220, 250, 6), WIDTH/3 + 20, HEIGHT / 2 - 9, 0, resources->player_name);
+        al_flip_display();
+        al_rest(1.0);
+    }
+
 
     //Dibuja las vidas de la rana
     if(get_frog_lives(frog) > 0)
