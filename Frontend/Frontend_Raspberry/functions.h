@@ -21,6 +21,6 @@
 void moveMatrix(uint8_t target[DISP_CANT_X_DOTS][DISP_CANT_Y_DOTS], uint8_t source[SAPO_SIZE][SAPO_SIZE], int startRow, int startCol);
 void mostrar_matriz(uint8_t matriz[DISP_CANT_Y_DOTS][DISP_CANT_X_DOTS]);
 void generar_matriz(uint8_t  matriz[DISP_CANT_Y_DOTS][DISP_CANT_X_DOTS]);
-void desplazar_fila(uint8_t matriz[ROWS_ORIGINAL][COLS_ORIGINAL], uint8_t fila, uint8_t direccion);
+void desplazar_fila(uint8_t matriz[ROWS_ORIGINAL][COLS_ORIGINAL], uint8_t fila, uint8_t direccion, uint8_t velocidad);
 void recortar_matriz(uint8_t matriz_original[ROWS_ORIGINAL][COLS_ORIGINAL], uint8_t matriz_recortada[DISP_CANT_Y_DOTS][16]);
 #endif 
