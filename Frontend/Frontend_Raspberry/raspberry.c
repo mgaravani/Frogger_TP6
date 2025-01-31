@@ -101,19 +101,19 @@ int8_t ShowMenu(void) {
 
 
 
-
+/*
 // Hilo de la matriz
 void *matrix_thread(void *arg) {
     (void)arg;  // Evitar warning por argumento no usado
 
     initialize_matrix(); // Generar la matriz inicial
-    joyinfo_t coord;
+    //joyinfo_t coord;
 
     // Declarar la matriz recortada de 13x16
     uint8_t map_recortada[DISP_CANT_X_DOTS][DISP_CANT_Y_DOTS];  
 
     do {
-        for (uint8_t fila = 2; fila <= 15; fila++) {
+        for (uint8_t fila = 1; fila <= 15; fila++) {
             uint8_t direccion = (fila % 2 == 0) ? 1 : 0;  // Par → derecha (1), Impar → izquierda (0)
             desplazar_fila(map, fila, direccion);  // Usar map, que es 13x20
         }
@@ -128,17 +128,15 @@ void *matrix_thread(void *arg) {
     } while (coord.sw == J_NOPRESS);
 
     return NULL;
-}
-
-// Función principal del juego
-int playGame(int choice) {
-    printf("\n[Iniciando el juego...]\n");
+}*/
+void *frog_thread(void *arg) {
+    usleep(500000);
+    (void)arg;  // Evitar warning por argumento no usado
     joy_init();
-    disp_init();
-    disp_clear();
-
     frog_t frog;
-    init_frog(&frog, 7, 11.96, 0, 1, 3, 0, 0, 0, 0, 0, 1);
+    uint8_t map_recortada[DISP_CANT_X_DOTS][DISP_CANT_Y_DOTS]; // Declarar la matriz recortada de 13x16
+    init_frog(&frog, 0, 0, 0, 1, 3, 0, 0, 0, 0, 0, 1);
+    initialize_matrix();
 
     frog.pass_level_state = 0;
     frog.paused_state = 0;
@@ -148,10 +146,6 @@ int playGame(int choice) {
     dcoord_t npos = pos;
     joyinfo_t coord = {0, 0, J_NOPRESS};
     uint8_t can_move = 1;
-
-    pthread_t matrix_tid;
-    pthread_create(&matrix_tid, NULL, matrix_thread, NULL);  // Crear el hilo de la matriz
-
     do {
         disp_update();
         coord = joy_read();
@@ -184,14 +178,39 @@ int playGame(int choice) {
 
         disp_write(pos, D_OFF);
         disp_write(npos, D_ON);
+        disp_update();
         pos = npos;
+        for (uint8_t fila = 1; fila <= 15; fila++) {
+        uint8_t direccion = (fila % 2 == 0) ? 1 : 0;  // Par → derecha (1), Impar → izquierda (0)
+        uint8_t velocidad = 1;  // Desplazar 2 posiciones por llamada
+        desplazar_fila(map, fila, direccion, velocidad);  // Usar map, que es 13x20
+    }
 
+        // Recortar map (13x20) a map_recortada (13x16)
+        recortar_matriz(map, map_recortada);
+
+        mostrar_matriz(map_recortada);  // Mostrar la matriz recortada en el display
+        usleep(100000);       // Esperar 500 ms
+        
     } while (coord.sw == J_NOPRESS);
-
+    return NULL;
+}
+// Función principal del juego
+int playGame(int choice) {
+    printf("\n[Iniciando el juego...]\n");
+    disp_init();
+    disp_clear();
+    extern map_t map; // Declarar la variable global map
+   // pthread_t matrix_tid;
+    //pthread_create(&matrix_tid, NULL, matrix_thread, NULL);  // Crear el hilo de la matriz
+    pthread_t frog_tid;
+    pthread_create(&frog_tid, NULL, frog_thread, NULL);  // Crear el hilo de la rana
+   // pthread_join(matrix_tid, NULL);  // Esperar a que termine el hilo de la matriz
+    pthread_join(frog_tid, NULL);  // Esperar a que termine el hilo de la rana
     disp_clear();
     disp_update();
 
-    pthread_join(matrix_tid, NULL);  // Esperar que termine el hilo de la matriz
+
     return 0;
 }
 
