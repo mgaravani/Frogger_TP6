@@ -17,6 +17,11 @@ void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS], frog_t *fro
     static u_int16_t showing_level_pass = 0; // Indica si estamos mostrando la rana pasando de nivel
     double level_pass_duration = 1.0; // Duración de la animación en segundos
 
+    // Variable estática para mantener el tiempo de inicio
+    static clock_t name_state = 0; // Almacena el tiempo en que se muestra el nombre
+    static u_int16_t showing_name = 0; // Indica si estamos mostrando el nombre
+    double name_duration = 1.0; // Duración de la animación en segundos
+
     // Limpiar pantalla
     al_clear_to_color(al_map_rgb(0, 0, 0)); // Fondo negro
 
@@ -247,13 +252,31 @@ void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS], frog_t *fro
     //Dibuja el mensaje de pausa
     if(frog->paused_state == 1)
     {
-        image_drawing(resources->images[29], 0, 0, WIDTH/3 +20 , HEIGHT / 2 -9 , cell_width * 4, cell_height );
+        image_drawing(resources->images[29], 0, 0, WIDTH/3 +10 , HEIGHT / 2 -9 , cell_width * 5, cell_height );
     }
 
-    if(resources->name_state == 1)
+
+            
+    if (resources->name_state == 1)
     {
-        image_drawing(resources->images[30], 0, 0, WIDTH/3 +20 , HEIGHT / 2 -9 , cell_width * 4, cell_height );
-        al_draw_text(resources->fonts[5], al_map_rgb(220, 250, 6), WIDTH/3 + 20, HEIGHT / 2 - 9, 0, resources->player_name);
+        if (!showing_name)
+        {
+            name_state = clock();
+            showing_name = 1;
+        }
+
+        double elapsed_time = (double)(clock() - name_state) / CLOCKS_PER_SEC;
+
+        if (elapsed_time <= name_duration)
+        {
+            image_drawing(resources->images[30], 0, 0, WIDTH /12 -70 , HEIGHT / 2 - 9 , cell_width * 14, cell_height );
+            al_draw_text(resources->fonts[5], al_map_rgb(220, 250, 6), WIDTH / 3 + 20, HEIGHT / 2 - 9, 0, resources->player_name);
+        }
+        else
+        {
+            showing_name = 0;
+            resources->name_state = 0; // Asegúrate de resetear el estado del nombre
+        }
     }
 
 
