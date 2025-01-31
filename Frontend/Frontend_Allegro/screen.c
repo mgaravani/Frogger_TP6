@@ -254,8 +254,6 @@ void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS], frog_t *fro
     {
         image_drawing(resources->images[30], 0, 0, WIDTH/3 +20 , HEIGHT / 2 -9 , cell_width * 4, cell_height );
         al_draw_text(resources->fonts[5], al_map_rgb(220, 250, 6), WIDTH/3 + 20, HEIGHT / 2 - 9, 0, resources->player_name);
-        al_flip_display();
-        al_rest(1.0);
     }
 
 

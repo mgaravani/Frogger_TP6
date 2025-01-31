@@ -6,7 +6,7 @@
 AllegroResources allegro_init(uint8_t map[ROWS][COLUMNS]) 
 {
     //Creo la instancia resources del tipo de dato estructura AllegroResources
-    AllegroResources resources = {.selected_option = 1 , .menu_state = 1, .highscores_state = 1, 0}; 
+    AllegroResources resources = {.selected_option = 1 , .menu_state = 1, .highscores_state = 1, .name_state = 0}; 
 
     // Inicializa Allegro y sus addons
     if (!al_init()) 
@@ -228,7 +228,7 @@ void menu_highscores(FILE *pointer_highscores, AllegroResources *resources)
     }
 
     al_flip_display(); // Muestra los cambios en pantalla
-    fclose(pointer_highscores); // Cierra el archivo
+    //fclose(pointer_highscores); // Cierra el archivo
     //FALTA AGREGAR ALGO PARA QUE TE SAQUE DE ESTE MENU
     //DEBERIA SER CON ESC QUE TE LLEVE DE NUEVO AL MENU DE INICIO
     // HAY QUE CAMBIAR LAS VARIABLES DE ESTADO EN ESE CASO
