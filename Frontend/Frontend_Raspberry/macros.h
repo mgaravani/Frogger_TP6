@@ -6,7 +6,7 @@
 #define DISP_CANT_Y_DOTS 16 // Tamaño en el eje Y del display
 #define ROWS_ORIGINAL 13
 #define COLS_ORIGINAL 20
-#define SAPO_SIZE 1 //tamaño del sapo
-#define THRESHOLD 40 
+#define THRESHOLD 40
+#define THRESHOLD_OFF 10
 
-#endif
+#endif 
