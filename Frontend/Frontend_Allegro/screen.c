@@ -236,8 +236,6 @@ void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS], frog_t *fro
             set_frog_start(frog);
             set_frog_life(frog, 0);
             frog_life_state(frog);
-            //No detecta bien la perdida de vidas y no reinicia la posicion porque crashea
-            //Reinicia luego de la segunda colision en lugar de la primera
         }
     }
 
