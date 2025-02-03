@@ -1,5 +1,6 @@
 #include "menu.h"
 int8_t ShowMenu(void) {
+    printf("Mostrando menu\n");
     int8_t  status = 0;
     uint8_t menuBitmap[16][16] = {
         // "PLAY" (Arriba)
@@ -25,22 +26,30 @@ int8_t ShowMenu(void) {
     mostrar_matriz(menuBitmap);
     joy_init();	
     joyinfo_t coord = {0,0,J_NOPRESS};
+    int last_status = 0; // Variable para recordar el último estado
+
     do {
-        coord = joy_read();
-        if (coord.y > THRESHOLD) {//estado de arriba
-            status = 1;
-        }
-        if (coord.y < -THRESHOLD) {//estado de abajo
-            status = 2;
-        }       
-    }while (coord.sw == J_NOPRESS  );//termina si se presiona el switch
+    coord = joy_read();
+
+    if (coord.y > THRESHOLD && last_status != 1) { // Estado de arriba
+        status = 1;
+        last_status = 1; // Actualiza el último estado
+    }
+    if (coord.y < -THRESHOLD && last_status != 2) { // Estado de abajo
+        status = 2;
+        last_status = 2; // Actualiza el último estado
+    }
+
+    } while (coord.sw == J_NOPRESS); // Termina si se presiona el switch
     disp_clear();
+    printf("Saliendo del menu\n");
+
     return status; //retorna el estado
 }
 
 void ShowFrogger(void){
     uint8_t display[DISP_CANT_Y_DOTS][DISP_CANT_X_DOTS] = {0}; // Matriz del display 16x16
-
+    disp_clear();
 
     uint8_t froggerBitmap[DISP_CANT_Y_DOTS][46] = {
     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,},
@@ -97,7 +106,10 @@ void shiftDisplay(uint8_t display[DISP_CANT_Y_DOTS][DISP_CANT_X_DOTS], uint8_t b
     }
 }
 int8_t ShowCONT(void) {
-    int8_t  status = 0;
+    sleep(1); // Pausa de 1s
+    printf("CONTINUAR\n");
+    disp_init();
+    int8_t  status = 3;
     uint8_t menuBitmap[16][16] = {
         // "CONT" (Arriba)
         {0,0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0, 0,  0, 0, },
@@ -122,15 +134,55 @@ int8_t ShowCONT(void) {
     mostrar_matriz(menuBitmap);
     joy_init();	
     joyinfo_t coord = {0,0,J_NOPRESS};
+    int last_status = 0; // Variable para recordar el último estado
+
     do {
-        coord = joy_read();
-        if (coord.y > THRESHOLD) {//estado de arriba
-            status = 1;
-        }
-        if (coord.y < -THRESHOLD) {//estado de abajo
-            status = 2;
-        }       
-    }while (coord.sw == J_NOPRESS  );//termina si se presiona el switch
+    coord = joy_read();
+
+    if (coord.y > THRESHOLD && last_status != 1) { // Estado de arriba
+        status = 1;
+        last_status = 1; // Actualiza el último estado
+    }
+    if (coord.y < -THRESHOLD && last_status != 2) { // Estado de abajo
+        status = 0;
+        last_status = 0; // Actualiza el último estado
+    }
+
+    } while (coord.sw == J_NOPRESS); // Termina si se presiona el switch
     disp_clear();
+    disp_update();
+    printf("Saliendo del menu\n");
+
     return status; //retorna el estado
+}
+
+void ShowGameOver(void){
+    uint8_t display[DISP_CANT_Y_DOTS][DISP_CANT_X_DOTS] = {0}; // Matriz del display 16x16
+    disp_clear();
+
+    uint8_t froggerBitmap[DISP_CANT_Y_DOTS][46] = {
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,},
+    {0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,},
+    {0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,},
+    {0, 1, 1, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,},
+    {0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,},
+    {0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,},
+    {0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,},
+    {0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,},
+    {0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,},
+    {0, 1, 1, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,},
+    {0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,},
+    {0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,},
+    {0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,},
+    
+};
+
+    for (int offset = 0; offset <= 46 - DISP_CANT_X_DOTS; offset++) {
+        shiftDisplay(display, froggerBitmap, offset); // Desplazar la vista del display
+        mostrar_matriz(display);                       // Imprimir el display actual
+        usleep(200000);                              // Pausa de 200 ms
+    }
+    sleep(.5);//pausa de 0.5 segundos 
 }

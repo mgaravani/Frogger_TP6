@@ -21,5 +21,6 @@ int8_t ShowMenu(void);//funcion inicial para mostrar el menu
 int8_t ShowCONT(void) ;//funcion para mostrar el menu de continuar
 void ShowFrogger(void);//funcion para mostrar el juego
 //void Pause(void);//funcion para pausar el juego
+void ShowGameOver(void);//funcion para mostrar el menu de game over
 void shiftDisplay(uint8_t display[DISP_CANT_Y_DOTS][DISP_CANT_X_DOTS], uint8_t bitmap[DISP_CANT_Y_DOTS][46], int offset);//mueve la matriz mostrada
 #endif // MENU_H

@@ -4,19 +4,26 @@
 
 
 int main() {
-    int choice = 0;
-    int running = 1; // Variable de control para mantener el programa en ejecución
+    uint8_t choice = 0;
+    uint8_t running = 1; // Variable de control para mantener el programa en ejecución
+    disp_init();									//inicializa el display
+	disp_clear();                                   //limpia todo el display
     ShowFrogger();
+    initialize_matrix();
+    frog_t frog_position;
+    init_frog(&frog_position, 7, 11.96, 0, 1, 3, 0, 0, 0, 0, 0, 1); // Inicializo la rana
+    joy_init();
     while (running) { // Mientras `running` sea 1, el menú se mostrará
-       while (choice == 0)
-       {
-         choice = ShowMenu(); // Mostrar el menú
+      
         
         switch (choice) {
+            case 0:
+                choice = ShowMenu(); // Mostrar el menú
+                break;
             case 1:
-                	
-                choice = playGame(choice); // Lógica del juego
-                
+                disp_clear(); 	
+                choice = playGame(choice , &frog_position); // Lógica del juego
+                printf("Choice: %d \n", choice);
                 break;
             case 2:
                 printf("Saliendo del juego. ¡Hasta pronto!\n");
@@ -26,11 +33,11 @@ int main() {
                 break;
             case 3:
                     choice = ShowCONT();
-                
+                    printf("Choice: %d \n", choice);
                 break;
             default:
                 printf(".\n");
-        }
+                break;
        }
     }
     return 0;

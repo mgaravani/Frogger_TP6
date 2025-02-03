@@ -9,87 +9,155 @@
 #define MAX_POSITION 16
 
 
+// Variables globales para el control de hilos y estado del joystick
+volatile bool stopGame = false;
+volatile joyinfo_t globalJoy; // Estado global actualizado por thread_joy
 
-int playGame(int choice) {
+// Funciones de movimiento de la rana
+// Hilo encargado de mover la rana según el estado del joystick
+void *thread_frog(void *arg) {
+    frog_t *frog = (frog_t *)arg;
+    while (!stopGame) {
+        move_frog_by_joystick(frog);
+        usleep(10000); // Espera 10 ms
+    }
+    return NULL;
+}
+
+// Hilo encargado de mover la matriz (nivel) del juego
+void *thread_matrix(void *arg) {
+    uint8_t nivel = *(uint8_t *)arg;
+    while (!stopGame) {
+        move_matrix_level(nivel);
+        usleep(10000); // Espera 10 ms
+    }
+    return NULL;
+}
+
+// Función principal del juego
+uint8_t playGame(uint8_t choice, frog_t *frog) {
     sleep(1); // Esperar 1 segundo
     printf("\n[Iniciando el juego...]\n");
+    
     disp_init();
     disp_clear();
-    initialize_matrix();
-    joyinfo_t joy = joy_read();
-    frog_t frog_position;
-    init_frog(&frog_position, 7, 11.96, 0, 1, 3, 0, 0, 0, 0, 0, 1); // Inicializo la rana
-    do
-    {
-        joy = joy_read();
-        //move_frog_by_joystick(&frog_position);
-        move_matrix_level(3);
-    } while (joy.sw == J_NOPRESS); // Mientras no se presione el switch del joystick, el juego se mantendrá en ejecución
+    disp_update();
+    joy_init();
+
+    uint8_t nivel = 1;
+    pthread_t threadFrog, threadMatrix, threadJoy;
+
+
+    // Crear el hilo para mover la rana
+    if (pthread_create(&threadFrog, NULL, thread_frog, (void *)frog) != 0) {
+        perror("Error al crear el hilo de la rana");
+        stopGame = true;
+        pthread_join(threadJoy, NULL);
+        return 1;
+    }
+    // Crear el hilo para actualizar la matriz del nivel
+    if (pthread_create(&threadMatrix, NULL, thread_matrix, (void *)&nivel) != 0) {
+        perror("Error al crear el hilo de la matriz");
+        stopGame = true;
+        pthread_join(threadFrog, NULL);
+        pthread_join(threadJoy, NULL);
+        return 1;
+    }
+    
+    // El hilo principal monitorea el botón del joystick para salir del juego
+    do {
+        // Imprime el estado del botón para depuración
+        globalJoy = joy_read(); // Actualizar el estado del joystick
+        disp_update(); // Actualizar el display
+        usleep(10000); // 10 ms
+    } while (globalJoy.sw == J_NOPRESS);
+    
+    // Se indica a todos los hilos que deben terminar
+    stopGame = true;
+    
+    // Esperar a que los hilos terminen
+    pthread_join(threadFrog, NULL);
+    pthread_join(threadMatrix, NULL);
+    pthread_join(threadJoy, NULL);
+
     disp_clear();
     disp_update();
     printf("Saliendo\n");
-    return 3; // Retornar un valor para salir del juego
+    
+    uint8_t status = 3; // Valor de salida del juego
+    printf("status: %d\n", status);
+    return status;
 }
 
-
+// Función para mover la rana según el estado del joystick
 void move_frog_by_joystick(frog_t *frog) {
     static int8_t prev_x = 0, prev_y = 0;
-    joyinfo_t joy = joy_read();
+    // Usamos la variable global en lugar de llamar a joy_read()
+    joyinfo_t joy = globalJoy;
     static int old_x, old_y;
     int8_t New_x, New_y;
 
     if (prev_x == 0) {
         if (joy.x > THRESHOLD) {
-            if (frog->x < MAX_POSITION) { // Check right boundary
+            if (frog->x < MAX_POSITION) { // Verificar límite derecho
                 old_x = frog->x;
                 old_y = frog->y;
                 handle_move_right(frog);
                 New_x = frog->x;
                 New_y = frog->y;
-                map[old_y][old_x]--; // Resta 1 de la posición anterior
-                map[New_y][New_x]++; // Suma 1 a la nueva posición
+                
+                // Actualizar display: apagar la posición anterior y encender la nueva
+                disp_write((dcoord_t){old_x, old_y}, D_OFF);
+                disp_write((dcoord_t){New_x, New_y}, D_ON);
+               
             }
             prev_x = joy.x;
         } else if (joy.x < -THRESHOLD) {
-             if (frog->x > 0) { // Check left boundary
+            if (frog->x > 0) { // Verificar límite izquierdo
                 old_x = frog->x;
                 old_y = frog->y;
                 handle_move_left(frog);
                 New_x = frog->x;
                 New_y = frog->y;
-                map[old_y][old_x]--; // Resta 1 de la posición anterior
-                map[New_y][New_x]++; // Suma 1 a la nueva posición
+                
+                disp_write((dcoord_t){old_x, old_y}, D_OFF);
+                disp_write((dcoord_t){New_x, New_y}, D_ON);
+                
             }
             prev_x = joy.x;
         }
     }
-
+    
     if (prev_y == 0) {
         if (joy.y > THRESHOLD) {
-            if (frog->y > 0) { // Check up boundary
+            if (frog->y > 0) { // Verificar límite superior
                 old_x = frog->x;
                 old_y = frog->y;
                 handle_move_up(frog);
                 New_x = frog->x;
                 New_y = frog->y;
-                map[old_y][old_x]--; // Resta 1 de la posición anterior
-                map[New_y][New_x]++; // Suma 1 a la nueva posición
+                
+                disp_write((dcoord_t){old_x, old_y}, D_OFF);
+                disp_write((dcoord_t){New_x, New_y}, D_ON);
+                
             }
             prev_y = joy.y;
         } else if (joy.y < -THRESHOLD) {
-            if (frog->y < MAX_POSITION) { // Check down boundary
+            if (frog->y < MAX_POSITION) { // Verificar límite inferior
                 old_x = frog->x;
                 old_y = frog->y;
                 handle_move_down(frog);
                 New_x = frog->x;
                 New_y = frog->y;
-                map[old_y][old_x]--; // Resta 1 de la posición anterior
-                map[New_y][New_x]++; // Suma 1 a la nueva posición
+                
+                disp_write((dcoord_t){old_x, old_y}, D_OFF);
+                disp_write((dcoord_t){New_x, New_y}, D_ON);
+                
             }
             prev_y = joy.y;
         }
     }
-
+    
     if (joy.x > -THRESHOLD && joy.x < THRESHOLD) {
         prev_x = 0;
     }
@@ -97,39 +165,40 @@ void move_frog_by_joystick(frog_t *frog) {
         prev_y = 0;
     }
 }
-void move_matrix_level(uint8_t nivel) {
-    for (uint8_t fila = 0; fila <= 12; fila++) {
-        uint8_t direccion = (fila % 2 == 0) ? 1 : 0;  // Par → derecha (1), Impar → izquierda (0)
 
+// Función para mover la matriz según el nivel actual
+void move_matrix_level(uint8_t nivel) {
+    globalJoy = joy_read(); // Actualizar el estado del joystick
+    for (uint8_t fila = 0; fila <= 12; fila++) {
+        // Para filas pares: desplazamiento a la derecha (1); impares: izquierda (0)
+        uint8_t direccion = (fila % 2 == 0) ? 1 : 0;
+        
         // Calcular la velocidad según la fila y el nivel
         uint8_t velocidad = calcular_velocidad(fila, nivel);
-
-        // Desplazar la fila la cantidad de veces determinada por la velocidad
+        
+        // Desplazar la fila según la velocidad
         for (uint8_t i = 0; i < velocidad; i++) {
-            shift_row(fila, direccion);  // Usar shift_row para desplazar la fila
+            shift_row(fila, direccion);
         }
-
-        // Mostrar la matriz recortada en el display (optimizado)
-        mostrar_matriz_recortada(map);
-
-        // Esperar un tiempo para controlar la velocidad general del juego (opcional)
-        usleep(100000);  // 100 ms 
+        
+        // Mostrar la matriz recortada en el display
+        mostrar_matriz_recortada();
+        usleep(100000);  // Espera de 100 ms
         printf("bien\n");
-        disp_clear();
-        disp_update(); 
+        
         printf("saliendo de mostrar\n"); 
     }
 }
 
+// Función para calcular la velocidad de desplazamiento según la fila y el nivel
 uint8_t calcular_velocidad(uint8_t fila, uint8_t nivel) {
-    // Tabla de velocidades base para cada nivel (puedes ajustarla)
-    uint8_t velocidades_nivel[3][3] = {  // Ejemplo para 3 niveles y 3 rangos de filas
+    // Tabla de velocidades base para 3 niveles y 3 rangos de filas
+    uint8_t velocidades_nivel[3][3] = {
         {1, 2, 3},  // Nivel 1: lenta, media, rápida
         {2, 3, 4},  // Nivel 2: media, rápida, muy rápida
         {3, 4, 5}   // Nivel 3: rápida, muy rápida, extremadamente rápida
     };
 
-    // Determinar el índice de velocidad según la fila
     uint8_t indice_velocidad;
     if (fila <= 5) {
         indice_velocidad = 0;
@@ -138,7 +207,7 @@ uint8_t calcular_velocidad(uint8_t fila, uint8_t nivel) {
     } else {
         indice_velocidad = 2;
     }
-
-    // Devolver la velocidad correspondiente al nivel y la fila
-    return velocidades_nivel[nivel - 1][indice_velocidad]; // Restamos 1 porque los niveles empiezan en 1
+    
+    // Restamos 1 al nivel ya que los niveles inician en 1
+    return velocidades_nivel[nivel - 1][indice_velocidad];
 }

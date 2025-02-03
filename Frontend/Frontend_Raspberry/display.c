@@ -2,33 +2,23 @@
 
 
 // Función para leer la matriz y actualizar el display
-void mostrar_matriz_recortada(uint8_t matriz_original[ROWS_ORIGINAL][COLS_ORIGINAL]) {
+void mostrar_matriz_recortada() {
     uint8_t matriz_recortada[DISP_CANT_Y_DOTS][DISP_CANT_X_DOTS];
     dcoord_t myPoint;
 
-    // Recortar la matriz original
-    for (int i = 1; i < DISP_CANT_Y_DOTS; i++) {  
-        for (int j = 0; j < 16; j++) {  
-            matriz_recortada[i+1][j] = matriz_original[i][j + 2];  
+    // Recortar la matriz original (map) a la matriz recortada
+    for (int i = 0; i < DISP_CANT_Y_DOTS; i++) {  
+        for (int j = 0; j < DISP_CANT_X_DOTS; j++) {  
+            matriz_recortada[i+2][j] = map[i + 1][j + 2];  // Recortar desde (1, 2) de la matriz original
         }
     }
 
     // Mostrar la matriz recortada
     for (uint8_t i = 0; i < DISP_CANT_Y_DOTS; i++) {  
-        for (uint8_t j = 0; j < 16; j++) {
+        for (uint8_t j = 0; j < DISP_CANT_X_DOTS; j++) {
             myPoint.x = j;
             myPoint.y = i;
-            if (matriz_recortada[i][j] == 2) {
-                // Parpadear el punto
-                for (int k = 0; k < 2; k++) {
-                    disp_write(myPoint, D_ON);
-                    disp_update(); // Actualizar la pantalla
-                    usleep(100);
-                    disp_write(myPoint, D_OFF);
-                    disp_update(); // Actualizar la pantalla
-                    usleep(100);
-                }
-            } else if (matriz_recortada[i][j] == 1) {
+             if (matriz_recortada[i][j] == 1) {
                 disp_write(myPoint, D_ON);
             } else {
                 disp_write(myPoint, D_OFF);

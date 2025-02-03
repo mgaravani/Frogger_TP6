@@ -22,7 +22,7 @@ extern map_t map;
 
 //funciones
 
-void mostrar_matriz_recortada(uint8_t matriz_original[ROWS_ORIGINAL][COLS_ORIGINAL]);
+void mostrar_matriz_recortada(void);
 void mostrar_matriz(uint8_t matriz[DISP_CANT_Y_DOTS][DISP_CANT_X_DOTS]);
 void mover_matriz(void);
 
