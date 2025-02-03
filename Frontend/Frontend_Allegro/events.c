@@ -4,7 +4,7 @@
 #include "allegro.h"
 #include "../../Backend/frog.h"
 
-#define MAX_NAME_LENGTH 20
+#define MAX_NAME_LENGTH 10
 
 /*-----Function init_events-----*/
 // Función para inicializar los eventos
@@ -146,7 +146,7 @@ void events_managment(AllegroResources *resources, ALLEGRO_EVENT_QUEUE *event_qu
 
 // Función para manejar la entrada del nombre del jugador
 //No deja apretar escape para salir
-void enter_player_name(ALLEGRO_EVENT_QUEUE *event_queue, AllegroResources *resources) 
+void enter_player_name(ALLEGRO_EVENT_QUEUE *event_queue, AllegroResources *resources)
 {
     ALLEGRO_EVENT event;
     uint16_t name_length = 0;
@@ -182,8 +182,16 @@ void enter_player_name(ALLEGRO_EVENT_QUEUE *event_queue, AllegroResources *resou
             }
             else if (key == ALLEGRO_KEY_ESCAPE)
             {
-                //AGREGAR LO QUE DEBERIA HACER ACA
+                // Borra el nombre ingresado y sale del bucle
+                resources->player_name[0] = '\0';
+                resources->name_state = 0;
+                break;
             }
         }
+
+        // Dibujar un recuadro en lugar de limpiar toda la pantalla
+        image_drawing(resources->images[30], 0, 0, WIDTH /12 -70 , HEIGHT / 2 - 9 , (resources->width) / (COLUMNS-6) * 14, resources->height / ROWS );
+        al_draw_text(resources->fonts[5], al_map_rgb(255, 255, 255), 550, HEIGHT / 2 - 9, ALLEGRO_ALIGN_CENTER, resources->player_name);
+        al_flip_display();
     }
 }
