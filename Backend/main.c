@@ -77,6 +77,7 @@ int main(void)
         resources_for_main.menu_state = 1;
         resources_for_main.selected_option = 1;
         resources_for_main.name_state = 1;
+        resources_for_main.highscores_state = 1;
         
         player_t players[MAX_PLAYERS];
 
