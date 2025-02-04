@@ -126,15 +126,3 @@ int main(void)
   return 0;
 }
 
-//NO FUNCIONAAA
-
-/* void go_back_to_menu(AllegroResources *resources_for_main, ALLEGRO_EVENT_QUEUE *event_queue, frog_t *frog_position, uint8_t map[ROWS][COLUMNS])
-{
-  restart(frog_position);
-  while(resources_for_main->menu_state == 1)
-  { 
-    events_managment(resources_for_main, event_queue, frog_position, map);
-    allegro_menu(resources_for_main);
-  }
-  initialize_matrix();
-} */
