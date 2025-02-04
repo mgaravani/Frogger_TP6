@@ -6,7 +6,7 @@
 AllegroResources allegro_init(uint8_t map[ROWS][COLUMNS]) 
 {
     //Creo la instancia resources del tipo de dato estructura AllegroResources
-    AllegroResources resources = {.selected_option = 1 , .menu_state = 1, .highscores_state = 1}; 
+    AllegroResources resources = {.selected_option = 1 , .menu_state = 1, .highscores_state = 1, .name_state = 0}; 
 
     // Inicializa Allegro y sus addons
     if (!al_init()) 
@@ -137,6 +137,9 @@ AllegroResources allegro_init(uint8_t map[ROWS][COLUMNS])
     resources.images[27] = al_load_bitmap("Resources/level_up.png"); // Imagen 27
     resources.images[28] = al_load_bitmap("Resources/score.png"); // Imagen 28
     resources.images[29] = al_load_bitmap("Resources/paused_game.png"); // Imagen 29
+    resources.images[30] = al_load_bitmap("Resources/name.png"); // Imagen 30
+    resources.images[31] = al_load_bitmap("Resources/high scores.png"); // Imagen 31
+    resources.images[32] = al_load_bitmap("Resources/gameover.png"); // Imagen 32
     
     /*ANALIZA SI LAS IMAGENES SE CARGARON CORRECTAMENTE*/
     for (uint16_t i = 0; i < IMAGES ; i++) 
@@ -195,25 +198,41 @@ void menu_highscores(FILE *pointer_highscores, AllegroResources *resources)
 {
     // Limpia la pantalla con el color negro
     al_clear_to_color(al_map_rgb(0, 0, 0));
-
+    // Dibuja el fondo escalado en 870X650
+    image_drawing(resources->images[31], 0, 0, 0, 0, resources->width, resources->height);
     rewind(pointer_highscores); // Rebobina el archivo para leer desde el inicio
 
-    char line[256]; // Buffer para almacenar cada línea
-    u_int16_t y_position = resources->height / 4; // Comienza a dibujar en 1/4 de la pantalla
-    const u_int16_t line_spacing = 50;           // Espaciado entre líneas
+    char line[256];   // Buffer para cada línea del archivo
+    uint16_t y_position = resources->height / 3 + 100; // Comienza en 1/8 de la pantalla
+    const uint16_t line_spacing = 50;  // Espaciado entre líneas
+    const uint16_t column_x_left = resources->width / 8 - 40;  // Posición X de la primera columna
+    const uint16_t column_x_right = resources->width / 2 + 80; // Posición X de la segunda columna
 
-    while (fgets(line, sizeof(line), pointer_highscores)) 
+    int rank = 1; // Contador para numerar los puntajes
+
+    while (fgets(line, sizeof(line), pointer_highscores) && rank <= 10) 
     {
         line[strcspn(line, "\n")] = 0; // Elimina el salto de línea al final
 
-        al_draw_text(resources->fonts[4], al_map_rgb(220, 250, 6), 
-                     resources->width / 4, y_position, 0, line);
+        char formatted_line[300];
+        snprintf(formatted_line, sizeof(formatted_line), "%d. %s", rank, line); // Agrega el número antes del nombre
 
-        y_position += line_spacing; // Ajusta la posición para la siguiente línea
+        // Determina si va en la columna izquierda o derecha
+        uint16_t x_position = (rank <= 5) ? column_x_left : column_x_right;
+        uint16_t y_offset = ((rank - 1) % 5) * line_spacing; // Ajusta la altura en cada columna
+
+        al_draw_text(resources->fonts[4], al_map_rgb(24, 184, 23), 
+                     x_position, y_position + y_offset, 0, formatted_line);
+
+        rank++; // Incrementa el número de ranking
     }
 
     al_flip_display(); // Muestra los cambios en pantalla
+    //fclose(pointer_highscores); // Cierra el archivo
     //FALTA AGREGAR ALGO PARA QUE TE SAQUE DE ESTE MENU
+    //DEBERIA SER CON ESC QUE TE LLEVE DE NUEVO AL MENU DE INICIO
+    // HAY QUE CAMBIAR LAS VARIABLES DE ESTADO EN ESE CASO
+    //Creo que falta destruir el puntero al FILE
 }
 
 
@@ -250,4 +269,7 @@ void cleanup_allegro(AllegroResources *resources)
     {
         al_destroy_display(resources->display);
     }
+
+    //Hay que destruir la cola de eventos
+    //Chequear si falta destruir algo mas
 }
