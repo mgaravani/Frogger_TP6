@@ -120,6 +120,7 @@ void events_managment(AllegroResources *resources, ALLEGRO_EVENT_QUEUE *event_qu
                         fprintf(stderr, "Error: no se pudo abrir el archivo de highscores.\n");
                         return;
                     }
+                    resources->highscores_state = 1;
                     while(resources->highscores_state == 1)
                     { 
                         events_managment(resources, event_queue, frog, map);
