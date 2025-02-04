@@ -388,15 +388,18 @@ void pass_level(frog_t *frog)
 
 void restart(frog_t *frog)
 {
-  frog->points = 0;
-  frog->levels = 0;
+  frog->state = 0;
+  frog->life = 1;
+  frog->move = 0;
   frog->lives = 3;
-  frog->pass_level_state = 0;
-  frog->arrival_state = 0;
-  frog->is_dead = 0;
-  frog->paused_state = 0;
+  frog->levels = 0;
   frog->points = 0;
   frog->arrivals = 0;
+  frog->is_dead = 0;
+  frog->arrival_state = 0;
+  frog->pass_level_state = 0;
+  frog->paused_state = 0;
+
   for(uint8_t i = 0; i < ROWS; i++)
   {
     frog->reached_rows[i] = 0 ; // Vector para conteo de puntos
