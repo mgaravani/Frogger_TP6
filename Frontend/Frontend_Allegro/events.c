@@ -120,9 +120,11 @@ void events_managment(AllegroResources *resources, ALLEGRO_EVENT_QUEUE *event_qu
                         fprintf(stderr, "Error: no se pudo abrir el archivo de highscores.\n");
                         return;
                     }
+                    resources->highscores_state = 1;
                     while(resources->highscores_state == 1)
                     { 
-                    menu_highscores(pointer, resources);
+                        events_managment(resources, event_queue, frog, map);
+                        menu_highscores(pointer, resources);
                     } 
                 }
                 else
@@ -132,11 +134,9 @@ void events_managment(AllegroResources *resources, ALLEGRO_EVENT_QUEUE *event_qu
                 }
                     break;
                 // Lógica para manejar la tecla ESCAPE
-                case ALLEGRO_KEY_ESCAPE:
-                    // Lógica para manejar FLECHA ESCAPE
-                    //DEBERIA LLEVARTE AL MENU PRINCIPALclear
-                      
+                case ALLEGRO_KEY_ESCAPE:        
                     resources->menu_state = 1;
+                    resources->highscores_state = 0;
                     restart(frog);
                     while(resources->menu_state == 1)
                     { 
@@ -144,8 +144,6 @@ void events_managment(AllegroResources *resources, ALLEGRO_EVENT_QUEUE *event_qu
                         allegro_menu(resources);
                     }
                     initialize_matrix();
-/*                  cleanup_allegro(resources);
-                    exit(EXIT_SUCCESS); */
                     break;
             }
         }
