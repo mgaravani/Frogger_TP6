@@ -10,7 +10,7 @@
 
 //Backend
 #include "../../Backend/frog.h"
-#include "../../Backend/highscores.h"
+#include "../../Backend/topScore.h"
 #include "../../Backend/map.h"
 #include "../../Backend/delay.h"
 extern map_t map;
