@@ -3,13 +3,7 @@
 #include <string.h>
 #include "topScore.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include "topScore.h"
-
-
-void loadScores(const char *filename, player players[]) {
+void loadScores(const char *filename, player_t players[]) {
     FILE *file = fopen(filename, "r");
     if (file == NULL) 
     {
@@ -31,7 +25,7 @@ void loadScores(const char *filename, player players[]) {
     fclose(file);
 }
 
-void saveScores(const char *filename, player players[]) {
+void saveScores(const char *filename, player_t players[]) {
     FILE *file = fopen(filename, "w"); // Abrimos el archivo en modo escritura
     if (file == NULL)
     {
@@ -48,7 +42,7 @@ void saveScores(const char *filename, player players[]) {
     printf("Puntajes guardados exitosamente en '%s'.\n", filename);
 }
 
-void newScore(player players[], player newPlayer) {
+void newScore(player_t players[], player_t newPlayer) {
     // Solo reemplazamos el último jugador si el nuevo puntaje es mayor
     if (newPlayer.score > players[MAX_PLAYERS - 1].score) {
         players[MAX_PLAYERS - 1] = newPlayer;
@@ -65,42 +59,11 @@ void newScore(player players[], player newPlayer) {
 }
 
 /*----- Intercambia a por b ------*/
-void swap(player *a, player *b) {
-    player aux;
+void swap(player_t *a, player_t *b) {
+    player_t aux;
     aux = *a;
     *a = *b;
     *b = aux;
 }
 
-/*
-int main() {
-    player players[MAX_PLAYERS];
-
-    // Cargar puntajes desde el archivo
-    loadScores("highscores.txt", players);
-
-    // Mostrar puntajes antes de agregar el nuevo
-    printf("Top actual:\n");
-    for (int i = 0; i < MAX_PLAYERS; i++) {
-        printf("Jugador: %s, Puntaje: %d\n", players[i].name, players[i].score);
-    }
-
-    // Crear un nuevo jugador
-    player newPlayer = {"PRUEBA3", 1985};
-
-    // Agregar el nuevo jugador y reordenar el arreglo
-    newScore(players, newPlayer);
-
-    // Mostrar los puntajes después de agregar el nuevo jugador
-    printf("\nTop actualizado:\n");
-    for (int i = 0; i < MAX_PLAYERS; i++) {
-        printf("Jugador: %s, Puntaje: %d\n", players[i].name, players[i].score);
-    }
-
-    // Guardar los puntajes actualizados
-    saveScores("highscores.txt", players);
-
-    return 0;
-}
-*/
 

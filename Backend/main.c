@@ -77,14 +77,14 @@ int main(void)
         resources_for_main.selected_option = 1;
         resources_for_main.name_state = 1;
         
-        player players[MAX_PLAYERS];
+        player_t players[MAX_PLAYERS];
 
         // Cargar puntajes desde el archivo
         loadScores("highscores.txt", players);
 
         enter_player_name(event_queue, &resources_for_main);
 
-        player newPlayer;
+        player_t newPlayer;
         strcpy(newPlayer.name, resources_for_main.player_name);  // Copia la cadena en el array
         newPlayer.score = get_frog_points(&frog_position);      // Asigna el puntaje
         newScore(players, newPlayer);                            // Agrega el nuevo puntaje

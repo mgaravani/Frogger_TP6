@@ -33,7 +33,7 @@ typedef struct {
     uint8_t actual_row; // Fila actual de la rana
 } frog_t;
 
-/*-----------PROTOTYPES--------*/
+/*----------PROTOTYPES--------*/
 
 //NO DEBERIA IR ACA, PERO POR AHORA SIRVE
 void restart(frog_t *frog);
