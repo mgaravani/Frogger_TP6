@@ -134,9 +134,18 @@ void events_managment(AllegroResources *resources, ALLEGRO_EVENT_QUEUE *event_qu
                 // Lógica para manejar la tecla ESCAPE
                 case ALLEGRO_KEY_ESCAPE:
                     // Lógica para manejar FLECHA ESCAPE
-                    //DEBERIA LLEVARTE AL MENU PRINCIPAL
-                    cleanup_allegro(resources);
-                    exit(EXIT_SUCCESS);
+                    //DEBERIA LLEVARTE AL MENU PRINCIPALclear
+                      
+                    resources->menu_state = 1;
+                    restart(frog);
+                    while(resources->menu_state == 1)
+                    { 
+                        events_managment(resources, event_queue, frog, map);
+                        allegro_menu(resources);
+                    }
+                    initialize_matrix();
+/*                  cleanup_allegro(resources);
+                    exit(EXIT_SUCCESS); */
                     break;
             }
         }

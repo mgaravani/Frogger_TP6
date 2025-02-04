@@ -125,10 +125,9 @@ int main(void)
   return 0;
 }
 
+//NO FUNCIONAAA
 
-/* //NO FUNCIONAAA
-
-void go_back_to_menu(AllegroResources *resources_for_main, ALLEGRO_EVENT_QUEUE *event_queue, frog_t *frog_position, uint8_t map[ROWS][COLUMNS])
+/* void go_back_to_menu(AllegroResources *resources_for_main, ALLEGRO_EVENT_QUEUE *event_queue, frog_t *frog_position, uint8_t map[ROWS][COLUMNS])
 {
   restart(frog_position);
   while(resources_for_main->menu_state == 1)
@@ -137,5 +136,4 @@ void go_back_to_menu(AllegroResources *resources_for_main, ALLEGRO_EVENT_QUEUE *
     allegro_menu(resources_for_main);
   }
   initialize_matrix();
-
 } */
