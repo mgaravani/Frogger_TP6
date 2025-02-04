@@ -46,7 +46,7 @@ int main(void)
         // SI LA FILA CONCUERDA CON LA POSICION DE LA RANA Y LA FLAG DE MOVERSE SE ACTIVA
         if ((row == fila) && (get_frog_move(&frog_position) == 1)) 
         {
-          if ((((int)(get_frog_x(&frog_position)) + 1 > 13) && directions[fila]) || (((int)(get_frog_x(&frog_position)) - 1 < 1)) && !directions[fila]) // IF PARA MORIR SI SE VA DE LOS LIMITES
+          if ((((int)(get_frog_x(&frog_position)) + 1 > 13) && directions[fila]) || ((((int)(get_frog_x(&frog_position)) - 1 < 1)) && (!directions[fila]))) // IF PARA MORIR SI SE VA DE LOS LIMITES
             // DESPUES HACER UNA FUNCION MAS PROLIJA....
           {
 
