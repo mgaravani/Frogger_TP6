@@ -1,6 +1,8 @@
 /*------------INCLUDES-----------*/
 #include "delay.h"
-#include "map.h" // Incluyo map.h para saber la cantidad de filas utilizadas
+#include "map.h" 
+
+/*------------ FUNCTIONS ----------------*/
 
 /*------Function waiting_time------*/
 // Funcion para controlar el tiempo entre los desplazamientos de los objetos
@@ -10,34 +12,40 @@ uint8_t waiting_time(uint8_t level, uint8_t row)
     double elapsed_time = 0, time_reference = 0, speed = 0; 
 
     // Configuración de velocidad de desplazamiento según la fila
-    if (row == 7) 
+    if (row == 1)
     {
-        speed = 2 + (level * 0.5);  // Incrementa la velocidad base por nivel
+        speed = 1.5 + (level * 0.3); // Incremento de velocidad según el nivel
     } 
-    else if (row == 9 || row == 11)
+    else if (row == 2 || row == 4) 
     {
-        speed = 2 + (level * 0.5);  // Incrementa la velocidad base por nivel
+        speed = 1 + (level * 0.1); 
+    } 
+    else if(row == 3)
+    {
+        speed = 2 + (level * 0.3);
+    }
+
+    else if (row == 5) 
+    {
+        speed = 1 + (level * 0.2);  
+    } 
+    else if (row == 7) 
+    {
+        speed = 2 + (level * 0.5);  
     }
     else if (row == 8) 
     {
-        speed = 2 + (level * 0.2);  // Incrementa la velocidad base más lentamente por nivel
+        speed = 2 + (level * 0.2); 
     } 
+    else if (row == 9 || row == 11)
+    {
+        speed = 2 + (level * 0.5);  
+    }
     else if (row == 10)
     {
         speed = 2 + (level * 0.2);
     }
-    else if (row == 1 || row == 3) 
-    {
-        speed = 1 + (level * 0.3);  // Incremento alto para las filas 1 y 3
-    } 
-    else if (row == 2 || row == 4) 
-    {
-        speed = 1 + (level * 0.1);  // Incremento leve para las filas 2 y 4
-    } 
-    else if (row == 5) 
-    {
-        speed = 1 + (level * 0.2);  // Incremento estandar para las fila 5
-    } 
+
     else 
     {
         speed = 2 + (level * 0.2);  // Incremento estándar para las demás filas

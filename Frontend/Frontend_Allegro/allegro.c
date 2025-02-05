@@ -1,6 +1,8 @@
 /*------------INCLUDES-----------*/
 #include "allegro.h"
 
+/*------------FUNCTIONS------------*/
+
 /*------Function allegro_init------*/
 // Inicializa Allegro y sus addons, crea la instancia de la estructura AllegroResources donde se guardan los datos utilizados
 AllegroResources allegro_init(uint8_t map[ROWS][COLUMNS]) 
@@ -29,17 +31,17 @@ AllegroResources allegro_init(uint8_t map[ROWS][COLUMNS])
 
     if (!al_install_audio()) {
     printf("Error al inicializar el sistema de audio.\n");
-    exit(EXIT_FAILURE);
+    exit(EXIT_FAILURE); //Ante un fallo termina el programa y borra los recursos 
     }
 
     if (!al_reserve_samples(10)) {
         printf("Error al reservar muestras de audio.\n");
-        exit(EXIT_FAILURE);
+        exit(EXIT_FAILURE); //Ante un fallo termina el programa y borra los recursos
     }
 
     if (!al_init_acodec_addon()) {
         printf("Error al inicializar los codecs de audio.\n");
-        exit(EXIT_FAILURE);
+        exit(EXIT_FAILURE); //Ante un fallo termina el programa y borra los recursos
     }
     
     if (!al_init_font_addon()) 
@@ -73,10 +75,12 @@ AllegroResources allegro_init(uint8_t map[ROWS][COLUMNS])
         exit(EXIT_FAILURE);
     }
 
+    //Carga las muestras de sonidos
     resources.sounds[0] = al_load_sample("Resources/move.wav");
     resources.sounds[1] = al_load_sample("Resources/frog_arrival.wav");
     resources.sounds[2] = al_load_sample("Resources/frog_die.wav");
     
+    /*Analiza que se carguen correctamente*/
     for (int i = 0; i < SOUNDS ; i++) 
     {
         if (!resources.sounds[i]) 
@@ -155,7 +159,6 @@ AllegroResources allegro_init(uint8_t map[ROWS][COLUMNS])
     return resources;
 }
 
-//FALTA CORREGIR EL RELLAMADO
 /*------Function allegro_menu------*/
 // Función para mostrar el menú de inicio
 void allegro_menu(AllegroResources *resources)
@@ -167,16 +170,20 @@ void allegro_menu(AllegroResources *resources)
 
     // Opciones del menú
     const char *options[3] = {"Play Game", "High Scores", "Quit Game"};
+
     //Coordenadas en Y para los rectangulos
-    uint16_t y_positions[3] = {
+    uint16_t y_positions[3] = 
+    {
         (resources->height / 8) * 4.85, // Play Game
         (resources->height / 8) * 5.65, // High Scores
         (resources->height / 8) * 6.46  // Quit Game
     };
     //Para ver que opcion esta seleccionada y segun eso pintar la pantalla de determinada forma
-    for (uint16_t i = 0; i < 3; i++) {
+    for (uint16_t i = 0; i < 3; i++) 
+    {
         //Me fijo que opcion esta seleccionada
-        if (resources->selected_option == i+1 ) {
+        if (resources->selected_option == i+1 ) 
+        {
             //Obtengo el ancho del texto
             u_int32_t text_width = al_get_text_width(resources->fonts[1], options[i]);
             //Dibujo un rectangulo de color en funcion del ancho del texto alrededor de el
@@ -191,7 +198,6 @@ void allegro_menu(AllegroResources *resources)
     
 }
 
-//TODAVIA NO DIBUJA COMO ME GUSTARIA
 /*------Function menu_highscores------*/
 // Función para mostrar los highscores
 void menu_highscores(FILE *pointer_highscores, AllegroResources *resources)
@@ -228,11 +234,6 @@ void menu_highscores(FILE *pointer_highscores, AllegroResources *resources)
     }
 
     al_flip_display(); // Muestra los cambios en pantalla
-    //fclose(pointer_highscores); // Cierra el archivo
-    //FALTA AGREGAR ALGO PARA QUE TE SAQUE DE ESTE MENU
-    //DEBERIA SER CON ESC QUE TE LLEVE DE NUEVO AL MENU DE INICIO
-    // HAY QUE CAMBIAR LAS VARIABLES DE ESTADO EN ESE CASO
-    //Creo que falta destruir el puntero al FILE
 }
 
 

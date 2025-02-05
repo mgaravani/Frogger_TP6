@@ -10,14 +10,11 @@
 
 /*-----------TYPEDEF--------*/
 typedef uint8_t map_t[ROWS][COLUMNS];
+
 /*------------ GLOBAL VARIABLE ----------------*/
 extern map_t map;
 
 /*-----------PROTOTYPES--------*/
-
-/*------Function print_matrix------*/
-// Función usada para debugear durante el desarrollo
-void print_matrix(void);
 
 /*------Funcion initialize_matrix------*/
 // Función para inicializar la matriz de juego con spawn aleatorio de ciertos obstáculos y de su largo (troncos, autos, camiones, etc.)

@@ -4,7 +4,7 @@
 #include <time.h>
 #include "map.h"
 
-map_t map;
+map_t map; // Variable global de la matriz
 
 /*------------ FUNCTIONS ----------------*/
 
@@ -180,22 +180,6 @@ void initialize_matrix(void)
                 }
             }
         }
-    }
-}
-
-
-
-/*------print_matrix------*/
-// Función auxiliar (hasta tener todo con la interfaz allegro)para imprimir la matriz
-void print_matrix() 
-{
-    for (int i = 0; i < ROWS; i++) 
-    {
-        for (int j = 0; j < COLUMNS; j++) 
-        {
-            printf("%d ", map[i][j]);
-        }
-        printf("\n");
     }
 }
 

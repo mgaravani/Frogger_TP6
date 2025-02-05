@@ -3,7 +3,7 @@
 
 /*------------INCLUDES-----------*/
 #include <stdint.h>
-#include "map.h"
+#include "map.h" //ESTA MAL ESTO?????
 
 /*-----LÍMITES Y CONSTANTES USADAS-----*/
 #define FROG_LIMIT_UP 1.3
@@ -25,10 +25,10 @@ typedef struct {
     uint16_t levels;   // Niveles
     uint16_t points;     // Puntos acumulados por el jugador
     uint8_t arrivals;    // Cantidad de veces que el jugador llegó al final
-    uint8_t is_dead;     // Flag para indicar si la rana está muerta
-    uint8_t arrival_state ; // Flag para indicar si la rana llego a la meta
-    uint8_t pass_level_state; // Flag para indicar si la rana paso de nivel
-    uint8_t paused_state; // Flag para indicar si el juego esta pausado
+    uint8_t is_dead:1;     // Flag para indicar si la rana está muerta
+    uint8_t arrival_state:1 ; // Flag para indicar si la rana llego a la meta
+    uint8_t pass_level_state:1; // Flag para indicar si la rana paso de nivel
+    uint8_t paused_state:1; // Flag para indicar si el juego esta pausado
     uint8_t reached_rows[ROWS]; // Vector para conteo de puntos
     uint8_t actual_row; // Fila actual de la rana
 } frog_t;
@@ -186,12 +186,12 @@ uint16_t frog_in_range(map_t *map,frog_t *frog);
 // Funcion para analizar el estado de vida de la rana
 void frog_life_state(frog_t *frog);
 
-/*------- Detectar llegada de la Rana ---------*/
+/*------- Function detect_arrival ---------*/
 /* Devuelve 1 si la rana está en posición de llegada y devuelve 0 si no lo está.*/
 uint16_t detect_arrival(frog_t *frog, map_t *map);
 
 
-/*----- Para pasar de nivel ------*/
+/*----- Function pass_level ------*/
 // Resetea todos los parámetros necesarios para iniciar un nuevo nivel
 void pass_level(frog_t *frog);
 

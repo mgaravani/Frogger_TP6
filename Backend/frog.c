@@ -3,6 +3,7 @@
 #include "map.h"
 #include <stdio.h>
 
+/*------------ FUNCTIONS ----------------*/
 
 /*------Function init_frog------*/
 // Función para inicializar la rana con valores predeterminados
@@ -329,7 +330,7 @@ uint16_t frog_in_range(map_t *map, frog_t *frog)
   return 0;
 }
 
-/*-----Function frog_life_state*/
+/*-----Function frog_life_state----*/
 // Funcion para analizar el estado de vida de la rana
 void frog_life_state(frog_t *frog) 
 {
@@ -339,7 +340,8 @@ void frog_life_state(frog_t *frog)
   }
 }
 
-/*------- Detectar llegada de la Rana ---------*/
+/*------- Function detect_arrival ---------*/
+// Devuelve 1 si la rana está en posición de llegada y devuelve 0 si no lo está.
 uint16_t detect_arrival(frog_t *frog, map_t *map)
 {
     // Ajusta las columnas y las filas en función de la posición de la rana
@@ -366,7 +368,7 @@ uint16_t detect_arrival(frog_t *frog, map_t *map)
     return 0; // No llegó o no se cumplen las condiciones
 }
 
-/*----- Para pasar de nivel ------*/
+/*-----Function pass_level----*/
 // Resetea todos los parámetros necesarios para iniciar un nuevo nivel
 void pass_level(frog_t *frog)
 {
@@ -385,7 +387,8 @@ void pass_level(frog_t *frog)
 }
 
 //NO SE SI VA ACA, pero por ahora si
-
+/*-----Function restart----*/
+// Función para reiniciar todos los valores de la rana
 void restart(frog_t *frog)
 {
   frog->state = 0;

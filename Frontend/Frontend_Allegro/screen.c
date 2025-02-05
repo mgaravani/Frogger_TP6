@@ -5,6 +5,8 @@
 #include "../../Backend/frog.h"
 #include <time.h>
 
+/*------------FUNCTIONS------------*/
+
 /*------Function Screen------*/
 // Función para mostrar la pantalla de juego
 void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS], frog_t *frog) 

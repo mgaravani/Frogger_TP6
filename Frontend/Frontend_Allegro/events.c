@@ -4,7 +4,10 @@
 #include "allegro.h"
 #include "../../Backend/frog.h"
 
+/*------------CONSTANTS-----------*/
 #define MAX_NAME_LENGTH 10
+
+/*------------FUNCTIONS------------*/
 
 /*-----Function init_events-----*/
 // Función para inicializar los eventos
@@ -151,8 +154,8 @@ void events_managment(AllegroResources *resources, ALLEGRO_EVENT_QUEUE *event_qu
 }
 
 
-// Función para manejar la entrada del nombre del jugador
-//No deja apretar escape para salir
+/*-----Function enter_player_name-----*/
+// Función para ingresar el nombre del jugador
 void enter_player_name(ALLEGRO_EVENT_QUEUE *event_queue, AllegroResources *resources)
 {
     ALLEGRO_EVENT event;

@@ -4,15 +4,14 @@
 //ESTARIA BUENO AGREGAR PARA CADA FUNCION UNA DESCRIPCION DE LO QUE HACE, LO QUE RECIBE Y LO QUE DEVUELVE
 
 /*-------INCLUDES------*/
-#include <stdio.h>  // Incluyo la librería estándar stdio
-#include <pthread.h> //Incluyo la libreria de threads
-#include <stdint.h>  //Incluyo la libreria estandar para tener tipo de datos multiplataforma
-#include <allegro5/allegro.h> // Incluyo la librería Allegro
-#include <allegro5/allegro_primitives.h> // Incluyo el addon primitives
-#include <allegro5/allegro_ttf.h>  // Incluye el addon para fuentes TTF
-#include <allegro5/allegro_font.h> // Incluyo el addon font
-#include <allegro5/allegro_color.h> //Incluyo el addon color
-#include <allegro5/allegro_image.h> // Necesario para cargar imágenes
+#include <stdio.h>  
+#include <stdint.h>  
+#include <allegro5/allegro.h> 
+#include <allegro5/allegro_primitives.h> 
+#include <allegro5/allegro_ttf.h>  
+#include <allegro5/allegro_font.h> 
+#include <allegro5/allegro_color.h> 
+#include <allegro5/allegro_image.h> 
 #include <allegro5/allegro_audio.h>
 #include <allegro5/allegro_acodec.h>
 #include "../../Backend/frog.h"
@@ -40,9 +39,9 @@ typedef struct
     uint32_t width; //Ancho de la pantalla
     uint32_t height; //Alto de la pantalla
     uint32_t selected_option; //Guardo la opcion seleccionada en el menu de inicio
-    uint8_t menu_state; //Guardo el estado del menu
-    uint8_t highscores_state; //Guardo el estado de los puntajes altos
-    uint8_t name_state; //Guardo el estado del nombre del jugador
+    uint8_t menu_state:1; //Guardo el estado del menu
+    uint8_t highscores_state:1; //Guardo el estado de los puntajes altos
+    uint8_t name_state:1; //Guardo el estado del nombre del jugador
     char player_name[20]; //Guardo el nombre del jugador
 
 } AllegroResources;

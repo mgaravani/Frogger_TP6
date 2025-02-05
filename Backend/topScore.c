@@ -1,8 +1,13 @@
+/*-----------INCLUDES--------*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "topScore.h"
 
+/*------------ FUNCTIONS ----------------*/
+
+/*------Function loadScores------*/
+// Se encarga de abrir, leer y guardar en el arreglo players el top que está guardado en el archivo highscores.txt
 void loadScores(const char *filename, player_t players[]) {
     FILE *file = fopen(filename, "r"); // Abrimos el archivo en modo lectura
     if (file == NULL) 
@@ -27,6 +32,8 @@ void loadScores(const char *filename, player_t players[]) {
     fclose(file); // Cerramos el archivo después de la lectura
 }
 
+/*------Function saveScores------*/
+// Se encarga de guardar en el archivo highscores.txt el nuevo top (o dejarlo igual) al terminar la partida
 void saveScores(const char *filename, player_t players[]) {
     FILE *file = fopen(filename, "w"); // Abrimos el archivo en modo escritura
     if (file == NULL)
@@ -45,6 +52,8 @@ void saveScores(const char *filename, player_t players[]) {
     printf("Puntajes guardados exitosamente en '%s'.\n", filename);
 }
 
+/*------Function newScore------*/
+// Re-ordena el nuevo top en base a la puntuación de la partida mas reciente.
 void newScore(player_t players[], player_t newPlayer) {
     // Solo reemplazamos el último jugador si el nuevo puntaje es mayor
     if (newPlayer.score > players[MAX_PLAYERS - 1].score) {
@@ -61,7 +70,8 @@ void newScore(player_t players[], player_t newPlayer) {
     }
 }
 
-// Función auxiliar para intercambiar dos jugadores en el arreglo
+/*------Function swap------*/
+// Usada en newScore para intercambiar posiciones
 void swap(player_t *a, player_t *b) {
     player_t aux;
     aux = *a;

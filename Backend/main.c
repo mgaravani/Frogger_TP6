@@ -69,7 +69,6 @@ int main(void)
       {
         set_frog_arrivals(&frog_position, get_frog_arrivals(&frog_position) + 1);
         set_frog_start(&frog_position);
-        printf("LLEGASTE\n");
       }
 
       if(get_frog_lives(&frog_position) == 0) // SI LA RANA NO TIENE VIDAS, TERMINA EL JUEGO

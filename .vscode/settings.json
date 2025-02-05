@@ -8,6 +8,7 @@
         "frog.h": "c",
         "delay.h": "c",
         "typeinfo": "c",
-        "allegro_audio.h": "c"
+        "allegro_audio.h": "c",
+        "stdlib.h": "c"
     }
 }
