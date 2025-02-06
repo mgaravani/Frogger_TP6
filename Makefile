@@ -17,9 +17,21 @@ Frontend/Frontend_Allegro/screen.o: Frontend/Frontend_Allegro/screen.c Frontend/
 Frontend/Frontend_Allegro/events.o: Frontend/Frontend_Allegro/events.c Frontend/Frontend_Allegro/allegro.h 
 	# Compila 'events.c' con advertencias habilitadas
 	gcc -c Frontend/Frontend_Allegro/events.c -Wall -o Frontend/Frontend_Allegro/events.o
+# Compile object files
+Frontend/Frontend_Raspberry/raspberry.o: raspberry.c $(HDR) raspberry.h game_logic.h display.h menu.h
+	$(CC) $(CFLAGS) -c raspberry.c
 
+
+Frontend/Frontend_Raspberry/game_logic.o: game_logic.c $(HDR) game_logic.h 
+	$(CC) $(CFLAGS) -c game_logic.c 
+
+Frontend/Frontend_Raspberry/display.o: display.c $(HDR) display.h
+	$(CC) $(CFLAGS) -c display.c 
+
+Frontend/Frontend_Raspberry/menu.o: menu.c $(HDR) menu.h
+	$(CC) $(CFLAGS) -c menu.c
 # Regla para compilar 'main.c' en el archivo objeto 'main.o'
-Backend/main.o: Backend/main.c
+Backend/main.o: Backend/main.c Backend/main.h
 	# Compila 'main.c' con advertencias habilitadas
 	gcc Backend/main.c -c -Wall -o Backend/main.o
 
