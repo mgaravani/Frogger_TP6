@@ -5,7 +5,6 @@ int main(void) {
     initialize_matrix();
     frog_t frog_position;
     init_frog(&frog_position, 7, 11.96, 0, 1, 3, 0, 0, 0, 0, 0, 1);
-    init_frog(&frog_position, 7, 11.96, 0, 1, 3, 0, 0, 0, 0, 0, 1);
     frog_position.pass_level_state = 0;
     frog_position.paused_state = 0;
     frog_position.actual_row = ROWS - 1;
@@ -80,7 +79,7 @@ int main(void) {
 #ifdef RASPBERRY_PI
         move_frog_by_joystick(frog_position); // Pass frog_position
 #endif
-        for (int fila = 1; fila < 12; fila++) {
+        for (int fila = 1; fila < 12; fila++) { // Iterate over the rows
             if (waiting_time(frog_position->levels, fila)) { // Use -> to access levels
                 if ((row == fila) && (get_frog_move(frog_position) == 1)) { // Pass frog_position
                     if ((((int)(get_frog_x(frog_position)) + 1 > 13) && directions[fila]) || ((((int)(get_frog_x(frog_position)) - 1 < 1)) && (!directions[fila]))) { // Pass frog_position
