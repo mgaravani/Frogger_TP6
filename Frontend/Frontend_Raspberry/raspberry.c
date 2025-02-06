@@ -35,6 +35,11 @@ int main() {
                     choice = ShowCONT();
                     printf("Choice: %d \n", choice);
                 break;
+            case 4:
+                choice = 0;
+                ShowGameOver();  
+                printf("Choice: %d \n", choice);
+            break;
             default:
                 printf(".\n");
                 break;

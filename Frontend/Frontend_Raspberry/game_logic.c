@@ -1,13 +1,8 @@
 #include "game_logic.h"
 
-
 // Definición de las dimensiones actualizadas
-
-
-
 #define THRESHOLD 40
 #define MAX_POSITION 16
-
 
 // Variables globales para el control de hilos y estado del joystick
 volatile bool stopGame = false;
@@ -29,7 +24,7 @@ void *thread_matrix(void *arg) {
     uint8_t nivel = *(uint8_t *)arg;
     while (!stopGame) {
         move_matrix_level(nivel);
-        usleep(10000); // Espera 10 ms
+        usleep(100000); // Espera 100 ms (ajusta este valor según sea necesario)
     }
     return NULL;
 }
@@ -45,14 +40,12 @@ uint8_t playGame(uint8_t choice, frog_t *frog) {
     joy_init();
 
     uint8_t nivel = 1;
-    pthread_t threadFrog, threadMatrix, threadJoy;
-
+    pthread_t threadFrog, threadMatrix;
 
     // Crear el hilo para mover la rana
     if (pthread_create(&threadFrog, NULL, thread_frog, (void *)frog) != 0) {
         perror("Error al crear el hilo de la rana");
         stopGame = true;
-        pthread_join(threadJoy, NULL);
         return 1;
     }
     // Crear el hilo para actualizar la matriz del nivel
@@ -60,25 +53,26 @@ uint8_t playGame(uint8_t choice, frog_t *frog) {
         perror("Error al crear el hilo de la matriz");
         stopGame = true;
         pthread_join(threadFrog, NULL);
-        pthread_join(threadJoy, NULL);
         return 1;
     }
     
     // El hilo principal monitorea el botón del joystick para salir del juego
-    do {
-        // Imprime el estado del botón para depuración
+    while (!stopGame) {
         globalJoy = joy_read(); // Actualizar el estado del joystick
         disp_update(); // Actualizar el display
-        usleep(10000); // 10 ms
-    } while (globalJoy.sw == J_NOPRESS);
-    
-    // Se indica a todos los hilos que deben terminar
-    stopGame = true;
+
+        // Verificar si el botón del joystick ha sido presionado
+        if (globalJoy.sw != J_NOPRESS) {
+            printf("Botón presionado. Saliendo del juego...\n");
+            stopGame = true; // Detener el juego
+        }
+
+        usleep(10000); // Esperar 10 ms
+    }
     
     // Esperar a que los hilos terminen
     pthread_join(threadFrog, NULL);
     pthread_join(threadMatrix, NULL);
-    pthread_join(threadJoy, NULL);
 
     disp_clear();
     disp_update();
@@ -92,7 +86,6 @@ uint8_t playGame(uint8_t choice, frog_t *frog) {
 // Función para mover la rana según el estado del joystick
 void move_frog_by_joystick(frog_t *frog) {
     static int8_t prev_x = 0, prev_y = 0;
-    // Usamos la variable global en lugar de llamar a joy_read()
     joyinfo_t joy = globalJoy;
     static int old_x, old_y;
     int8_t New_x, New_y;
@@ -109,7 +102,6 @@ void move_frog_by_joystick(frog_t *frog) {
                 // Actualizar display: apagar la posición anterior y encender la nueva
                 disp_write((dcoord_t){old_x, old_y}, D_OFF);
                 disp_write((dcoord_t){New_x, New_y}, D_ON);
-               
             }
             prev_x = joy.x;
         } else if (joy.x < -THRESHOLD) {
@@ -122,7 +114,6 @@ void move_frog_by_joystick(frog_t *frog) {
                 
                 disp_write((dcoord_t){old_x, old_y}, D_OFF);
                 disp_write((dcoord_t){New_x, New_y}, D_ON);
-                
             }
             prev_x = joy.x;
         }
@@ -139,7 +130,6 @@ void move_frog_by_joystick(frog_t *frog) {
                 
                 disp_write((dcoord_t){old_x, old_y}, D_OFF);
                 disp_write((dcoord_t){New_x, New_y}, D_ON);
-                
             }
             prev_y = joy.y;
         } else if (joy.y < -THRESHOLD) {
@@ -152,7 +142,6 @@ void move_frog_by_joystick(frog_t *frog) {
                 
                 disp_write((dcoord_t){old_x, old_y}, D_OFF);
                 disp_write((dcoord_t){New_x, New_y}, D_ON);
-                
             }
             prev_y = joy.y;
         }
@@ -168,7 +157,6 @@ void move_frog_by_joystick(frog_t *frog) {
 
 // Función para mover la matriz según el nivel actual
 void move_matrix_level(uint8_t nivel) {
-    globalJoy = joy_read(); // Actualizar el estado del joystick
     for (uint8_t fila = 0; fila <= 12; fila++) {
         // Para filas pares: desplazamiento a la derecha (1); impares: izquierda (0)
         uint8_t direccion = (fila % 2 == 0) ? 1 : 0;
@@ -184,9 +172,6 @@ void move_matrix_level(uint8_t nivel) {
         // Mostrar la matriz recortada en el display
         mostrar_matriz_recortada();
         usleep(100000);  // Espera de 100 ms
-        printf("bien\n");
-        
-        printf("saliendo de mostrar\n"); 
     }
 }
 
