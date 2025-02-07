@@ -9,6 +9,7 @@
         "delay.h": "c",
         "typeinfo": "c",
         "allegro_audio.h": "c",
-        "stdlib.h": "c"
+        "stdlib.h": "c",
+        "logic.h": "c"
     }
 }

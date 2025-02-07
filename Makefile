@@ -23,12 +23,6 @@ Backend/main.o: Backend/main.c
 	# Compila 'main.c' con advertencias habilitadas
 	gcc Backend/main.c -c -Wall -o Backend/main.o
 
-# Regla para compilar 'logic.c' en el archivo objeto 'logic.o'
-Backend/map.o: Backend/logic.c
-	# Compila 'logic.c' con advertencias habilitadas
-	gcc Backend/logic.c -c -Wall -o Backend/logic.o
-
-
 # Regla para compilar 'map.c' en el archivo objeto 'map.o'
 Backend/map.o: Backend/map.c
 	# Compila 'map.c' con advertencias habilitadas
@@ -38,6 +32,11 @@ Backend/map.o: Backend/map.c
 Backend/delay.o: Backend/delay.c
 	# Compila 'delay.c' con advertencias habilitadas
 	gcc Backend/delay.c -c -Wall -o Backend/delay.o
+
+# Regla para compilar 'logic.c' en el archivo objeto 'logic.o'
+Backend/logic.o: Backend/logic.c
+	# Compila 'logic.c' con advertencias habilitadas
+	gcc Backend/logic.c -c -Wall -o Backend/logic.o
 
 # Regla para compilar 'frog_position.c' en el archivo objeto 'frog_position.o'
 Backend/frog.o: Backend/frog.c

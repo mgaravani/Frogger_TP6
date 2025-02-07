@@ -3,6 +3,7 @@
 #include <string.h>
 #include "allegro.h"
 #include "../../Backend/frog.h"
+#include "../../Backend/logic.h"
 
 /*------------CONSTANTS-----------*/
 #define MAX_NAME_LENGTH 10
@@ -114,6 +115,9 @@ void events_managment(AllegroResources *resources, ALLEGRO_EVENT_QUEUE *event_qu
                 if(resources->selected_option == 1) //Si se eligio Play game
                 {   
                     resources->menu_state = 0;
+                    frog->playing_game = 1;
+                    printf("Juego iniciado\n");
+                    game_loop(frog, resources, event_queue, map);
                 }
                 else if(resources->selected_option == 2) //Si se eligio High Scores
                 {
@@ -141,11 +145,7 @@ void events_managment(AllegroResources *resources, ALLEGRO_EVENT_QUEUE *event_qu
                     resources->menu_state = 1;
                     resources->highscores_state = 0;
                     restart(frog);
-                    while(resources->menu_state == 1)
-                    { 
-                        events_managment(resources, event_queue, frog, map);
-                        allegro_menu(resources);
-                    }
+                    handle_menu(resources, event_queue, frog, map);
                     initialize_matrix();
                     break;
             }

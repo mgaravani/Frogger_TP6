@@ -29,8 +29,10 @@ typedef struct {
     uint8_t arrival_state:1 ; // Flag para indicar si la rana llego a la meta
     uint8_t pass_level_state:1; // Flag para indicar si la rana paso de nivel
     uint8_t paused_state:1; // Flag para indicar si el juego esta pausado
+    uint8_t playing_game:1; // Flag para indicar si el juego esta en curso
     uint8_t reached_rows[ROWS]; // Vector para conteo de puntos
     uint8_t actual_row; // Fila actual de la rana
+    uint8_t directions[11];
 } frog_t;
 
 /*----------PROTOTYPES--------*/
@@ -176,7 +178,7 @@ int handle_move_right(frog_t *frog);
 
 /*-----frog_in_range-----*/
 // Función para verificar si la rana está en rango de colisión
-uint16_t frog_in_range(map_t *map,frog_t *frog);
+uint16_t frog_in_range(map_t map,frog_t *frog);
 
 /******************************
 *      ESTADO DE VIDA         *
@@ -188,7 +190,7 @@ void frog_life_state(frog_t *frog);
 
 /*------- Function detect_arrival ---------*/
 /* Devuelve 1 si la rana está en posición de llegada y devuelve 0 si no lo está.*/
-uint16_t detect_arrival(frog_t *frog, map_t *map);
+uint16_t detect_arrival(frog_t *frog, map_t map);
 
 
 /*----- Function pass_level ------*/
