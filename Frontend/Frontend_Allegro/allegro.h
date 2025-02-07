@@ -21,7 +21,7 @@
 #define COLUMNS 20
 #define WIDTH 870
 #define HEIGHT 650
-#define SOUNDS 3
+#define SOUNDS 4
 #define FONTS 6
 #define IMAGES 34
 

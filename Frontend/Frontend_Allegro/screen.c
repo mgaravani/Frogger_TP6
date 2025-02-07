@@ -166,8 +166,7 @@ void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS], frog_t *fro
         {
             level_pass_state = clock();
             showing_level_pass = 1;
-            //Aca iria el sonido de pasar nivel
-            //al_play_sample(resources->sounds[3], 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
+            al_play_sample(resources->sounds[3], 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
         }
 
         double elapsed_time = (double)(clock() - level_pass_state) / CLOCKS_PER_SEC;

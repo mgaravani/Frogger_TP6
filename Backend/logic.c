@@ -55,7 +55,7 @@ void game_loop(frog_t *frog_position, AllegroResources *resources_for_main, ALLE
         {
             pass_level(frog_position);
         }
-        //frog_in_range(map, frog_position);
+        frog_in_range(map, frog_position);
         Screen(resources_for_main, map, frog_position);
     }
 }
