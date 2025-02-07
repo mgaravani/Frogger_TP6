@@ -341,14 +341,12 @@ void frog_life_state(frog_t *frog)
 }
 
 /*------- Function detect_arrival ---------*/
-// Devuelve 1 si la rana está en posición de llegada y devuelve 0 si no lo está.
 uint16_t detect_arrival(frog_t *frog, map_t *map)
 {
     // Ajusta las columnas y las filas en función de la posición de la rana
     int frog_col = (int)(get_frog_x(frog) + 3);
     int frog_row = 12 - (int)(((-(get_frog_y(frog) - 11.96)) / 0.96));
-    // Si la rana está en la fila 0 y la posición tiene un 1
-    if ((frog_row == 0) && (((*map)[frog_row][frog_col]) == 1)) 
+    if ((frog_row == 0) && (((*map)[frog_row][frog_col]) == 1))  // Si la rana está en la fila 0 y la posición tiene un 1 (zona de llegada)
     {
         (*map)[frog_row][frog_col] = 2; // Marca la posición como visitada
         frog->arrival_state = 1;
@@ -359,7 +357,7 @@ uint16_t detect_arrival(frog_t *frog, map_t *map)
         }
         return 1; // Indica que la rana llegó a esta posición
     }
-    else if ((frog_row == 0) && (((*map)[frog_row][frog_col]) == 2)) 
+    else if ((frog_row == 0) && (((*map)[frog_row][frog_col]) == 2)) // Llega a una zona de llegada que ya fue visitada en esa misma partida
     {
       set_frog_move(frog, 0);
       set_frog_life(frog, 1);

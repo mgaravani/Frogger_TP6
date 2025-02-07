@@ -16,7 +16,7 @@ uint8_t waiting_time(uint8_t level, uint8_t row)
     {
         speed = 1.5 + (level * 0.3); // Incremento de velocidad según el nivel
     } 
-    else if (row == 2 || row == 4) 
+    else if (row == 2 || row == 4) // Con estos if podemos personalizar mas las velocidades de las filas
     {
         speed = 1 + (level * 0.1); 
     } 

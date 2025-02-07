@@ -3,7 +3,7 @@
 
 /*------------INCLUDES-----------*/
 #include <stdint.h>
-#include "map.h" //ESTA MAL ESTO?????
+#include "map.h"
 
 /*-----LÍMITES Y CONSTANTES USADAS-----*/
 #define FROG_LIMIT_UP 1.3
