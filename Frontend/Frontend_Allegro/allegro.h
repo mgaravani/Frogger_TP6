@@ -18,7 +18,7 @@
 
 /*-------DEFINES------*/
 #define ROWS 13
-#define COLUMNS 20 // HAY DOS DEFINES CON EL MISMO NOMBRE, FUSIONAR ESTE CON MAP.H
+#define COLUMNS 20
 #define WIDTH 870
 #define HEIGHT 650
 #define SOUNDS 3

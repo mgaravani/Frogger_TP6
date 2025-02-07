@@ -237,7 +237,6 @@ void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS], frog_t *fro
         }
     }
 
-    //AGREGAR DIBUJO DEL MENSAJE DE GAME OVER
 
 
     //Dibuja el mensaje de pausa
@@ -256,7 +255,7 @@ void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS], frog_t *fro
         }
     }
 
-    //Score, falta agregar un borde para que quede mejor
+    //Score
     image_drawing(resources->images[28], 0, 0, 110, 615, 100, 30);    
     
     // Convertir el número a texto
