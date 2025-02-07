@@ -115,8 +115,8 @@ void events_managment(AllegroResources *resources, ALLEGRO_EVENT_QUEUE *event_qu
                 if(resources->selected_option == 1) //Si se eligio Play game
                 {   
                     resources->menu_state = 0;
-                    frog->playing_game = 1;
                     printf("Juego iniciado\n");
+                    initialize_matrix();
                     game_loop(frog, resources, event_queue, map);
                 }
                 else if(resources->selected_option == 2) //Si se eligio High Scores

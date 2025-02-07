@@ -11,7 +11,7 @@ void initialize_game(frog_t *frog_position, AllegroResources *resources_for_main
     init_frog(frog_position, 7, 11.96, 0, 1, 3, 0, 0, 0, 0, 0, 1);
     frog_position->pass_level_state = 0;
     frog_position->paused_state = 0; //DEBERIA IR INCLUIDO EN LA FUNCION DE INIT_FROG
-    frog_position->playing_game = 0;
+    frog_position->playing_game = 1;
     frog_position->actual_row = ROWS - 1;
     for (uint8_t i = 0; i < ROWS; i++) 
     {
@@ -50,7 +50,7 @@ void handle_menu(AllegroResources *resources_for_main, ALLEGRO_EVENT_QUEUE *even
 // Función para el loop del juego
 void game_loop(frog_t *frog_position, AllegroResources *resources_for_main, ALLEGRO_EVENT_QUEUE *event_queue, map_t map)
 {
-    while (1) 
+    while (frog_position->playing_game == 1) 
     {
         int row = 12 - (int)((-(get_frog_y(frog_position) - 11.96)) / 0.96);
         events_managment(resources_for_main, event_queue, frog_position, map);
