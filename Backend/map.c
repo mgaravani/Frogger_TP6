@@ -13,7 +13,7 @@ map_t map; // Variable global de la matriz
 void initialize_matrix(void) 
 {
     srand(time(NULL)); // Semilla para generar números aleatorios
-
+    set_map_ToZero();
     for (int i = 0; i < ROWS; i++) 
     {
         int ones_count = 0; // Contador de unos por fila
