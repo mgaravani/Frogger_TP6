@@ -16,20 +16,7 @@ void initialize_game(frog_t *frog_position, AllegroResources *resources_for_main
     for (uint8_t i = 0; i < ROWS; i++) 
     {
         frog_position->reached_rows[i] = 0;
-    }
-    uint16_t i;
-    for(i = 0; i < 11; i++) // Inicializo las direcciones de las filas, 1 para derecha, 0 para izquierda
-    {
-        switch (i)
-        {
-            case 0: case 2: case 5: case 6: case 7: case 9:
-            frog_position->directions[i] = 0;
-            break; 
-            default:
-            frog_position->directions[i] = 1;
-            break;
-        }
-    }
+    };
     *resources_for_main = allegro_init(map);
     *event_queue = init_events(resources_for_main->display);
     initialize_matrix();
@@ -84,20 +71,20 @@ void process_row_movements(frog_t *frog_position, uint8_t row)
         {
             if ((row == fila) && (get_frog_move(frog_position) == 1)) 
             {
-                if ((((int)(get_frog_x(frog_position)) + 1 > 13) && frog_position->directions[fila]) ||
-                    (((int)(get_frog_x(frog_position)) - 1 < 1) && (!frog_position->directions[fila]))) 
+                if ((((int)(get_frog_x(frog_position)) + 1 > 13) && directions[fila]) ||
+                    (((int)(get_frog_x(frog_position)) - 1 < 1) && (!directions[fila]))) 
                     {
                     set_frog_life(frog_position, 0);
                     set_frog_dead(frog_position, 1);
                 } 
                 else 
                 {
-                    set_frog_x(frog_position, get_frog_x(frog_position) + (frog_position->directions[fila] ? 1 : -1));
+                    set_frog_x(frog_position, get_frog_x(frog_position) + (directions[fila] ? 1 : -1));
                 }
             }
             if (frog_position->paused_state == 0) 
             {
-                shift_row(fila, frog_position->directions[fila]);
+                shift_row(fila, directions[fila]);
             }
         }
     }

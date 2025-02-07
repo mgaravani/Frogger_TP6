@@ -7,6 +7,8 @@
 #include <stdio.h>
 #include <unistd.h>
 
+extern uint8_t directions[11]; // Vector de direcciones de las filas
+
 /*----- Prototypes -----*/
 void initialize_game(frog_t *frog_position, AllegroResources *resources_for_main, ALLEGRO_EVENT_QUEUE **event_queue);
 void handle_menu(AllegroResources *resources_for_main, ALLEGRO_EVENT_QUEUE *event_queue, frog_t *frog_position, map_t map);

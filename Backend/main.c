@@ -1,32 +1,17 @@
 /*------------INCLUDES-----------*/
 #include "../Backend/logic.h"
 
-
+uint8_t directions[11] = {0,1,0,1,1,0,0,0,1,0,1}; 
 
 /*-----Function main-----*/
 int main(void)
 {
-  extern map_t map; // Variable global de la matriz
-  frog_t frog_position;
-  uint8_t directions[11] = {0,1,0,1,1,0,0,0,1,0,1}; 
-  init_frog(&frog_position, 7, 11.96, 0, 1, 3, 0, 0, 0, 0, 0, 1); // Inicializo la rana
-  frog_position.pass_level_state = 0;
-  frog_position.paused_state = 0;
-  frog_position.actual_row = ROWS - 1;
-  for(uint8_t i = 0; i < ROWS; i++)
-  {
-    frog_position.reached_rows[i] = 0 ; // Vector para conteo de puntos
-  }
-  AllegroResources resources_for_main = allegro_init(map); // Inicializa allegro
-  ALLEGRO_EVENT_QUEUE *event_queue = init_events(resources_for_main.display); // Crea la cola de eventos
-  initialize_matrix(); // Inicializa la matriz
+  frog_t frog_position; // Estructura de la rana
+  AllegroResources resources_for_main; // Estructura de recursos de allegro
+  ALLEGRO_EVENT_QUEUE *event_queue; // Cola de eventos
 
-  // Mientras el estado del menu sea 1, se ejecuta el menu
-  while(resources_for_main.menu_state == 1)
-  { 
-    events_managment(&resources_for_main, event_queue, &frog_position, map);
-    allegro_menu(&resources_for_main);
-  }
+  initialize_game(&frog_position, &resources_for_main, &event_queue);
+  handle_menu(&resources_for_main, event_queue, &frog_position, map);
 
   
   while (1) // EN VEZ DE WHILE 1, QUE FUNCIONE MIENTRAS NO SE APRIETE LA TECLA ESCAPE O SALIR DEL JUEGO
@@ -132,27 +117,7 @@ int main(void) {
   initialize_game(&frog_position, &resources_for_main, &event_queue);
   handle_menu(&resources_for_main, event_queue, &frog_position, map);
   //Sgame_loop(&frog_position, &resources_for_main, event_queue, map);
-  while (frog_position.playing_game == 1) 
-  {
-      int row = 12 - (int)((-(get_frog_y(&frog_position) - 11.96)) / 0.96);
-      events_managment(&resources_for_main, event_queue, &frog_position, map);
-      process_row_movements(&frog_position, row);
-      if (detect_arrival(&frog_position, map)) 
-      {
-          set_frog_arrivals(&frog_position, get_frog_arrivals(&frog_position) + 1);
-          set_frog_start(&frog_position);
-      }
-      if (get_frog_lives(&frog_position) == 0) 
-      {
-          handle_game_over(&frog_position, &resources_for_main, event_queue, map);
-      }
-      if (get_frog_arrivals(&frog_position) == 5) 
-      {
-          pass_level(&frog_position);
-      }
-      frog_in_range(map, &frog_position);
-      Screen(&resources_for_main, map, &frog_position);
-  }
+
   return 0;
 }
 */
