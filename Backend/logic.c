@@ -42,7 +42,7 @@ void game_loop(frog_t *frog_position, AllegroResources *resources_for_main, ALLE
         int row = 12 - (int)((-(get_frog_y(frog_position) - 11.96)) / 0.96);
         events_managment(resources_for_main, event_queue, frog_position, map);
         process_row_movements(frog_position, row);
-        if (detect_arrival(frog_position, &map)) 
+        if (detect_arrival(frog_position, map)) 
         {
             set_frog_arrivals(frog_position, get_frog_arrivals(frog_position) + 1);
             set_frog_start(frog_position);
@@ -55,7 +55,7 @@ void game_loop(frog_t *frog_position, AllegroResources *resources_for_main, ALLE
         {
             pass_level(frog_position);
         }
-        frog_in_range(&map, frog_position);
+        frog_in_range(map, frog_position);
         Screen(resources_for_main, map, frog_position);
     }
 }
