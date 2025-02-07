@@ -89,7 +89,6 @@ int main(void)
           events_managment(&resources_for_main, event_queue, &frog_position, map);
           menu_highscores(pointer, &resources_for_main);
         }
-        /*
         fclose(pointer);
         cleanup_allegro(&resources_for_main); //CREO QUE ESTAS TRES COSAS SON INNECESARIAS ACA
         return 0;

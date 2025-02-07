@@ -177,7 +177,7 @@ int handle_move_right(frog_t *frog);
 
 /*-----frog_in_range-----*/
 // Función para verificar si la rana está en rango de colisión
-uint16_t frog_in_range(map_t *map,frog_t *frog);
+uint16_t frog_in_range(map_t map,frog_t *frog);
 
 /******************************
 *      ESTADO DE VIDA         *
@@ -189,7 +189,7 @@ void frog_life_state(frog_t *frog);
 
 /*------- Function detect_arrival ---------*/
 /* Devuelve 1 si la rana está en posición de llegada y devuelve 0 si no lo está.*/
-uint16_t detect_arrival(frog_t *frog, map_t *map);
+uint16_t detect_arrival(frog_t *frog, map_t map);
 
 
 /*----- Function pass_level ------*/
