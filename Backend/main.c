@@ -12,8 +12,9 @@ int main(void)
 
   initialize_game(&frog_position, &resources_for_main, &event_queue);
   handle_menu(&resources_for_main, event_queue, &frog_position, map);
-
+  game_loop(&frog_position, &resources_for_main, event_queue, map);
   
+  /*
   while (1) // EN VEZ DE WHILE 1, QUE FUNCIONE MIENTRAS NO SE APRIETE LA TECLA ESCAPE O SALIR DEL JUEGO
   {
     int row = 12 - (int)(((-(get_frog_y(&frog_position) - 11.96)) / 0.96));
@@ -91,8 +92,8 @@ int main(void)
         cleanup_allegro(&resources_for_main); //CREO QUE ESTAS TRES COSAS SON INNECESARIAS ACA
         return 0;
         */
-      }
-
+    /*  }*/
+/*
       if(get_frog_arrivals(&frog_position) == 5) // SI LLEGASTE 5 VECES PASAS DE NIVEL
       {
         pass_level(&frog_position);
@@ -103,21 +104,7 @@ int main(void)
     Screen(&resources_for_main, map, &frog_position);
   }
 
-  return 0;
+  return 0;*/
 }
 
 
-/*-----Function main-----*/
-/*
-int main(void) { 
-  frog_t frog_position; // Estructura de la rana
-  AllegroResources resources_for_main; // Estructura de recursos de allegro
-  ALLEGRO_EVENT_QUEUE *event_queue; // Cola de eventos
-
-  initialize_game(&frog_position, &resources_for_main, &event_queue);
-  handle_menu(&resources_for_main, event_queue, &frog_position, map);
-  //Sgame_loop(&frog_position, &resources_for_main, event_queue, map);
-
-  return 0;
-}
-*/
