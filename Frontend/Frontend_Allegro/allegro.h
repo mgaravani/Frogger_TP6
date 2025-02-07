@@ -59,7 +59,7 @@ void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS], frog_t *fro
 
 /*-----cleanup_allegro-----*/
 // Función para limpiar allegro
-void cleanup_allegro(AllegroResources *resources);
+void cleanup_allegro(AllegroResources *resources, ALLEGRO_EVENT_QUEUE *event_queue);
 
 /*-----enter_player_name-----*/
 // Función para manejar la entrada del nombre del jugador

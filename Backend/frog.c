@@ -227,7 +227,7 @@ int handle_move_up(frog_t *frog)
     {
         frog->reached_rows[frog->actual_row] = 1;
         increase_frog_points(frog, 10);
-    } 
+    }
     --frog->actual_row;
     return 1;
   }
@@ -348,7 +348,7 @@ uint16_t detect_arrival(frog_t *frog, map_t map)
     {
         (map)[frog_row][frog_col] = 2; // Marca la posición como visitada
         frog->arrival_state = 1;
-        frog->points += 50; // Suma 50 puntos por llegar a la meta
+        increase_frog_points(frog,50); // Suma 50 puntos por llegar a la meta
         for(uint8_t i = 0; i < ROWS; i++)
         {
           frog->reached_rows[i] = 0 ; // Vector para conteo de puntos
@@ -370,7 +370,7 @@ void pass_level(frog_t *frog)
 {
   frog->pass_level_state = 1;
   frog->levels++;
-  frog->points += 1000; // Suma 1000 puntos por pasar de nivel
+  increase_frog_points(frog,1000); // Suma 1000 puntos por pasar de nivel
   set_frog_arrivals(frog, 0);
   for(uint8_t i = 0; i < ROWS; i++)
   {
@@ -379,7 +379,6 @@ void pass_level(frog_t *frog)
   set_frog_start(frog);
   set_map_ToZero();
   initialize_matrix();
-  printf("Pasaste al nivel %d \n", frog->levels);
 }
 
 //NO SE SI VA ACA, pero por ahora si

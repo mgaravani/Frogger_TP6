@@ -135,10 +135,10 @@ void events_managment(AllegroResources *resources, ALLEGRO_EVENT_QUEUE *event_qu
                         menu_highscores(pointer, resources);
                     } 
                 }
-                else
+                else //Si se eligio Quit Game
                 {
-                    cleanup_allegro(resources);
-                    exit(EXIT_SUCCESS);//Si se eligio Quit Game
+                    cleanup_allegro(resources, event_queue);
+                    exit(EXIT_SUCCESS);
                 }
                     break;
                 // Lógica para manejar la tecla ESCAPE

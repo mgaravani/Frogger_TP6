@@ -241,7 +241,7 @@ void menu_highscores(FILE *pointer_highscores, AllegroResources *resources)
 
 /*------Function Cleanup_allegro------*/
 //Borra todos los recursos utilizados
-void cleanup_allegro(AllegroResources *resources) 
+void cleanup_allegro(AllegroResources *resources, ALLEGRO_EVENT_QUEUE *event_queue) 
 {
     printf("Saliendo del programa...\n");
 
@@ -273,6 +273,7 @@ void cleanup_allegro(AllegroResources *resources)
         al_destroy_display(resources->display);
     }
 
-    //Hay que destruir la cola de eventos
-    //Chequear si falta destruir algo mas
+    if (event_queue) {
+        al_destroy_event_queue(event_queue);
+    }
 }
