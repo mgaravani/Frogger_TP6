@@ -24,7 +24,6 @@ void loadScores(const char *filename, player_t players[]) {
         // Si llegamos al límite de jugadores, mostramos un mensaje y terminamos la lectura
         if (i >= MAX_PLAYERS) 
         {
-            fprintf(stderr, "Se alcanzó el límite de jugadores permitidos (%d).\n", MAX_PLAYERS);
             break;
         }
     }
