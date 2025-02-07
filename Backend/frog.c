@@ -230,7 +230,6 @@ int handle_move_up(frog_t *frog)
         increase_frog_points(frog, 10);
     } 
     --frog->actual_row;
-    printf("FILA ACTUAL: %d\n", frog->actual_row);
     return 1;
   }
   return 0;
