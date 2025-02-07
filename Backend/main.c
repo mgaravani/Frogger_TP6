@@ -14,6 +14,8 @@ int main(void)
   handle_menu(&resources_for_main, event_queue, &frog_position, map);
   game_loop(&frog_position, &resources_for_main, event_queue, map);
   
+
+  // a partir de aca esta comentado
   /*
   while (1) // EN VEZ DE WHILE 1, QUE FUNCIONE MIENTRAS NO SE APRIETE LA TECLA ESCAPE O SALIR DEL JUEGO
   {
