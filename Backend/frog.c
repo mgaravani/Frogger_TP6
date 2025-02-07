@@ -210,7 +210,6 @@ int handle_move_down(frog_t *frog)
     set_frog_y(frog, get_frog_y(frog) + FROG_MOVE_STEP);
     set_frog_state(frog, 1); // Mostrar rana hacia abajo
     ++frog->actual_row;
-    printf("FILA ACTUAL: %d\n", frog->actual_row);
     return 1;
   }
   return 0;
