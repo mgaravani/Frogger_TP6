@@ -48,6 +48,7 @@ void handle_menu(AllegroResources *resources_for_main, ALLEGRO_EVENT_QUEUE *even
 
 /*-----Function Game_loop-----*/
 // Función para el loop del juego
+/*
 void game_loop(frog_t *frog_position, AllegroResources *resources_for_main, ALLEGRO_EVENT_QUEUE *event_queue, map_t map)
 {
     while (frog_position->playing_game == 1) 
@@ -71,7 +72,7 @@ void game_loop(frog_t *frog_position, AllegroResources *resources_for_main, ALLE
         frog_in_range(map, frog_position);
         Screen(resources_for_main, map, frog_position);
     }
-}
+}*/
 
 /*-----Function Process_row_movements-----*/
 // Función para procesar los movimientos de las filas

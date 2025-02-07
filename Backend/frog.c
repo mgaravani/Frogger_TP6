@@ -273,7 +273,7 @@ int handle_move_right(frog_t *frog)
 
 /*-----Function frog_in_range-----*/
 // Función para verificar si la rana está en rango de colisión
-uint16_t frog_in_range(map_t map, frog_t *frog) 
+uint16_t frog_in_range(map_t *map, frog_t *frog) 
 {
   int col = (int)(get_frog_x(frog) + 3); // Ajusto las columnas
   int row = 12 - (int)(((-(get_frog_y(frog) - 11.96)) / 0.96)); // Ajusto las filas
@@ -283,7 +283,7 @@ uint16_t frog_in_range(map_t map, frog_t *frog)
   {
     for (int j = 3; j <= 16; j++) // por las columnas (3 a 16)
     {       
-      if (map[i][j] == 1 && (row > 5)) // Si estoy después de la mitad del mapa, solo veo colisiones
+      if ((*map)[i][j] == 1 && (row > 5)) // Si estoy después de la mitad del mapa, solo veo colisiones
       {
         if ((i == row) && (j == col)) // Si la col y fila actual concuerda con la rana
         {
@@ -293,14 +293,14 @@ uint16_t frog_in_range(map_t map, frog_t *frog)
           return 1;
         }
       }
-      else if ((map[i][j] == 1) && (row >= 0 && row <= 5 )) // Si estoy en la primera mitad, puede ser tronco o tortuga
+      else if (((*map)[i][j] == 1) && (row >= 0 && row <= 5 )) // Si estoy en la primera mitad, puede ser tronco o tortuga
       {
         if ((i == row) && (j == col))
         {
           set_frog_move(frog, 1); // Flag para que la rana se desplace lo mismo que la fila en la dirección
         }
       }
-      else if ((map[i][j] == 0) && (row >= 0 && row <= 5 )) //RANA AHOGADA
+      else if (((*map)[i][j] == 0) && (row >= 0 && row <= 5 )) //RANA AHOGADA
       {
         if ((i == row) && (j == col))
         {
@@ -310,7 +310,7 @@ uint16_t frog_in_range(map_t map, frog_t *frog)
           return 1;
         }
       }
-      else if(map[i][j] == 2) // Si la rana llego a la meta esa casilla se vuelve zona de muerte
+      else if((*map)[i][j] == 2) // Si la rana llego a la meta esa casilla se vuelve zona de muerte
       {
         if ((i == row) && (j == col))
         {
@@ -342,15 +342,15 @@ void frog_life_state(frog_t *frog)
 
 /*------- Function detect_arrival ---------*/
 // Devuelve 1 si la rana está en posición de llegada y devuelve 0 si no lo está.
-uint16_t detect_arrival(frog_t *frog, map_t map)
+uint16_t detect_arrival(frog_t *frog, map_t *map)
 {
     // Ajusta las columnas y las filas en función de la posición de la rana
     int frog_col = (int)(get_frog_x(frog) + 3);
     int frog_row = 12 - (int)(((-(get_frog_y(frog) - 11.96)) / 0.96));
     // Si la rana está en la fila 0 y la posición tiene un 1
-    if ((frog_row == 0) && ((map[frog_row][frog_col]) == 1)) 
+    if ((frog_row == 0) && (((*map)[frog_row][frog_col]) == 1)) 
     {
-        map[frog_row][frog_col] = 2; // Marca la posición como visitada
+        (*map)[frog_row][frog_col] = 2; // Marca la posición como visitada
         frog->arrival_state = 1;
         frog->points += 50; // Suma 50 puntos por llegar a la meta
         for(uint8_t i = 0; i < ROWS; i++)
@@ -359,7 +359,7 @@ uint16_t detect_arrival(frog_t *frog, map_t map)
         }
         return 1; // Indica que la rana llegó a esta posición
     }
-    else if ((frog_row == 0) && ((map[frog_row][frog_col]) == 2)) 
+    else if ((frog_row == 0) && (((*map)[frog_row][frog_col]) == 2)) 
     {
       set_frog_move(frog, 0);
       set_frog_life(frog, 1);
