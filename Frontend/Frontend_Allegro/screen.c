@@ -204,7 +204,6 @@ void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS], frog_t *fro
         if (elapsed_time <= dead_frog_duration*0.3) 
         {
             // Dibuja la rana muerta mientras no se haya cumplido la duración
-            //printf("Mostrando rana muerta durante %.2f segundos\n", elapsed_time);
             image_drawing(resources->images[24], 0, 0, 
                           (get_frog_x(frog) - 0.38) * cell_width, 
                           (get_frog_y(frog) + 0.16) * cell_height, 
@@ -213,7 +212,6 @@ void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS], frog_t *fro
             else if ((elapsed_time > dead_frog_duration*0.3) && (elapsed_time < dead_frog_duration*0.7)) 
         {
             // Dibuja la rana muerta mientras no se haya cumplido la duración
-            //printf("Mostrando rana muerta durante %.2f segundos\n", elapsed_time);
             image_drawing( ((int)(((-(get_frog_y(frog) - 11.96)) / 0.96)) < 6) ? resources->images[25] : resources->images[33], 0, 0, 
                           (get_frog_x(frog) - 0.38) * cell_width, 
                           (get_frog_y(frog) + 0.16) * cell_height, 
@@ -222,7 +220,6 @@ void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS], frog_t *fro
             else if ((elapsed_time >= dead_frog_duration*0.7) && (elapsed_time <= dead_frog_duration)) 
         {
             // Dibuja la rana muerta mientras no se haya cumplido la duración
-            printf("Mostrando rana muerta durante %.2f segundos\n", elapsed_time);
             image_drawing(resources->images[26], 0, 0, 
                           (get_frog_x(frog) - 0.38) * cell_width, 
                           (get_frog_y(frog) + 0.16) * cell_height, 
@@ -230,7 +227,6 @@ void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS], frog_t *fro
         }
         else 
         {
-            printf("MEMORI\n");
             // Reinicia la rana después de mostrarla
             // Finaliza la animación de la rana muerta
             showing_dead_frog = 0;
