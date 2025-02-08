@@ -6,25 +6,29 @@
 
 /*-----Initialize_game-----*/
 // Función para inicializar el juego
-void initialize_game(frog_t *frog_position, AllegroResources *resources_for_main, ALLEGRO_EVENT_QUEUE **event_queue) 
+void initialize_game_state(frog_t *frog_position) 
 {
     init_frog(frog_position, 7, 11.96, 0, 1, 3, 0, 0, 0, 0, 0, 1);
     frog_position->pass_level_state = 0;
-    frog_position->paused_state = 0; //DEBERIA IR INCLUIDO EN LA FUNCION DE INIT_FROG
+    frog_position->paused_state = 0; // DEBERÍA IR INCLUIDO EN LA FUNCIÓN DE INIT_FROG
     frog_position->playing_game = 1;
     frog_position->actual_row = ROWS - 1;
+    
     for (uint8_t i = 0; i < ROWS; i++) 
     {
         frog_position->reached_rows[i] = 0;
-    };
-    *resources_for_main = allegro_init(map);
-    *event_queue = init_events(resources_for_main->display);
+    }
+    
     initialize_matrix();
 }
-
+void initialize_allegro_resources(AllegroResources *resources_for_main, ALLEGRO_EVENT_QUEUE **event_queue) 
+{
+    *resources_for_main = allegro_init(map);
+    *event_queue = init_events(resources_for_main->display);
+}
 /*-----Function Handle_menu-----*/
 // Función para manejar el menú
-void handle_menu(AllegroResources *resources_for_main, ALLEGRO_EVENT_QUEUE *event_queue, frog_t *frog_position, map_t map) 
+void handle_menu_allegro(AllegroResources *resources_for_main, ALLEGRO_EVENT_QUEUE *event_queue, frog_t *frog_position, map_t map) 
 {
     while (resources_for_main->menu_state == 1) 
     {
@@ -35,7 +39,7 @@ void handle_menu(AllegroResources *resources_for_main, ALLEGRO_EVENT_QUEUE *even
 
 /*-----Function Game_loop-----*/
 // Función para el loop del juego
-void game_loop(frog_t *frog_position, AllegroResources *resources_for_main, ALLEGRO_EVENT_QUEUE *event_queue, map_t map)
+void game_loop_allegro(frog_t *frog_position, AllegroResources *resources_for_main, ALLEGRO_EVENT_QUEUE *event_queue, map_t map)
 {
     while (frog_position->playing_game == 1) 
     {
@@ -112,5 +116,69 @@ void handle_game_over(frog_t *frog_position, AllegroResources *resources_for_mai
     while (resources_for_main->highscores_state == 1) {
         events_managment(resources_for_main, event_queue, frog_position, map);
         menu_highscores(pointer, resources_for_main);
+    }
+}
+
+void initialize_raspy_resources(frog_t *frog_position) {
+    disp_init();                // Inicializa el display
+    disp_clear();               // Limpia todo el display
+    disp_update();              // Actualiza el display
+    ShowFrogger();              // Muestra la pantalla de inicio de Frogger
+    joy_init();                 // Inicializa el joystick
+}
+
+// Función para manejar el menú y la lógica del juego
+void handle_menu_raspy(frog_t *frog_position) {
+    uint8_t choice = 0;
+    uint8_t running = 1; // Variable de control para mantener el programa en ejecución
+
+    while (running) { // Mientras `running` sea 1, el menú se mostrará
+        switch (choice) {
+            case 0:
+                choice = ShowMenu(); // Mostrar el menú
+                break;
+            case 1:
+                disp_clear();
+                choice = playGame(choice, frog_position); // Lógica del juego
+                printf("Choice: %d \n", choice);
+                break;
+            case 2:
+                printf("Saliendo del juego. ¡Hasta pronto!\n");
+                running = 0; // Cambiar el valor de `running` para salir del bucle
+                disp_clear();
+                disp_update();
+                break;
+            case 3:
+                choice = ShowCONT();
+                printf("Choice: %d \n", choice);
+                break;
+            default:
+                printf("Opción no válida.\n");
+                break;
+        }
+    }
+}
+void game_loop_raspy(frog_t *frog_position, map_t map, uint8_t matriz[DISP_CANT_Y_DOTS][DISP_CANT_X_DOTS])
+{
+    while (frog_position->playing_game == 1) 
+    {
+        uint8_t row = 12 - get_frog_y(frog_position);
+        process_row_movements(frog_position, row);
+        if (detect_arrival(frog_position, map)) 
+        {
+            set_frog_arrivals(frog_position, get_frog_arrivals(frog_position) + 1);
+            set_frog_start(frog_position);
+        }
+        if (get_frog_lives(frog_position) == 0) 
+        {
+            //handle_game_over(frog_position, resources_for_main, event_queue, map);
+            ShowGameOver();
+        }
+        if (get_frog_arrivals(frog_position) == 5) 
+        {
+            pass_level(frog_position);
+        }
+        frog_in_range(map, frog_position);
+        screen_raspy(&frog_position, matriz[DISP_CANT_Y_DOTS][DISP_CANT_X_DOTS]);
     }
 }
