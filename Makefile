@@ -8,9 +8,9 @@ HDR = Frontend/Frontend_Raspberry/joydrv.h Frontend/Frontend_Raspberry/disdrv.h 
 main_PC: Frontend/Frontend_Allegro/allegro.o Backend/main.o Frontend/Frontend_Allegro/events.o Backend/logic.o Backend/map.o Backend/topScore.o Backend/delay.o Backend/frog.o Frontend/Frontend_Allegro/screen.o 
 	# Enlaza los archivos objeto y genera el ejecutable 'main', enlazando las bibliotecas necesarias
 	gcc Frontend/Frontend_Allegro/allegro.o Frontend/Frontend_Allegro/events.o Frontend/Frontend_Allegro/screen.o Backend/topScore.o Backend/frog.o Backend/main.o Backend/logic.o Backend/map.o Backend/delay.o -g -o main -Wall -lallegro -lallegro_image -lallegro_primitives -lallegro_font -lallegro_ttf -lallegro_acodec -lallegro_audio -lpthread
-main_Raspy: Frontend/Frontend_Raspberry/display.o Backend/main.o Frontend/Frontend_Raspberry/menu.o Backend/logic.o Backend/map.o Backend/topScore.o Backend/delay.o Backend/frog.o Frontend/Frontend_Allegro/screen.o 
+main_Raspy: Frontend/Frontend_Raspberry/display.o Backend/main.o Frontend/Frontend_Raspberry/menu.o Backend/logic.o Backend/map.o Backend/topScore.o Backend/delay.o Backend/frog.o  
 	# Enlaza los archivos objeto y genera el ejecutable 'main', enlazando las bibliotecas necesarias
-	$(CC) Frontend/Frontend_Raspberry/display.o Frontend/Frontend_Raspberry/menu.o Backend/topScore.o Backend/frog.o Backend/main.o Backend/logic.o Backend/map.o Backend/delay.o -g -o main $(CFLAGS) $(OBJ) 
+	$(CC) Frontend/Frontend_Raspberry/display.o Frontend/Frontend_Raspberry/menu.o Backend/topScore.o Backend/frog.o Backend/main.o Backend/logic.o Backend/map.o Backend/delay.o $(CFLAGS) $(OBJ) -g -o main  
 		
 Frontend/Frontend_Raspberry/display.o: Frontend/Frontend_Raspberry/display.c $(HDR) Frontend/Frontend_Raspberry/display.h
 	$(CC) $(CFLAGS) -c Frontend/Frontend_Raspberry/display.c -o Frontend/Frontend_Raspberry/display.o
@@ -67,3 +67,4 @@ Backend/topScore.o: Backend/topScore.c
 clean:
 	# Elimina los archivos objeto y el ejecutable
 	rm -f Backend/*.o main
+	
