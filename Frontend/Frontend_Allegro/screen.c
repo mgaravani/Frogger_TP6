@@ -191,7 +191,7 @@ void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS], frog_t *fro
          if (!showing_dead_frog)
         {
             // La rana acaba de morir: inicia el temporizador
-            if ((int)get_frog_y(frog) == 0) set_frog_points(frog, get_frog_points(frog) - 10);
+            if ((int)get_frog_y(frog) == 0) set_frog_points(frog, get_frog_points(frog) - 10); // Arreglo de bug de sumar puntos cuando muere en fila 0
             death_time = clock();
             showing_dead_frog = 1;
             al_play_sample(resources->sounds[2], 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
