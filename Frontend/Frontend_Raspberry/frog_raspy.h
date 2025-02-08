@@ -8,4 +8,5 @@
 #include "disdrv.h"
 #include "joydrv.h"
 void move_frog_by_joystick(frog_t *frog);
+void update_frog_position(frog_t *frog);
 #endif // FROG_RASPY_H

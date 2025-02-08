@@ -92,7 +92,8 @@ void initialize_raspy_resources(frog_t *frog_position)
     disp_update();              
     ShowFrogger();              
     joy_init();
-                     
+    
+           
 }
 
 /*-----Handle Menu Raspberry Pi-----*/
@@ -100,7 +101,8 @@ void handle_menu_raspy(frog_t *frog_position, uint8_t matriz[DISP_CANT_Y_DOTS][D
 {
     uint8_t choice = 0;
     uint8_t running = 1;
-
+    joy_init();
+    joyinfo_t joy;
     while (running) 
     {
         switch (choice) 
@@ -109,12 +111,25 @@ void handle_menu_raspy(frog_t *frog_position, uint8_t matriz[DISP_CANT_Y_DOTS][D
                 choice = ShowMenu();
                 break;
             case 1:
-                disp_clear();
-                disp_update();
+                sleep(1);
                 //recortar_matriz(matriz);
-                frog_position->x = 1;
-                frog_position->y = 1;
-                screen_raspy(frog_position, matriz);
+                
+                joy = joy_read();  // Lee inicialmente el estado del joystick
+
+                while (joy.sw == J_NOPRESS)  // Mientras no se presione el botón
+                {
+                    // Mueve el frog según la lectura del joystick
+                    update_frog_position(frog_position) ;
+
+                    // Recorta la matriz según lo necesario
+                    recortar_matriz(matriz);
+
+                    // Actualiza la pantalla con la nueva posición y estado
+                    screen_raspy(frog_position, matriz);
+                    // Lee nuevamente el estado del joystick
+                    joy = joy_read();
+                }
+                choice = 0;
                 break;
             case 2:
                 printf("Saliendo del juego. ¡Hasta pronto!\n");

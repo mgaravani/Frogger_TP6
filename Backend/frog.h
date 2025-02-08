@@ -16,8 +16,8 @@
 /*-----STRUCTS-----*/
 // Definición de la estructura para la rana
 typedef struct {
-    float x;           // Coordenada x de la rana
-    float y;           // Coordenada y de la rana
+    uint8_t x;           // Coordenada x de la rana
+    uint8_t y;           // Coordenada y de la rana
     uint8_t state;      // Estado de la rana
     uint8_t life;      // Estado de vida de la rana
     uint8_t move;      // Estado de movimiento segun fila
@@ -57,11 +57,11 @@ void init_frog(frog_t *frog, float x, float y, uint8_t state, uint8_t life, uint
 
 /*-----get_frog_x-----*/
 // Función para obtener la coordenada x de la rana
-float get_frog_x(const frog_t *frog);
+uint8_t get_frog_x(const frog_t *frog);
 
 /*-----get_frog_y-----*/
 // Función para obtener la coordenada y de la rana
-float get_frog_y(const frog_t *frog);
+uint8_t get_frog_y(const frog_t *frog);
 
 /*-----get_frog_state-----*/
 // Función para obtener el estado de la rana
