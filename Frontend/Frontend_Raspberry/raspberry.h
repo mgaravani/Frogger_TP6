@@ -10,6 +10,7 @@
 #include "display.h"
 #include "disdrv.h"
 #include "joydrv.h"
+#include "frog_raspy.h"
 
 extern map_t map;
 

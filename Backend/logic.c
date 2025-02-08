@@ -110,7 +110,11 @@ void handle_menu_raspy(frog_t *frog_position, uint8_t matriz[DISP_CANT_Y_DOTS][D
                 break;
             case 1:
                 disp_clear();
-                choice = game_loop_raspy(frog_position, matriz);
+                disp_update();
+                //recortar_matriz(matriz);
+                frog_position->x = 1;
+                frog_position->y = 1;
+                screen_raspy(frog_position, matriz);
                 break;
             case 2:
                 printf("Saliendo del juego. ¡Hasta pronto!\n");
@@ -133,6 +137,9 @@ uint8_t game_loop_raspy(frog_t *frog_position, uint8_t matriz[DISP_CANT_Y_DOTS][
 {
     while (frog_position->playing_game == 1) 
     {
+        move_frog_by_joystick(frog_position);
+        recortar_matriz(matriz);
+        screen_raspy(frog_position, matriz);
         uint8_t row = 12 - get_frog_y(frog_position);
         process_row_movements(frog_position, row);
         if (detect_arrival(frog_position, map)) 
@@ -143,16 +150,16 @@ uint8_t game_loop_raspy(frog_t *frog_position, uint8_t matriz[DISP_CANT_Y_DOTS][
         if (get_frog_lives(frog_position) == 0) 
         {
             ShowGameOver();
+            return 0;
         }
         if (get_frog_arrivals(frog_position) == 5) 
         {
             pass_level(frog_position);
         }
         frog_in_range(map, frog_position);
-        recortar_matriz(matriz[DISP_CANT_Y_DOTS][DISP_CANT_X_DOTS]);
-        screen_raspy(frog_position, matriz);
+        
     }
-    return 0;
+    return 1;
 }
 #endif // RASPBERRY_PI
 

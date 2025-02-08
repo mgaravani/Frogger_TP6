@@ -7,13 +7,13 @@ uint8_t directions[11] = {0, 1, 0, 1, 1, 0, 0, 0, 1, 0, 1};
 int main(void)
 {
     frog_t frog_position; // Estructura de la rana
-
+    initialize_game_state(&frog_position);
     #ifdef PC // PC
         AllegroResources resources_for_main; // Estructura de recursos de Allegro
         ALLEGRO_EVENT_QUEUE *event_queue;    // Cola de eventos
     #endif
     // Inicialización del estado del juego
-    initialize_game_state(&frog_position);
+    
 
     #ifdef RASPBERRY_PI
         // Inicializar recursos de la Raspberry Pi

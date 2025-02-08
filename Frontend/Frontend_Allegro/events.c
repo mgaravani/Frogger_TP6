@@ -147,7 +147,7 @@ void events_managment(AllegroResources *resources, ALLEGRO_EVENT_QUEUE *event_qu
                     resources->highscores_state = 0;
                     frog->playing_game = 0;
                     restart(frog);
-                    handle_menu(resources, event_queue, frog, map);
+                    handle_menu_allegro(resources, event_queue, frog, map);
                     initialize_matrix();
                     break;
             }
