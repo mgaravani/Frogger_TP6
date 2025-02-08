@@ -91,7 +91,8 @@ void initialize_raspy_resources(frog_t *frog_position)
     disp_clear();               
     disp_update();              
     ShowFrogger();              
-    joy_init();                 
+    joy_init();
+                     
 }
 
 /*-----Handle Menu Raspberry Pi-----*/
@@ -148,7 +149,8 @@ uint8_t game_loop_raspy(frog_t *frog_position, uint8_t matriz[DISP_CANT_Y_DOTS][
             pass_level(frog_position);
         }
         frog_in_range(map, frog_position);
-        screen_raspy(&frog_position, matriz);
+        recortar_matriz(matriz[DISP_CANT_Y_DOTS][DISP_CANT_X_DOTS]);
+        screen_raspy(frog_position, matriz);
     }
     return 0;
 }

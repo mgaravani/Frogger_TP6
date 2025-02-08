@@ -29,7 +29,7 @@ void mostrar_matriz(uint8_t matriz[DISP_CANT_Y_DOTS][DISP_CANT_X_DOTS]) {
     }
     disp_update();
 }
-void screen_raspy(frog_t *frog_position, uint8_t matriz[DISP_CANT_Y_DOTS][DISP_CANT_X_DOTS]) {
+void screen_raspy(frog_t* frog_position, uint8_t matriz[DISP_CANT_Y_DOTS][DISP_CANT_X_DOTS]) {
     dcoord_t myPoint;
     myPoint.x = (uint8_t)(get_frog_x(frog_position));
     myPoint.y = (uint8_t)(get_frog_y(frog_position));

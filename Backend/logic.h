@@ -9,7 +9,7 @@
 #include <stdio.h>
 #include <unistd.h>
 //#define PC
-//
+#define RASPBERRY_PI
 /*----- EXTERN VARIABLES -----*/
 extern uint8_t directions[11]; // Vector de direcciones de las filas
 
@@ -31,8 +31,8 @@ void initialize_game_state(frog_t *frog_position);
 #ifdef RASPBERRY_PI
     #include "../Frontend/Frontend_Raspberry/raspberry.h"
     void initialize_raspy_resources(frog_t *frog_position);
-    void handle_menu_raspy(frog_t *frog_position);
-    void game_loop_raspy(frog_t *frog_position, map_t map, uint8_t matriz[DISP_CANT_Y_DOTS][DISP_CANT_X_DOTS]);
+    void handle_menu_raspy(frog_t *frog_position, uint8_t matriz[DISP_CANT_Y_DOTS][DISP_CANT_X_DOTS]);
+    uint8_t game_loop_raspy(frog_t *frog_position, uint8_t matriz[DISP_CANT_Y_DOTS][DISP_CANT_X_DOTS]);
 #endif
 
 /*----- Function Process_row_movements -----*/
