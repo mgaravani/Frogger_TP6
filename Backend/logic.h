@@ -8,8 +8,8 @@
 #include "../Backend/delay.h"
 #include <stdio.h>
 #include <unistd.h>
-#define PC
-#define RASPBERRY_PI
+//#define PC
+//
 /*----- EXTERN VARIABLES -----*/
 extern uint8_t directions[11]; // Vector de direcciones de las filas
 

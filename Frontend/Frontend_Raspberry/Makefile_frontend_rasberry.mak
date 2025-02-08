@@ -11,12 +11,8 @@ Frogger: raspberry.o game_logic.o display.o menu.o $(OBJ)
 	$(CC) $(CFLAGS) raspberry.o game_logic.o display.o menu.o $(OBJ) -o Frogger
 
 # Compile object files
-raspberry.o: raspberry.c $(HDR) raspberry.h game_logic.h display.h menu.h
+raspberry.o: raspberry.c $(HDR) raspberry.h  display.h menu.h
 	$(CC) $(CFLAGS) -c raspberry.c
-
-
-game_logic.o: game_logic.c $(HDR) game_logic.h 
-	$(CC) $(CFLAGS) -c game_logic.c 
 
 display.o: display.c $(HDR) display.h
 	$(CC) $(CFLAGS) -c display.c 

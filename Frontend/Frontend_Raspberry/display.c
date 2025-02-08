@@ -2,8 +2,8 @@
 
 
 // Función para leer la matriz y actualizar el display
-void mostrar_matriz_recortada() {
-    uint8_t matriz_recortada[DISP_CANT_Y_DOTS][DISP_CANT_X_DOTS];
+void recortar_matriz(uint8_t matriz_recortada[DISP_CANT_Y_DOTS][DISP_CANT_X_DOTS]) {
+    
 
     // Recortar la matriz original (map) a la matriz recortada
     for (int i = 0; i < DISP_CANT_Y_DOTS; i++) {  
