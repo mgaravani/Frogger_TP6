@@ -70,6 +70,9 @@ void game_loop_allegro(frog_t *frog_position, AllegroResources *resources_for_ma
 void handle_game_over(frog_t *frog_position, AllegroResources *resources_for_main, ALLEGRO_EVENT_QUEUE *event_queue, map_t map) 
 {
     resources_for_main->menu_state = 1;
+    resources_for_main->selected_option = 1;
+    resources_for_main->name_state = 1;
+    resources_for_main->highscores_state = 1;
     player_t players[MAX_PLAYERS];
     loadScores("highscores.txt", players);
     enter_player_name(event_queue, resources_for_main);
@@ -78,6 +81,16 @@ void handle_game_over(frog_t *frog_position, AllegroResources *resources_for_mai
     newPlayer.score = get_frog_points(frog_position);
     newScore(players, newPlayer);
     saveScores("highscores.txt", players);
+    FILE* pointer = fopen("highscores.txt", "r");
+    if (pointer == NULL) 
+    {
+        fprintf(stderr, "Error: no se pudo abrir el archivo de highscores.\n");
+    }
+    while (resources_for_main->highscores_state == 1) 
+    {
+        events_managment(resources_for_main, event_queue, frog_position, map);
+        menu_highscores(pointer, resources_for_main);
+    }
 }
 #endif // PC
 

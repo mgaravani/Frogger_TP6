@@ -116,7 +116,6 @@ void events_managment(AllegroResources *resources, ALLEGRO_EVENT_QUEUE *event_qu
                 {   
                     resources->menu_state = 0;
                     frog->playing_game = 1;
-                    printf("Juego iniciado\n");
                     initialize_matrix();
                     game_loop_allegro(frog, resources, event_queue, map);
                 }
