@@ -6,7 +6,7 @@
 #include "../../Backend/logic.h"
 
 /*------------CONSTANTS-----------*/
-#define MAX_NAME_LENGTH 10
+#define MAX_NAME_LENGTH 9
 
 /*------------FUNCTIONS------------*/
 
@@ -112,34 +112,34 @@ void events_managment(AllegroResources *resources, ALLEGRO_EVENT_QUEUE *event_qu
                     break;
                 // Lógica para manejar la tecla ENTER
                 case ALLEGRO_KEY_ENTER:
-                if(resources->selected_option == 1) //Si se eligio Play game
-                {   
-                    resources->menu_state = 0;
-                    frog->playing_game = 1;
-                    initialize_matrix();
-                    game_loop_allegro(frog, resources, event_queue, map);
-                }
-                else if(resources->selected_option == 2) //Si se eligio High Scores
-                {
-                    FILE* pointer = fopen("highscores.txt", "r");
-                    if(pointer == NULL)
-                    {
-                        fprintf(stderr, "Error: no se pudo abrir el archivo de highscores.\n");
-                        return;
+                    if(resources->selected_option == 1) //Si se eligio Play game
+                    {   
+                        resources->menu_state = 0;
+                        frog->playing_game = 1;
+                        initialize_matrix();
+                        game_loop_allegro(frog, resources, event_queue, map);
                     }
-                    resources->highscores_state = 1;
-                    while(resources->highscores_state == 1)
-                    { 
-                        events_managment(resources, event_queue, frog, map);
-                        menu_highscores(pointer, resources);
-                    } 
-                }
-                else //Si se eligio Quit Game
-                {
-                    cleanup_allegro(resources, event_queue);
-                    exit(EXIT_SUCCESS);
-                }
-                    break;
+                    else if(resources->selected_option == 2) //Si se eligio High Scores
+                    {
+                        FILE* pointer = fopen("highscores.txt", "r");
+                        if(pointer == NULL)
+                        {
+                            fprintf(stderr, "Error: no se pudo abrir el archivo de highscores.\n");
+                            return;
+                        }
+                        resources->highscores_state = 1;
+                        while(resources->highscores_state == 1)
+                        { 
+                            events_managment(resources, event_queue, frog, map);
+                            menu_highscores(pointer, resources);
+                        } 
+                    }
+                    else //Si se eligio Quit Game
+                    {
+                        cleanup_allegro(resources, event_queue);
+                        exit(EXIT_SUCCESS);
+                    }
+                        break;
                 // Lógica para manejar la tecla ESCAPE
                 case ALLEGRO_KEY_ESCAPE:        
                     resources->menu_state = 1;
@@ -162,7 +162,17 @@ void enter_player_name(ALLEGRO_EVENT_QUEUE *event_queue, AllegroResources *resou
     ALLEGRO_EVENT event;
     uint16_t name_length = 0;
     resources->player_name[0] = '\0'; // Inicializa el string vacío
-    image_drawing(resources->images[30], 0, 0, WIDTH /12 -70 , HEIGHT / 2 - 9 , (resources->width) / (COLUMNS-6) * 14, resources->height / ROWS );
+    image_drawing(resources->images[30], 0, 0, WIDTH /12 -71 , HEIGHT / 2 - 9 , (resources->width) / (COLUMNS-6) * 14, resources->height / ROWS );
+    al_draw_filled_rectangle(0, 600, WIDTH, 680, al_map_rgb(0, 0, 0));
+    
+    // Convertir el número a texto
+    char text[50];
+    sprintf(text, "%d", resources->final_points);
+   
+    //Dibuja el texto de puntuacion
+    al_draw_text(resources->fonts[5], al_map_rgb(220, 250, 6), 20, 615 , 0, "El puntaje obtenido fue:");
+    al_draw_text(resources->fonts[5], al_map_rgb(220, 250, 6), 540, 615, 0, text);
+    
     al_flip_display();
     while (1) 
     {
@@ -201,8 +211,7 @@ void enter_player_name(ALLEGRO_EVENT_QUEUE *event_queue, AllegroResources *resou
             }
         }
 
-        // Dibujar un recuadro en lugar de limpiar toda la pantalla
-        image_drawing(resources->images[30], 0, 0, WIDTH /12 -70 , HEIGHT / 2 - 9 , (resources->width) / (COLUMNS-6) * 14, resources->height / ROWS );
+        image_drawing(resources->images[30], 0, 0, WIDTH /12 -71 , HEIGHT / 2 - 9 , (resources->width) / (COLUMNS-6) * 14, resources->height / ROWS );
         al_draw_text(resources->fonts[5], al_map_rgb(220, 250, 6), 590, HEIGHT / 2 , ALLEGRO_ALIGN_CENTER, resources->player_name);
         al_flip_display();
     }

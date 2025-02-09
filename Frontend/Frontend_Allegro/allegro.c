@@ -8,7 +8,7 @@
 AllegroResources allegro_init(uint8_t map[ROWS][COLUMNS]) 
 {
     //Creo la instancia resources del tipo de dato estructura AllegroResources
-    AllegroResources resources = {.selected_option = 1 , .menu_state = 1, .highscores_state = 1, .name_state = 0}; 
+    AllegroResources resources = {.selected_option = 1 , .menu_state = 1, .highscores_state = 1, .name_state = 0,  .final_points = 0}; 
 
     // Inicializa Allegro y sus addons
     if (!al_init()) 
@@ -214,8 +214,8 @@ void menu_highscores(FILE *pointer_highscores, AllegroResources *resources)
     char line[256];   // Buffer para cada línea del archivo
     uint16_t y_position = resources->height / 3 + 100; // Comienza en 1/8 de la pantalla
     const uint16_t line_spacing = 50;  // Espaciado entre líneas
-    const uint16_t column_x_left = resources->width / 8 - 40;  // Posición X de la primera columna
-    const uint16_t column_x_right = resources->width / 2 + 80; // Posición X de la segunda columna
+    const uint16_t column_x_left = resources->width / 8 - 100;  // Posición X de la primera columna
+    const uint16_t column_x_right = resources->width / 2 + 10; // Posición X de la segunda columna
 
     int rank = 1; // Contador para numerar los puntajes
 

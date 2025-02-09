@@ -43,6 +43,7 @@ typedef struct
     uint8_t highscores_state:1; //Guardo el estado de los puntajes altos
     uint8_t name_state:1; //Guardo el estado del nombre del jugador
     char player_name[20]; //Guardo el nombre del jugador
+    uint16_t final_points; //Guardo los puntos finales del jugador
 
 } AllegroResources;
 

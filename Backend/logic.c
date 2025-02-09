@@ -73,6 +73,7 @@ void handle_game_over(frog_t *frog_position, AllegroResources *resources_for_mai
     resources_for_main->selected_option = 1;
     resources_for_main->name_state = 1;
     resources_for_main->highscores_state = 1;
+    resources_for_main->final_points = get_frog_points(frog_position);
     player_t players[MAX_PLAYERS];
     loadScores("highscores.txt", players);
     enter_player_name(event_queue, resources_for_main);
