@@ -24,6 +24,6 @@ extern map_t map;
 
 void recortar_matriz(uint8_t matriz_recortada[DISP_CANT_Y_DOTS][DISP_CANT_X_DOTS]);
 void mostrar_matriz(uint8_t matriz[DISP_CANT_Y_DOTS][DISP_CANT_X_DOTS]);
-void screen_raspy(frog_t *frog_position, uint8_t matriz[DISP_CANT_Y_DOTS][DISP_CANT_X_DOTS]);
+void screen_raspy(frog_t *frog_position);
 
 #endif // DISPLAY_H

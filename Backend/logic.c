@@ -91,7 +91,7 @@ void handle_game_over(frog_t *frog_position, AllegroResources *resources_for_mai
 /*----- Raspberry Pi Specific Functions -----*/
 
 /*-----Initialize Raspberry Resources-----*/
-void initialize_raspy_resources(frog_t *frog_position) 
+void initialize_raspy_resources() 
 {
     disp_init();                
     disp_clear();               
@@ -103,7 +103,7 @@ void initialize_raspy_resources(frog_t *frog_position)
 }
 
 /*-----Handle Menu Raspberry Pi-----*/
-void handle_menu_raspy(frog_t *frog_position, uint8_t matriz[DISP_CANT_Y_DOTS][DISP_CANT_X_DOTS]) 
+void handle_menu_raspy(frog_t *frog_position) 
 {
     uint8_t choice = 0;
     uint8_t running = 1;
@@ -118,13 +118,14 @@ void handle_menu_raspy(frog_t *frog_position, uint8_t matriz[DISP_CANT_Y_DOTS][D
                 break;
             case 1: // Jugar
                 sleep(1);
-
-                set_frog_start(frog_position);
+                initialize_matrix();
+                frog_position->x = 7;          // Reiniciar posición X
+                frog_position->y = 13;         // Reiniciar posición Y
+                frog_position->life = 3;       // Reiniciar vidas a 3
                 frog_position->playing_game = 1; // Activar el juego
-                frog_position->lives = 3; // 3 vidas iniciales
                 while (frog_position->playing_game) 
                 {
-                    if (game_loop_raspy(frog_position, matriz) == 0) 
+                    if (game_loop_raspy(frog_position) == 0) 
                     {
                         // Si el juego termina, volver al menú principal
                         choice = 0;
@@ -146,11 +147,14 @@ void handle_menu_raspy(frog_t *frog_position, uint8_t matriz[DISP_CANT_Y_DOTS][D
 
                         // Mostrar el menú de pausa
                         uint8_t pause_choice = ShowCONT();
+
                         if (pause_choice == 1) 
                         {
                             // Continuar el juego
                             frog_position->playing_game = 1;
+                            
                             printf("Reanudando el juego...\n");
+                            usleep(500000);
                         } 
                         else 
                         {
@@ -167,9 +171,6 @@ void handle_menu_raspy(frog_t *frog_position, uint8_t matriz[DISP_CANT_Y_DOTS][D
                 disp_clear();
                 disp_update();
                 break;
-            case 3:
-                choice = ShowCONT(); // Mostrar el menú de continuar
-                break;
             default:
                 printf("Opción no válida.\n");
                 break;
@@ -177,20 +178,29 @@ void handle_menu_raspy(frog_t *frog_position, uint8_t matriz[DISP_CANT_Y_DOTS][D
     }
 }
 
-uint8_t game_loop_raspy(frog_t *frog_position, uint8_t matriz[DISP_CANT_Y_DOTS][DISP_CANT_X_DOTS])
+uint8_t game_loop_raspy(frog_t *frog_position)
 {
     while (frog_position->playing_game == 1) 
     {
-        update_frog_position(frog_position);
-        recortar_matriz(matriz);
-        screen_raspy(frog_position, matriz);
-        uint8_t row = 12 - (int)(((-(get_frog_y(frog_position) - 11.96)) / 0.96));
+        
+        printf("Frog Position: (%2d,%2d) Frog life: %d  \n", get_frog_x(frog_position), get_frog_y(frog_position), get_frog_lives(frog_position));
+        screen_raspy(frog_position); // Mostrar la matriz en el display y la rana
+        update_frog_position(frog_position); // Actualizar la posición de la rana
+        // Verificar colisiones
+        if (check_collision(frog_position)) 
+        {
+            // Si hubo colisión, ya se manejó dentro de check_collision
+            // No es necesario hacer nada más aquí, ya que la posición de la rana se reinició
+        }
+
+        uint8_t row = 12 - (uint8_t)(((-(get_frog_y(frog_position) - 11.96)) / 0.96));
         process_row_movements(frog_position, row);
-        printf("Frog Position: (%2d,%2d) Frog life: %d \n", get_frog_x(frog_position), get_frog_y(frog_position), get_frog_lives(frog_position));   
+
         if (detect_arrival(frog_position, map)) 
         {
             set_frog_arrivals(frog_position, get_frog_arrivals(frog_position) + 1);
-            set_frog_start(frog_position);
+            frog_position->x = 7;
+            frog_position->y = 13;
         }
         if (get_frog_lives(frog_position) == 0) 
         {
@@ -204,6 +214,38 @@ uint8_t game_loop_raspy(frog_t *frog_position, uint8_t matriz[DISP_CANT_Y_DOTS][
         frog_in_range(map, frog_position);
     }
     return 1; // Juego en curso
+}
+uint8_t check_collision(frog_t *frog_position) 
+{
+    uint8_t frog_x = get_frog_x(frog_position);
+    uint8_t frog_y = get_frog_y(frog_position);
+
+    // Verificar las primeras 5 filas
+    if (frog_y < 7) 
+    {
+        if (map[frog_y+2][frog_x] == 0) 
+        {
+            // Colisión en las primeras 5 filas si el valor en map es 0
+            set_frog_lives(frog_position, get_frog_lives(frog_position) - 1);
+            frog_position->x = 7;
+            frog_position->y = 13; // Reiniciar la posición de la rana
+            return 1; // Hubo colisión
+        }
+    }
+    // Verificar de la fila 7 en adelante
+    else if (frog_y >= 7) 
+    {
+        if (map[frog_y+2][frog_x] == 1) 
+        {
+            // Colisión de la fila 7 en adelante si el valor en map es 1
+            set_frog_lives(frog_position, get_frog_lives(frog_position) - 1);
+            frog_position->x = 7;
+            frog_position->y = 13; // Reiniciar la posición de la rana
+            return 1; // Hubo colisión
+        }
+    }
+
+    return 0; // No hubo colisión
 }
 #endif // RASPBERRY_PI
 

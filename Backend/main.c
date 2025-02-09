@@ -34,10 +34,9 @@ int main(void)
         }
         
         // Inicializar la matriz del juego
-        initialize_matrix();
-        uint8_t matriz[DISP_CANT_Y_DOTS][DISP_CANT_X_DOTS] = {0}; // Matriz del display 16x16
+        initialize_raspy_resources();
         // Manejar el menú y la lógica del juego
-        handle_menu_raspy(&frog_position, matriz);
+        handle_menu_raspy(&frog_position);
     #endif
 
     #ifdef PC
