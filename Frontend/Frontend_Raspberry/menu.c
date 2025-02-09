@@ -109,7 +109,8 @@ int8_t ShowCONT(void) {
     sleep(1); // Pausa de 1s
     printf("CONTINUAR\n");
     disp_init();
-    int8_t  status = 3;
+
+    // Definir la matriz del menú
     uint8_t menuBitmap[16][16] = {
         // "CONT" (Arriba)
         {0,0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0, 0,  0, 0, },
@@ -131,29 +132,41 @@ int8_t ShowCONT(void) {
         {0, 0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0},
         {0, 0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0}
     };
-    mostrar_matriz(menuBitmap);
-    joy_init();	
-    joyinfo_t coord = {0,0,J_NOPRESS};
-    int last_status = 0; // Variable para recordar el último estado
+
+    joy_init();
+    joyinfo_t coord = {0, 0, J_NOPRESS};
+    int8_t status = 1; // 1: CONTINUAR, 0: EXIT
+    int last_status = -1; // Para evitar cambios repetidos
 
     do {
-    coord = joy_read();
+        coord = joy_read();
 
-    if (coord.y > THRESHOLD && last_status != 1) { // Estado de arriba
-        status = 1;
-        last_status = 1; // Actualiza el último estado
-    }
-    if (coord.y < -THRESHOLD && last_status != 2) { // Estado de abajo
-        status = 0;
-        last_status = 0; // Actualiza el último estado
-    }
+        // Cambiar entre "CONTINUAR" y "EXIT" según el movimiento del joystick
+        if (coord.y > THRESHOLD && last_status != 1) { // Arriba: CONTINUAR
+            status = 1;
+            last_status = 1;
+            printf("Seleccionado: CONTINUAR\n");
+        } else if (coord.y < -THRESHOLD && last_status != 0) { // Abajo: EXIT
+            status = 0;
+            last_status = 0;
+            printf("Seleccionado: EXIT\n");
+        }
 
-    } while (coord.sw == J_NOPRESS); // Termina si se presiona el switch
+        // Actualizar la matriz para reflejar la selección actual
+        if (status == 1) {
+            // Resaltar "CONTINUAR" (por ejemplo, cambiar algunos píxeles)
+        } else {
+            // Resaltar "EXIT"
+        }
+        mostrar_matriz(menuBitmap);
+
+    } while (coord.sw == J_NOPRESS); // Esperar a que se presione el botón
+
     disp_clear();
     disp_update();
     printf("Saliendo del menu\n");
 
-    return status; //retorna el estado
+    return status; // Retorna 1 para CONTINUAR, 0 para EXIT
 }
 
 void ShowGameOver(void){

@@ -17,7 +17,24 @@ int main(void)
 
     #ifdef RASPBERRY_PI
         // Inicializar recursos de la Raspberry Pi
-        initialize_raspy_resources(&frog_position);
+        // Inicializar la rana con los valores iniciales
+        init_frog(&frog_position, 7, 11.98, 0, 1, 3, 0, 0, 0, 0, 0, 1);
+        
+        // Inicializar estados adicionales
+        frog_position.pass_level_state = 0;
+        frog_position.paused_state = 0; // Incluir en init_frog si es posible
+        frog_position.playing_game = 1; // Juego activo
+        frog_position.actual_row = ROWS - 1; // Fila inicial (inferior)
+        frog_position.life = 3; // 3 vidas iniciales
+        
+        // Inicializar el arreglo de filas alcanzadas
+        for (uint8_t i = 0; i < ROWS; i++) 
+        {
+            frog_position.reached_rows[i] = 0;
+        }
+        
+        // Inicializar la matriz del juego
+        initialize_matrix();
         uint8_t matriz[DISP_CANT_Y_DOTS][DISP_CANT_X_DOTS] = {0}; // Matriz del display 16x16
         // Manejar el menú y la lógica del juego
         handle_menu_raspy(&frog_position, matriz);

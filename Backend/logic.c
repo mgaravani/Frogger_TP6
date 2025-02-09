@@ -6,17 +6,23 @@
 /*-----Initialize_game-----*/
 void initialize_game_state(frog_t *frog_position) 
 {
-    init_frog(frog_position, 7, 11.96, 0, 1, 3, 0, 0, 0, 0, 0, 1);
-    frog_position->pass_level_state = 0;
-    frog_position->paused_state = 0; // DEBERÍA IR INCLUIDO EN LA FUNCIÓN DE INIT_FROG
-    frog_position->playing_game = 1;
-    frog_position->actual_row = ROWS - 1;
+    // Inicializar la rana con los valores iniciales
+    init_frog(frog_position, 7, 11.98, 0, 1, 3, 0, 0, 0, 0, 0, 1);
     
+    // Inicializar estados adicionales
+    frog_position->pass_level_state = 0;
+    frog_position->paused_state = 0; // Incluir en init_frog si es posible
+    frog_position->playing_game = 1; // Juego activo
+    frog_position->actual_row = ROWS - 1; // Fila inicial (inferior)
+    frog_position->life = 3; // 3 vidas iniciales
+    
+    // Inicializar el arreglo de filas alcanzadas
     for (uint8_t i = 0; i < ROWS; i++) 
     {
         frog_position->reached_rows[i] = 0;
     }
     
+    // Inicializar la matriz del juego
     initialize_matrix();
 }
 
@@ -108,28 +114,52 @@ void handle_menu_raspy(frog_t *frog_position, uint8_t matriz[DISP_CANT_Y_DOTS][D
         switch (choice) 
         {
             case 0:
-                choice = ShowMenu();
+                choice = ShowMenu(); // Mostrar el menú principal
                 break;
-            case 1:
+            case 1: // Jugar
                 sleep(1);
-                //recortar_matriz(matriz);
-                
-                joy = joy_read();  // Lee inicialmente el estado del joystick
 
-                while (joy.sw == J_NOPRESS)  // Mientras no se presione el botón
+                set_frog_start(frog_position);
+                frog_position->playing_game = 1; // Activar el juego
+                frog_position->lives = 3; // 3 vidas iniciales
+                while (frog_position->playing_game) 
                 {
-                    // Mueve el frog según la lectura del joystick
-                    update_frog_position(frog_position) ;
+                    if (game_loop_raspy(frog_position, matriz) == 0) 
+                    {
+                        // Si el juego termina, volver al menú principal
+                        choice = 0;
+                        break;
+                    }
 
-                    // Recorta la matriz según lo necesario
-                    recortar_matriz(matriz);
-
-                    // Actualiza la pantalla con la nueva posición y estado
-                    screen_raspy(frog_position, matriz);
-                    // Lee nuevamente el estado del joystick
+                    // Verificar si se presionó el botón para pausar
                     joy = joy_read();
+                    if (joy.sw == J_PRESS) 
+                    {
+                        frog_position->playing_game = 0; // Pausar el juego
+                        printf("Juego en pausa. Presiona el botón para continuar.\n");
+
+                        // Esperar a que se suelte el botón
+                        while (joy.sw == J_PRESS) 
+                        {
+                            joy = joy_read();
+                        }
+
+                        // Mostrar el menú de pausa
+                        uint8_t pause_choice = ShowCONT();
+                        if (pause_choice == 1) 
+                        {
+                            // Continuar el juego
+                            frog_position->playing_game = 1;
+                            printf("Reanudando el juego...\n");
+                        } 
+                        else 
+                        {
+                            // Salir al menú principal
+                            choice = 0;
+                            break;
+                        }
+                    }
                 }
-                choice = 0;
                 break;
             case 2:
                 printf("Saliendo del juego. ¡Hasta pronto!\n");
@@ -138,7 +168,7 @@ void handle_menu_raspy(frog_t *frog_position, uint8_t matriz[DISP_CANT_Y_DOTS][D
                 disp_update();
                 break;
             case 3:
-                choice = ShowCONT();
+                choice = ShowCONT(); // Mostrar el menú de continuar
                 break;
             default:
                 printf("Opción no válida.\n");
@@ -147,16 +177,16 @@ void handle_menu_raspy(frog_t *frog_position, uint8_t matriz[DISP_CANT_Y_DOTS][D
     }
 }
 
-/*-----Game Loop Raspberry Pi-----*/
 uint8_t game_loop_raspy(frog_t *frog_position, uint8_t matriz[DISP_CANT_Y_DOTS][DISP_CANT_X_DOTS])
 {
     while (frog_position->playing_game == 1) 
     {
-        move_frog_by_joystick(frog_position);
+        update_frog_position(frog_position);
         recortar_matriz(matriz);
         screen_raspy(frog_position, matriz);
-        uint8_t row = 12 - get_frog_y(frog_position);
+        uint8_t row = 12 - (int)(((-(get_frog_y(frog_position) - 11.96)) / 0.96));
         process_row_movements(frog_position, row);
+        printf("Frog Position: (%2d,%2d) Frog life: %d \n", get_frog_x(frog_position), get_frog_y(frog_position), get_frog_lives(frog_position));   
         if (detect_arrival(frog_position, map)) 
         {
             set_frog_arrivals(frog_position, get_frog_arrivals(frog_position) + 1);
@@ -165,16 +195,15 @@ uint8_t game_loop_raspy(frog_t *frog_position, uint8_t matriz[DISP_CANT_Y_DOTS][
         if (get_frog_lives(frog_position) == 0) 
         {
             ShowGameOver();
-            return 0;
+            return 0; // Fin del juego
         }
         if (get_frog_arrivals(frog_position) == 5) 
         {
             pass_level(frog_position);
         }
         frog_in_range(map, frog_position);
-        
     }
-    return 1;
+    return 1; // Juego en curso
 }
 #endif // RASPBERRY_PI
 
