@@ -8,7 +8,7 @@
 AllegroResources allegro_init(uint8_t map[ROWS][COLUMNS]) 
 {
     //Creo la instancia resources del tipo de dato estructura AllegroResources
-    AllegroResources resources = {.selected_option = 1 , .menu_state = 1, .highscores_state = 1, .name_state = 0,  .final_points = 0}; 
+    AllegroResources resources = {.selected_option = 1 , .menu_state = 1, .highscores_state = 1, .name_state = 0,  .final_points = 0, .width = WIDTH, .height = HEIGHT}; 
 
     // Inicializa Allegro y sus addons
     if (!al_init()) 
@@ -30,8 +30,8 @@ AllegroResources allegro_init(uint8_t map[ROWS][COLUMNS])
     }
 
     if (!al_install_audio()) {
-    printf("Error al inicializar el sistema de audio.\n");
-    exit(EXIT_FAILURE); //Ante un fallo termina el programa y borra los recursos 
+        printf("Error al inicializar el sistema de audio.\n");
+        exit(EXIT_FAILURE); //Ante un fallo termina el programa y borra los recursos 
     }
 
     if (!al_reserve_samples(10)) {
@@ -62,10 +62,6 @@ AllegroResources allegro_init(uint8_t map[ROWS][COLUMNS])
         exit(EXIT_FAILURE); //Ante un fallo termina el programa y borra los recursos
     }
     
-    // Crea una ventana
-    resources.width = WIDTH;
-    resources.height = HEIGHT;
-
     ALLEGRO_DISPLAY *display = al_create_display(resources.width, resources.height);
     resources.display = display;
 
@@ -194,11 +190,9 @@ void allegro_menu(AllegroResources *resources)
                               resources->width / 2 + text_width / 3 + 10, y_positions[i] + 31,
                               al_map_rgb(255, 255, 255), 3);
         }
-
     }
 
     al_flip_display();
-    
 }
 
 /*------Function menu_highscores------*/
@@ -239,41 +233,44 @@ void menu_highscores(FILE *pointer_highscores, AllegroResources *resources)
     al_flip_display(); // Muestra los cambios en pantalla
 }
 
-
 /*------Function Cleanup_allegro------*/
 //Borra todos los recursos utilizados
 void cleanup_allegro(AllegroResources *resources, ALLEGRO_EVENT_QUEUE *event_queue) 
 {
-
-    // Destruir los recursos utilizados
-    for (int i = 0; i < SOUNDS; i++) { // USAR UNA MACRO PARA MAXIMOS SONIDOS, IMAGENES, ETC.
-    if (resources->sounds[i]) {
-        al_destroy_sample(resources->sounds[i]);
+    // Destruir los sonidos
+    for (int i = 0; i < SOUNDS; i++) {
+        if (resources->sounds[i] != NULL) {
+            al_destroy_sample(resources->sounds[i]);
+            resources->sounds[i] = NULL;  // Para evitar acceso posterior
+        }
     }
-    }
 
-    for (int i = 0; i < FONTS; i++) 
-    {
-        if (resources->fonts[i]) 
-        {
+    // Destruir las fuentes
+    for (int i = 0; i < FONTS; i++) {
+        if (resources->fonts[i] != NULL) {
             al_destroy_font(resources->fonts[i]);
+            resources->fonts[i] = NULL;  // Para evitar acceso posterior
         }
     }
 
-    for (int i = 0; i < IMAGES; i++) 
-    {
-        if (resources->images[i]) 
-        {
+    // Destruir las imágenes
+    for (int i = 0; i < IMAGES; i++) {
+        if (resources->images[i] != NULL) {
             al_destroy_bitmap(resources->images[i]);
+            resources->images[i] = NULL;  // Para evitar acceso posterior
         }
     }
 
-    if (resources->display) 
-    {
+    // Destruir la ventana
+    if (resources->display != NULL) {
         al_destroy_display(resources->display);
+        resources->display = NULL;  // Para evitar acceso posterior
     }
 
-    if (event_queue) {
+    // Destruir la cola de eventos
+    if (event_queue != NULL) {
         al_destroy_event_queue(event_queue);
+        event_queue = NULL;  // Para evitar acceso posterior
     }
+    al_uninstall_system();
 }
