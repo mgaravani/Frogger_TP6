@@ -51,7 +51,7 @@ void update_frog_position(frog_t *frog) {
 }
 uint8_t detect_arrival_raspy(frog_t *frog) {
     // Ajusta las columnas y filas en función de la posición de la rana
-    uint8_t frog_col = (uint8_t)(get_frog_x(frog) + 3);
+    uint8_t frog_col = (uint8_t)(get_frog_x(frog));
     uint8_t frog_row = (uint8_t)get_frog_y(frog);
 
     // Convertir la posición de la rana según la transformación de map a matriz
@@ -59,12 +59,13 @@ uint8_t detect_arrival_raspy(frog_t *frog) {
     uint8_t matrix_row = frog_row ;
 
     // Verifica si la rana llegó a la fila 2 de la matriz
-    if (matrix_row == 2) {
+    if (matrix_row == 1) {
         // Si el lugar está libre (matriz[matrix_row][matrix_col] == 0), marca la posición como ocupada
         if (matriz[matrix_row][matrix_col] == 0) {
             matriz[matrix_row][matrix_col] = 1; // Marca la posición como ocupada
             disp_write((dcoord_t){frog_col, frog_row}, D_ON); // Enciende el punto en la pantalla
             disp_update();  // Actualiza la pantalla
+            sleep(1);  // Espera 1 segundo
             frog->arrival_state = 1;
             increase_frog_points(frog, 50); // Sumar puntos por llegada
 

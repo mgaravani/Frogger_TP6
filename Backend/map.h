@@ -13,7 +13,7 @@
 
 /*-----------TYPEDEF--------*/
 typedef uint8_t map_t[ROWS][COLUMNS];
-
+typedef uint8_t matriz_t[16][16];
 
 /*------------ GLOBAL VARIABLE ----------------*/
 extern map_t map;

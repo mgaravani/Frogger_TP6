@@ -2,7 +2,7 @@
 #include "map.h"
 
 map_t map; // Variable global de la matriz
-
+matriz_t matriz; // Variable global de la matriz recortada
 
 /*------------ FUNCTIONS ----------------*/
 
