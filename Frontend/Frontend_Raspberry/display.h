@@ -20,6 +20,7 @@ extern map_t map;
 #include "joydrv.h"
 #include "macros.h"
 
+
 //funciones
 
 void recortar_matriz(uint8_t matriz_recortada[DISP_CANT_Y_DOTS][DISP_CANT_X_DOTS]);

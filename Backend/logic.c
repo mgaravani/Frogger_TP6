@@ -108,7 +108,6 @@ void handle_menu_raspy(frog_t *frog_position)
     uint8_t choice = 0;
     uint8_t running = 1;
     joy_init();
-    joyinfo_t joy;
     while (running) 
     {
         switch (choice) 
@@ -119,8 +118,8 @@ void handle_menu_raspy(frog_t *frog_position)
             case 1: // Jugar
                 sleep(1);
                 initialize_matrix();
-                frog_position->x = 7;          // Reiniciar posición X
-                frog_position->y = 13;         // Reiniciar posición Y
+                frog_position->x = 7;
+                frog_position->y = 15;         // Reiniciar posición Y
                 frog_position->life = 3;       // Reiniciar vidas a 3
                 frog_position->playing_game = 1; // Activar el juego
                 while (frog_position->playing_game) 
@@ -129,41 +128,14 @@ void handle_menu_raspy(frog_t *frog_position)
                     {
                         // Si el juego termina, volver al menú principal
                         choice = 0;
+
                         break;
                     }
-
-                    // Verificar si se presionó el botón para pausar
-                    joy = joy_read();
-                    if (joy.sw == J_PRESS) 
-                    {
-                        frog_position->playing_game = 0; // Pausar el juego
-                        printf("Juego en pausa. Presiona el botón para continuar.\n");
-
-                        // Esperar a que se suelte el botón
-                        while (joy.sw == J_PRESS) 
-                        {
-                            joy = joy_read();
-                        }
-
-                        // Mostrar el menú de pausa
-                        uint8_t pause_choice = ShowCONT();
-
-                        if (pause_choice == 1) 
-                        {
-                            // Continuar el juego
-                            frog_position->playing_game = 1;
-                            
-                            printf("Reanudando el juego...\n");
-                            usleep(500000);
-                        } 
-                        else 
-                        {
-                            // Salir al menú principal
-                            choice = 0;
-                            break;
-                        }
-                    }
                 }
+                frog_position->playing_game = 1;
+                frog_position->x = 7;
+                frog_position->y = 15;
+                frog_position->life = 3;       // Reiniciar vidas a 3
                 break;
             case 2:
                 printf("Saliendo del juego. ¡Hasta pronto!\n");
@@ -182,84 +154,128 @@ uint8_t game_loop_raspy(frog_t *frog_position)
 {
     while (frog_position->playing_game == 1) 
     {
+
         
-        printf("Frog Position: (%2d,%2d) Frog life: %d  \n", get_frog_x(frog_position), get_frog_y(frog_position), get_frog_lives(frog_position));
+            for (int i = 0; i < 13; i++) {
+                for (int j = 0; j < 20; j++) {
+                    printf("%d ", map[i][j]);  // Imprime el valor en la posición (i, j)
+                }
+                printf("\n");  // Nueva línea después de imprimir cada fila
+            }
+        
+        process_row_movements_raspy(frog_position);  
+        joyinfo_t joy ;
+        joy = joy_read();
+        // Castear las coordenadas a uint8_t
+        uint8_t frog_x = (uint8_t)get_frog_x(frog_position);
+        uint8_t frog_y = (uint8_t)get_frog_y(frog_position);
+
+        // Imprimir la posición de la rana con valores casteados
+        printf("Frog Position: (%d, %d) Frog life: %d\n", frog_x, frog_y, get_frog_lives(frog_position));
+        printf("Frog Arrivals: %d\n", get_frog_arrivals(frog_position));
+        printf("matriz: %d\n", matriz[frog_x][frog_y]);
         screen_raspy(frog_position); // Mostrar la matriz en el display y la rana
         update_frog_position(frog_position); // Actualizar la posición de la rana
+
         // Verificar colisiones
         if (check_collision(frog_position)) 
         {
             // Si hubo colisión, ya se manejó dentro de check_collision
             // No es necesario hacer nada más aquí, ya que la posición de la rana se reinició
         }
-
-        uint8_t row = 12 - (uint8_t)(((-(get_frog_y(frog_position) - 11.96)) / 0.96));
-        process_row_movements(frog_position, row);
-
-        if (detect_arrival(frog_position, map)) 
+        if ( detect_arrival_raspy(frog_position) ) 
         {
             set_frog_arrivals(frog_position, get_frog_arrivals(frog_position) + 1);
             frog_position->x = 7;
-            frog_position->y = 13;
+            frog_position->y = 15;
         }
         if (get_frog_lives(frog_position) == 0) 
         {
             ShowGameOver();
+            printf("Frog Position: (%d, %d) Frog life: %d\n", frog_x, frog_y, get_frog_lives(frog_position));
             return 0; // Fin del juego
         }
         if (get_frog_arrivals(frog_position) == 5) 
         {
             pass_level(frog_position);
         }
-        frog_in_range(map, frog_position);
+        if(joy.sw == J_PRESS)
+        {
+            frog_position->paused_state = 0;
+            uint8_t choice = ShowCONT();
+            if (choice == 1)
+            {
+                frog_position->paused_state = 1;
+                sleep(.5);
+                joy.sw = J_NOPRESS;
+            }else if(choice == 0)
+            {
+                frog_position->playing_game = 0;
+                return 1;
+            }   
+        }
     }
     return 1; // Juego en curso
 }
 uint8_t check_collision(frog_t *frog_position) 
 {
-    uint8_t frog_x = get_frog_x(frog_position);
-    uint8_t frog_y = get_frog_y(frog_position);
+    // Castear las coordenadas a uint8_t
+    uint8_t frog_x = (uint8_t)get_frog_x(frog_position);
+    uint8_t frog_y = (uint8_t)get_frog_y(frog_position);
 
-    // Verificar las primeras 5 filas
-    if (frog_y < 7) 
+    // verifico si se choco
+    if (matriz[frog_y][frog_x] == 1) 
     {
-        if (map[frog_y+2][frog_x] == 0) 
-        {
-            // Colisión en las primeras 5 filas si el valor en map es 0
-            set_frog_lives(frog_position, get_frog_lives(frog_position) - 1);
-            frog_position->x = 7;
-            frog_position->y = 13; // Reiniciar la posición de la rana
-            return 1; // Hubo colisión
-        }
+        set_frog_lives(frog_position, get_frog_lives(frog_position) - 1);
+        frog_position->x = 7;
+        frog_position->y = 15; // Reiniciar la posición de la rana
+        return 1; // Hubo colisión
     }
-    // Verificar de la fila 7 en adelante
-    else if (frog_y >= 7) 
-    {
-        if (map[frog_y+2][frog_x] == 1) 
-        {
-            // Colisión de la fila 7 en adelante si el valor en map es 1
-            set_frog_lives(frog_position, get_frog_lives(frog_position) - 1);
-            frog_position->x = 7;
-            frog_position->y = 13; // Reiniciar la posición de la rana
-            return 1; // Hubo colisión
-        }
-    }
-
     return 0; // No hubo colisión
 }
+void process_row_movements_raspy(frog_t *frog_position) 
+{
+    // Recorrer las filas de obstáculos
+    for (int fila = 1; fila < 12; fila++) 
+    {
+        if (waiting_time(frog_position->levels, fila)) // Esperar el tiempo adecuado
+        {
+            uint8_t row = 12 - (uint8_t)(((-(get_frog_y(frog_position) - 11.96)) / 0.96));
+            if (row == fila && get_frog_move(frog_position) == 1) // Movimiento de la rana en la fila
+            {
+                if ((get_frog_x(frog_position) + 1 > 13 && directions[fila]) ||
+                    (get_frog_x(frog_position) - 1 < 1 && !directions[fila])) 
+                {
+                    set_frog_life(frog_position, get_frog_life(frog_position) - 1);
+                    set_frog_dead(frog_position, 1);
+                } 
+                else 
+                {
+                    set_frog_x(frog_position, get_frog_x(frog_position) + (directions[fila] ? 1 : -1));
+                }
+            }
+            // Desplazar las filas
+            if (frog_position->paused_state == 0) 
+            {
+                shift_row(fila, directions[fila]);
+            }
+        }
+    }
+}
+
 #endif // RASPBERRY_PI
 
 /*-----Common Function for Both Platforms-----*/
 void process_row_movements(frog_t *frog_position, uint8_t row) 
 {
-    for (int fila = 1; fila < 12; fila++) 
+    for (uint8_t fila = 1; fila < 12; fila++) 
     {
         if (waiting_time(frog_position->levels, fila)) 
         {
             if ((row == fila) && (get_frog_move(frog_position) == 1)) 
             {
-                if ((((int)(get_frog_x(frog_position)) + 1 > 13) && directions[fila]) ||
-                    (((int)(get_frog_x(frog_position)) - 1 < 1) && (!directions[fila]))) 
+                if ((((uint8_t)(get_frog_x(frog_position)) + 1 > 13) && directions[fila]) ||
+                    (((uint8_t)(get_frog_x(frog_position)) - 1 < 1) && (!directions[fila]))) 
                 {
                     set_frog_life(frog_position, 0);
                     set_frog_dead(frog_position, 1);

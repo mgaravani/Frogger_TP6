@@ -1,44 +1,8 @@
 #include "frog_raspy.h"
 
-#include "frog_raspy.h"
-
-void move_frog_by_joystick(frog_t *frog) {
-    dcoord_t pos = {frog->x, frog->y};  // Posición actual de la rana
-    dcoord_t npos = pos;                // Próxima posición
-    joyinfo_t coord = {0, 0, J_NOPRESS}; // Coordenadas medidas del joystick
-
-    coord = joy_read();  // Lee el estado del joystick
-    
-    // Establece la próxima posición según las coordenadas medidas
-    if (coord.x > THRESHOLD && npos.x < DISP_CANT_X_DOTS - 1) {
-        npos.x++;
-    }
-    if (coord.x < -THRESHOLD && npos.x > 0) {
-        npos.x--;
-    }
-    if (coord.y > THRESHOLD && npos.y > 0) {
-        npos.y--;
-    }
-    if (coord.y < -THRESHOLD && npos.y < DISP_CANT_Y_DOTS - 1) {
-        npos.y++;
-    }
-
-    // Actualiza la matriz de display
-    disp_write(pos, D_OFF);  // Apaga la posición anterior en el buffer
-    disp_write(npos, D_ON);  // Enciende la nueva posición en el buffer
-
-    // Actualiza la posición de la rana
-    frog->x = npos.x;
-    frog->y = npos.y;
-
-    // Imprime las coordenadas del joystick y la posición de la rana
-    printf("Joystick: (%4d,%4d) | Frog Position: (%2d,%2d)\n", coord.x, coord.y, frog->x, frog->y);
-}
-
-
-#define MAX_COORD 16  // Valor máximo para x e y
 
 void update_frog_position(frog_t *frog) {
+    
     static uint8_t last_x_dir = 0;  // Última dirección en X detectada
     static uint8_t last_y_dir = 0;  // Última dirección en Y detectada
 
@@ -48,7 +12,7 @@ void update_frog_position(frog_t *frog) {
     if (joy_state.x > THRESHOLD) {
         if (last_x_dir != 1) {
             uint8_t new_x = get_frog_x(frog) + 1;
-            if (new_x <= MAX_COORD) {  // Verificar que no exceda el límite
+            if (new_x < DISP_CANT_X_DOTS) {  // Verificar que no exceda el límite del display
                 set_frog_x(frog, new_x);
             }
             last_x_dir = 1;
@@ -56,7 +20,7 @@ void update_frog_position(frog_t *frog) {
     } else if (joy_state.x < -THRESHOLD) {
         if (last_x_dir != 2) {
             uint8_t new_x = get_frog_x(frog) - 1;
-            if (new_x <= MAX_COORD) {  // Verificar que no sea menor que 0 (underflow)
+            if (new_x < DISP_CANT_X_DOTS) {  // Verificar que no sea menor que 0 (underflow)
                 set_frog_x(frog, new_x);
             }
             last_x_dir = 2;
@@ -69,7 +33,7 @@ void update_frog_position(frog_t *frog) {
     if (joy_state.y > THRESHOLD) {
         if (last_y_dir != 1) {
             uint8_t new_y = get_frog_y(frog) + 1;
-            if (new_y <= MAX_COORD) {  // Verificar que no exceda el límite
+            if (new_y < DISP_CANT_Y_DOTS) {  // Verificar que no exceda el límite del display
                 set_frog_y(frog, new_y);
             }
             last_y_dir = 1;
@@ -77,7 +41,7 @@ void update_frog_position(frog_t *frog) {
     } else if (joy_state.y < -THRESHOLD) {
         if (last_y_dir != 2) {
             uint8_t new_y = get_frog_y(frog) - 1;
-            if (new_y <= MAX_COORD) {  // Verificar que no sea menor que 0 (underflow)
+            if (new_y < DISP_CANT_Y_DOTS) {  // Verificar que no sea menor que 0 (underflow)
                 set_frog_y(frog, new_y);
             }
             last_y_dir = 2;
@@ -86,3 +50,43 @@ void update_frog_position(frog_t *frog) {
         last_y_dir = 0;  // Resetear la dirección cuando el joystick vuelve al centro
     }
 }
+
+uint8_t detect_arrival_raspy(frog_t *frog) {
+    // Ajusta las columnas y filas en función de la posición de la rana
+    uint8_t frog_col = (uint8_t)(get_frog_x(frog) + 3);
+    uint8_t frog_row = (uint8_t)get_frog_y(frog);
+
+    // Convertir la posición de la rana según la transformación de map a matriz
+    uint8_t matrix_col = frog_col ;
+    uint8_t matrix_row = frog_row ;
+
+    // Verifica si la rana llegó a la fila 2 de la matriz
+    if (matrix_row == 2) {
+        // Si el lugar está libre (matriz[matrix_row][matrix_col] == 0), marca la posición como ocupada
+        if (matriz[matrix_row][matrix_col] == 0) {
+            matriz[matrix_row][matrix_col] = 1; // Marca la posición como ocupada
+            disp_write((dcoord_t){frog_col, frog_row}, D_ON); // Enciende el punto en la pantalla
+            disp_update();  // Actualiza la pantalla
+            frog->arrival_state = 1;
+            increase_frog_points(frog, 50); // Sumar puntos por llegada
+
+            // Reiniciar las filas alcanzadas por la rana
+            for (uint8_t i = 0; i < ROWS; i++) {
+                frog->reached_rows[i] = 0;
+            }
+
+            return 1; // Indica que la rana llegó a la fila 2
+        } 
+        // Si la posición ya está ocupada (matriz[matrix_row][matrix_col] == 1)
+        else if (matriz[matrix_row][matrix_col] == 1) {
+            // Si la posición ya está ocupada, marca la rana como muerta
+            set_frog_move(frog, 0); // Detener el movimiento de la rana
+            set_frog_life(frog, 1);  // Vida en 1 (podría ser un valor de vida completa)
+            set_frog_dead(frog, 1);  // Marcar la rana como muerta
+        }
+    }
+    
+    // Si la rana no llegó a la fila 2, simplemente retornamos 0
+    return 0;
+}
+

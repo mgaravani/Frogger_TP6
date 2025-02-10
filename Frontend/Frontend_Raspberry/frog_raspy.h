@@ -7,6 +7,7 @@
 #include "display.h"
 #include "disdrv.h"
 #include "joydrv.h"
-void move_frog_by_joystick(frog_t *frog);
-void update_frog_position(frog_t *frog);
+void move_frog_by_joystick(frog_t *frog);//mueve la rana con el joystick
+void update_frog_position(frog_t *frog);//actualiza la posicion de la rana
+uint8_t detect_arrival_raspy(frog_t *frog);//detecta si la rana llego a la meta
 #endif // FROG_RASPY_H

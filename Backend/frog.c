@@ -30,14 +30,14 @@ void init_frog(frog_t *frog, float x, float y, uint8_t state, uint8_t life, uint
 
 /*-----Function get_frog_x-----*/
 // Función para obtener la coordenada x de la rana
-uint8_t get_frog_x(const frog_t *frog) 
+float get_frog_x(const frog_t *frog) 
 {
   return frog->x;
 }
 
 /*-----Function get_frog_y-----*/
 // Función para obtener la coordenada y de la rana
-uint8_t get_frog_y(const frog_t *frog) 
+float get_frog_y(const frog_t *frog) 
 {
   return frog->y;
 }
