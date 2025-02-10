@@ -198,5 +198,4 @@ void pass_level(frog_t *frog);
 // Resetea todos los parámetros necesarios para reiniciar el juego
 void restart(frog_t *frog);
 
-
 #endif // FROG_H

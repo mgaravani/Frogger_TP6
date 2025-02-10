@@ -17,7 +17,7 @@ typedef uint8_t map_t[ROWS][COLUMNS];
 
 /*------------ GLOBAL VARIABLE ----------------*/
 extern map_t map;
-uint8_t matriz[16][16];
+extern uint8_t matriz[16][16];
 
 /*-----------PROTOTYPES--------*/
 

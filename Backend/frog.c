@@ -106,7 +106,6 @@ void set_frog_x(frog_t *frog, float x)
 // Función para modificar la coordenada y de la rana
 void set_frog_y(frog_t *frog, float y) 
 {
-
   frog->y = y;
 }
 
@@ -128,7 +127,7 @@ void set_frog_move(frog_t *frog, uint8_t move)
 // Función para modificar el estado de muerte de la rana
 void set_frog_dead(frog_t *frog, uint8_t dead) 
 {
-    frog->is_dead = dead;
+  frog->is_dead = dead;
 }
 
 /*-----Function set_frog_life-----*/
@@ -205,7 +204,7 @@ int handle_move_down(frog_t *frog)
 {
   if ((get_frog_y(frog) <= FROG_LIMIT_DOWN)  && (get_frog_dead(frog) == 0)) 
   {
-    set_frog_y(frog, get_frog_y(frog) + FROG_MOVE_STEP);
+    set_frog_y(frog, get_frog_y(frog) + FROG_MOVE_STEP); // Actualiza al nuevo valor
     set_frog_state(frog, 1); // Mostrar rana hacia abajo
     ++frog->actual_row;
     return 1;
@@ -219,12 +218,12 @@ int handle_move_up(frog_t *frog)
 {
   if ((get_frog_y(frog) > FROG_LIMIT_UP)  && (get_frog_dead(frog) == 0)) 
   {
-    set_frog_y(frog, get_frog_y(frog) - FROG_MOVE_STEP);
+    set_frog_y(frog, get_frog_y(frog) - FROG_MOVE_STEP); // Actualiza al nuevo valor
     set_frog_state(frog, 0); // Mostrar rana hacia arriba
     if(frog->reached_rows[frog->actual_row] == 0 )
     {
         frog->reached_rows[frog->actual_row] = 1;
-        increase_frog_points(frog, 10);
+        increase_frog_points(frog, 10); // Aumenta los puntos al pasar una fila
     }
     --frog->actual_row;
     return 1;
@@ -247,7 +246,7 @@ int handle_move_left(frog_t *frog)
 {
   if ((get_frog_x(frog) > 1 )  && (get_frog_dead(frog) == 0)) 
   {
-    set_frog_x(frog, get_frog_x(frog) - 1.0);
+    set_frog_x(frog, get_frog_x(frog) - 1.0); // Actualiza al nuevo valor
     set_frog_state(frog, 2); // Mostrar rana hacia la izquierda
     return 1;
   }
@@ -260,7 +259,7 @@ int handle_move_right(frog_t *frog)
 {
   if ((get_frog_x(frog) < FROG_LIMIT_RIGHT)  && (get_frog_dead(frog) == 0)) 
   {
-    set_frog_x(frog, get_frog_x(frog) + 1.0);
+    set_frog_x(frog, get_frog_x(frog) + 1.0); // Actualiza al nuevo valor
     set_frog_state(frog, 3); // Mostrar rana hacia la derecha
     return 1;
   }
@@ -296,7 +295,7 @@ uint16_t frog_in_range(map_t map, frog_t *frog)
           set_frog_move(frog, 1); // Flag para que la rana se desplace lo mismo que la fila en la dirección
         }
       }
-      else if (((map)[i][j] == 0) && (row >= 0 && row <= 5 )) //RANA AHOGADA
+      else if (((map)[i][j] == 0) && (row >= 0 && row <= 5 )) //Chequea si la rana se ahoga
       {
         if ((i == row) && (j == col))
         {
