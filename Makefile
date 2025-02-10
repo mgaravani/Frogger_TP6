@@ -10,7 +10,7 @@ main_PC: Frontend/Frontend_Allegro/allegro.o Backend/main.o Frontend/Frontend_Al
 	gcc Frontend/Frontend_Allegro/allegro.o Frontend/Frontend_Allegro/events.o Frontend/Frontend_Allegro/screen.o Backend/topScore.o Backend/frog.o Backend/main.o Backend/logic.o Backend/map.o Backend/delay.o -g -o main -Wall -lallegro -lallegro_image -lallegro_primitives -lallegro_font -lallegro_ttf -lallegro_acodec -lallegro_audio -lpthread
 main_Raspy: Frontend/Frontend_Raspberry/frog_raspy.o Frontend/Frontend_Raspberry/display.o Backend/main.o Frontend/Frontend_Raspberry/menu.o Backend/logic.o Backend/map.o Backend/topScore.o Backend/delay.o Backend/frog.o  
 	# Enlaza los archivos objeto y genera el ejecutable 'main', enlazando las bibliotecas necesarias
-	$(CC) Frontend/Frontend_Raspberry/frog_raspy.o Frontend/Frontend_Raspberry/display.o Frontend/Frontend_Raspberry/menu.o Backend/topScore.o Backend/frog.o Backend/main.o Backend/logic.o Backend/map.o Backend/delay.o $(CFLAGS) $(OBJ) -g -o main  
+	$(CC) Frontend/Frontend_Raspberry/frog_raspy.o Frontend/Frontend_Raspberry/display.o Frontend/Frontend_Raspberry/menu.o Backend/topScore.o Backend/frog.o Backend/main.o Backend/logic.o Backend/map.o Backend/delay.o $(CFLAGS) $(OBJ) -g -o main -lwiringPi -lpthread  
 		
 Frontend/Frontend_Raspberry/display.o: Frontend/Frontend_Raspberry/display.c $(HDR) Frontend/Frontend_Raspberry/display.h
 	$(CC) $(CFLAGS) -c Frontend/Frontend_Raspberry/display.c -o Frontend/Frontend_Raspberry/display.o

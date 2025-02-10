@@ -113,12 +113,24 @@ void handle_game_over(frog_t *frog_position, AllegroResources *resources_for_mai
 /*----- Raspberry Pi Specific Functions -----*/
 
 /*-----Initialize Raspberry Resources-----*/
-void initialize_raspy_resources(frog_t *frog_position) 
+void initialize_raspy_resources() 
 {
     disp_init();                
     disp_clear();               
     disp_update();              
-    ShowFrogger();              
+    ShowFrogger();
+    if (wiringPiSetup() == -1) {
+        printf("Error al iniciar wiringPi\n");
+    }
+
+    pinMode(BUZZER_PIN, OUTPUT);  // Configurar pin como salida
+
+    printf("Activando buzzer...\n");
+    digitalWrite(BUZZER_PIN, HIGH);  // Encender buzzer
+    delay(1000);  // Sonar por 1 segundo
+    digitalWrite(BUZZER_PIN, LOW);  // Apagar buzzer
+
+    printf("Buzzer apagado.\n");              
     joy_init();
     initialize_matrix();   
      for (int i = 0; i < 13; i++) {
@@ -134,7 +146,7 @@ void initialize_raspy_resources(frog_t *frog_position)
 }
 
 /*-----Handle Menu Raspberry Pi-----*/
-void handle_menu_raspy(frog_t *frog_position, uint8_t matriz[DISP_CANT_Y_DOTS][DISP_CANT_X_DOTS]) 
+void handle_menu_raspy(frog_t *frog_position) 
 {
     uint8_t choice = 0;
     uint8_t running = 1;
@@ -185,7 +197,7 @@ void handle_menu_raspy(frog_t *frog_position, uint8_t matriz[DISP_CANT_Y_DOTS][D
 }
 
 /*-----Game Loop Raspberry Pi-----*/
-uint8_t game_loop_raspy(frog_t *frog_position, uint8_t matriz[DISP_CANT_Y_DOTS][DISP_CANT_X_DOTS])
+uint8_t game_loop_raspy(frog_t *frog_position)
 {
     while (frog_position->playing_game == 1) 
     {
@@ -193,11 +205,10 @@ uint8_t game_loop_raspy(frog_t *frog_position, uint8_t matriz[DISP_CANT_Y_DOTS][
         printf("Puntos: %d\n", get_frog_points(frog_position));
         joyinfo_t joy = joy_read();
 
-        uint8_t frog_x = (uint8_t)get_frog_x(frog_position);
+
         uint8_t frog_y = (uint8_t)get_frog_y(frog_position);
 
-        uint8_t row = 12 - (uint8_t)((-(get_frog_y(frog_position) - 11.96)) / 0.96);
-        process_row_movements(frog_position, row);
+        process_row_movements(frog_position, frog_y);
         screen_raspy(frog_position); 
         update_frog_position(frog_position); 
 
@@ -243,7 +254,7 @@ uint8_t game_loop_raspy(frog_t *frog_position, uint8_t matriz[DISP_CANT_Y_DOTS][
             }   
         }
     }
-    return game_status;
+    return 0;
 }
 
 uint8_t check_collision(frog_t *frog_position) 
