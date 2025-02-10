@@ -119,30 +119,7 @@ void initialize_raspy_resources()
     disp_clear();               
     disp_update();              
     ShowFrogger();
-    if (wiringPiSetup() == -1) {
-        printf("Error al iniciar wiringPi\n");
-    }
-
-    pinMode(BUZZER_PIN, OUTPUT);  // Configurar pin como salida
-
-    printf("Activando buzzer...\n");
-    digitalWrite(BUZZER_PIN, HIGH);  // Encender buzzer
-    delay(1000);  // Sonar por 1 segundo
-    digitalWrite(BUZZER_PIN, LOW);  // Apagar buzzer
-
-    printf("Buzzer apagado.\n");              
-    joy_init();
-    initialize_matrix();   
-     for (int i = 0; i < 13; i++) {
-                for (int j = 0; j < 20; j++) {
-                    printf("%d ", map[i][j]);  // Imprime el valor en la posición (i, j)
-                }
-                printf("\n");  // Nueva línea después de imprimir cada fila
-            }
-    uint16_t pattern = 0b1101101101101101; // Patrón binario de 16 bits
-    for (int i = 0; i < DISP_CANT_X_DOTS; i++) {
-        matriz[2][i] = (pattern >> (15 - i)) & 1; // Desplazar el patrón y colocar en la fila 3
-    }      
+      
 }
 
 /*-----Handle Menu Raspberry Pi-----*/
@@ -162,7 +139,7 @@ void handle_menu_raspy(frog_t *frog_position)
         {
             sleep(1);
             frog_position->x = 7;
-            frog_position->y = 15;         
+            frog_position->y = 14; // Reiniciar la posición de la rana         
             frog_position->life = 3;       
             frog_position->playing_game = 1; 
 
@@ -177,7 +154,7 @@ void handle_menu_raspy(frog_t *frog_position)
             }
 
             frog_position->x = 7;
-            frog_position->y = 15;
+            frog_position->y = 14; // Reiniciar la posición de la rana
             frog_position->life = 3;       
             frog_position->playing_game = 1;
         }
@@ -201,6 +178,7 @@ uint8_t game_loop_raspy(frog_t *frog_position)
 {
     while (frog_position->playing_game == 1) 
     {
+        move_frog_with_log(frog_position);
         update_frog_points(frog_position);
         printf("Puntos: %d\n", get_frog_points(frog_position));
         joyinfo_t joy = joy_read();
@@ -208,7 +186,7 @@ uint8_t game_loop_raspy(frog_t *frog_position)
 
         uint8_t frog_y = (uint8_t)get_frog_y(frog_position);
 
-        process_row_movements(frog_position, frog_y);
+        process_row_movements(frog_position, frog_y - 2);
         screen_raspy(frog_position); 
         update_frog_position(frog_position); 
 
@@ -220,7 +198,7 @@ uint8_t game_loop_raspy(frog_t *frog_position)
         {
             set_frog_arrivals(frog_position, get_frog_arrivals(frog_position) + 1);
             frog_position->x = 7;
-            frog_position->y = 15;
+            frog_position->y = 14; // Reiniciar la posición de la rana
         }
         if (get_frog_lives(frog_position) == 0) 
         {
@@ -268,62 +246,48 @@ uint8_t check_collision(frog_t *frog_position)
     {
         set_frog_lives(frog_position, get_frog_lives(frog_position) - 1);
         frog_position->x = 7;
-        frog_position->y = 15; // Reiniciar la posición de la rana
+        frog_position->y = 14; // Reiniciar la posición de la rana
         return 1; // Hubo colisión
     }
     return 0; // No hubo colisión
 }
-void process_row_movements_raspy(frog_t *frog_position, uint8_t row) 
-{
-    for (uint8_t fila = 0; fila < 12; fila++) 
-    {
-        if (waiting_time(frog_position->levels, fila)) 
+
+void move_frog_with_log(frog_t *frog_position) {
+    uint8_t frog_x = get_frog_x(frog_position);
+    uint8_t frog_y = get_frog_y(frog_position);
+    
+    // Verifica si la rana está entre las filas 2 y 6 
+    if (frog_y >= 2 && frog_y <= 6) {
+         if (waiting_time(frog_position->levels, frog_y-2)) 
         {
-            // Movimiento de la rana si ella se mueve activamente
-            if ((row == fila) && (get_frog_move(frog_position) == 1)) 
-            {
-                if ((((uint8_t)(get_frog_x(frog_position)) + 1 > 13) && directions[fila]) ||
-                    (((uint8_t)(get_frog_x(frog_position)) - 1 < 1) && (!directions[fila]))) 
-                {
-                    set_frog_life(frog_position, 0);
-                    set_frog_dead(frog_position, 1);
-                } 
-                else 
-                {
-                    set_frog_x(frog_position, get_frog_x(frog_position) + (directions[fila] ? 1 : -1));
+            // Verifica si está sobre un tronco (valor 0 en la matriz)
+            if (matriz[frog_y][frog_x] == 0) {
+                // Mueve la rana junto con el tronco
+                // Verifica los límites del movimiento (previene desbordamiento fuera del área de la matriz)
+                if ((frog_x + 1 <= 15) && directions[frog_y]) {  // Movimiento hacia la derecha
+                    set_frog_x(frog_position, frog_x + 1);
+                } else if ((frog_x - 1 >= 0) && !directions[frog_y]) {  // Movimiento hacia la izquierda
+                    set_frog_x(frog_position, frog_x - 1);
                 }
-            }
-
-            // Si la rana está en una fila entre 6 y 3 y sobre un tronco (matriz = 0), se mueve con la fila
-            if (fila >= 3 && fila <= 6) 
-            {
-                uint8_t frog_x = get_frog_x(frog_position);
-                if (matriz[fila][frog_x] == 0) 
-                {
-                    if (((frog_x + 1 > 13) && directions[fila]) || 
-                        ((frog_x - 1 < 1) && (!directions[fila]))) 
-                    {
-                        set_frog_life(frog_position, 0);
-                        set_frog_dead(frog_position, 1);
-                    }
-                    else 
-                    {
-                        set_frog_x(frog_position, frog_x + (directions[fila] ? 1 : -1));
-                    }
-                }
-            }
-
-            // Desplazamiento de la fila si el juego no está pausado
-            if (frog_position->paused_state == 0) 
-            {
-                shift_row(fila, directions[fila]);
             }
         }
     }
 }
+
 void update_frog_points(frog_t *frog_position) 
 {
     uint8_t new_row = (uint8_t)get_frog_y(frog_position);  
+    printf("Fila actual: %d\n", new_row);
+    // Si la rana ha alcanzado la fila 2, reinicia las filas visitadas manualmente
+    if (new_row == 2) 
+    {
+        for (uint8_t i = 0; i < sizeof(frog_position->reached_rows); i++) 
+        {
+            frog_position->reached_rows[i] = 0;
+        }
+
+        // Sumar puntos adicionales por llegar a la meta (opcional)
+    }
 
     // Verifica si la rana ha alcanzado una nueva fila no visitada
     if (new_row < frog_position->actual_row) 
@@ -333,7 +297,7 @@ void update_frog_points(frog_t *frog_position)
         // Si no ha sido alcanzada antes, suma puntos
         if (frog_position->reached_rows[row_index] == 0) 
         {
-            frog_position->points += 10; // Puedes ajustar el puntaje por fila
+            frog_position->points += 10; // Ajusta el puntaje por fila
             frog_position->reached_rows[row_index] = 1;
         }
 
@@ -341,6 +305,8 @@ void update_frog_points(frog_t *frog_position)
         frog_position->actual_row = new_row;
     }
 }
+
+
 
 
 

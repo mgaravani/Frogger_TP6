@@ -45,45 +45,12 @@ void screen_raspy(frog_t* frog_position) {
             }
         }
     }
-    
-    // Fila 2: Secuencia de 16 LEDs, patrón binario: 1101101101101101
-    
-/*
-    // Fila 1: Corazones, 2 LEDs por corazón
-    if (frog_position->life == 3) {
-        // Corazón completo (2 LEDs prendidos por corazón)
-        matriz[0][0] = 1;
-        matriz[0][1] = 1;
-        matriz[0][3] = 1;
-        matriz[0][4] = 1;
-        matriz[0][6] = 1;
-        matriz[0][7] = 1;
-    } else if (frog_position->life == 2) {
-        // Roba un corazón, solo 2 LEDs prendidos por el primer corazón
-        matriz[0][0] = 1;
-        matriz[0][1] = 1;
-        matriz[0][3] = 1;
-        matriz[0][4] = 1;
-        matriz[0][6] = 0;
-        matriz[0][7] = 0;
-    } else if (frog_position->life == 1) {
-        // Roba 2 corazones, solo el primer corazón tiene 2 LEDs prendidos
-        matriz[0][0] = 1;
-        matriz[0][1] = 1;
-        matriz[0][3] = 0;
-        matriz[0][4] = 0;
-        matriz[0][6] = 0;
-        matriz[0][7] = 0;
-    } else {
-        // Cuando la vida del frog es 0, no hay corazones
-        matriz[0][0] = 0;
-        matriz[0][1] = 0;
-        matriz[0][3] = 0;
-        matriz[0][4] = 0;
-        matriz[0][6] = 0;
-        matriz[0][7] = 0;
+
+    // Fila 15: Enciende todos los LEDs de la fila 15 
+    for (int j = 0; j < DISP_CANT_X_DOTS; j++) {
+        matriz[15][j] = 1;  // La fila 16 está en índice 16 (contando desde 0)
     }
-    */
+
     static uint8_t prev_x = 0;  // Almacena la posición anterior en X
     static uint8_t prev_y = 0;  // Almacena la posición anterior en Y
     static clock_t last_toggle_time = 0; // Almacena el último momento en que se cambió el estado

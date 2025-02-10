@@ -50,7 +50,7 @@ void initialize_game_state(frog_t *frog_position);
     void handle_menu_raspy(frog_t *frog_position);
     uint8_t game_loop_raspy(frog_t *frog_position);
     uint8_t check_collision(frog_t *frog_position);
-    void process_row_movements_raspy(frog_t *frog_position, uint8_t row);
+    void move_frog_with_log(frog_t *frog_position);
     void update_frog_points(frog_t *frog_position);
     #define BUZZER_PIN 1
 #endif
