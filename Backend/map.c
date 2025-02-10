@@ -6,6 +6,7 @@
 
 map_t map; // Variable global de la matriz
 
+
 /*------------ FUNCTIONS ----------------*/
 
 /*------initialize_matrix------*/

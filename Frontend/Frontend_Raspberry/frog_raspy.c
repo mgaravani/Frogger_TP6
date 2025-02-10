@@ -2,13 +2,12 @@
 
 
 void update_frog_position(frog_t *frog) {
-    
     static uint8_t last_x_dir = 0;  // Última dirección en X detectada
     static uint8_t last_y_dir = 0;  // Última dirección en Y detectada
 
     joyinfo_t joy_state = joy_read();
 
-    // Detectar movimiento en el eje X
+    // Detectar movimiento en el eje X (sin cambios)
     if (joy_state.x > THRESHOLD) {
         if (last_x_dir != 1) {
             uint8_t new_x = get_frog_x(frog) + 1;
@@ -29,19 +28,19 @@ void update_frog_position(frog_t *frog) {
         last_x_dir = 0;  // Resetear la dirección cuando el joystick vuelve al centro
     }
 
-    // Detectar movimiento en el eje Y
+    // Detectar movimiento en el eje Y (dirección invertida)
     if (joy_state.y > THRESHOLD) {
         if (last_y_dir != 1) {
-            uint8_t new_y = get_frog_y(frog) + 1;
-            if (new_y < DISP_CANT_Y_DOTS) {  // Verificar que no exceda el límite del display
+            uint8_t new_y = get_frog_y(frog) - 1;  // Disminuir Y en lugar de aumentar
+            if (new_y < DISP_CANT_Y_DOTS) {  // Verificar que no sea menor que 0 (underflow)
                 set_frog_y(frog, new_y);
             }
             last_y_dir = 1;
         }
     } else if (joy_state.y < -THRESHOLD) {
         if (last_y_dir != 2) {
-            uint8_t new_y = get_frog_y(frog) - 1;
-            if (new_y < DISP_CANT_Y_DOTS) {  // Verificar que no sea menor que 0 (underflow)
+            uint8_t new_y = get_frog_y(frog) + 1;  // Aumentar Y en lugar de disminuir
+            if (new_y < DISP_CANT_Y_DOTS) {  // Verificar que no exceda el límite del display
                 set_frog_y(frog, new_y);
             }
             last_y_dir = 2;
@@ -50,7 +49,6 @@ void update_frog_position(frog_t *frog) {
         last_y_dir = 0;  // Resetear la dirección cuando el joystick vuelve al centro
     }
 }
-
 uint8_t detect_arrival_raspy(frog_t *frog) {
     // Ajusta las columnas y filas en función de la posición de la rana
     uint8_t frog_col = (uint8_t)(get_frog_x(frog) + 3);

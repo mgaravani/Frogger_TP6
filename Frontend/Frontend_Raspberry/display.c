@@ -2,7 +2,7 @@
 
 
 // Función para leer la matriz y actualizar el display
-void recortar_matriz(uint8_t matriz_recortada[DISP_CANT_Y_DOTS][DISP_CANT_X_DOTS]) {
+void recortar_matriz() {
     
     
     // Recortar la matriz original (map) a la matriz recortada
@@ -34,24 +34,21 @@ void screen_raspy(frog_t* frog_position) {
             // Verificar si i está en el rango de 0 a 5
             if (i > 0 && i <= 4) {
                 // Invertir los valores de map en matriz
-                if (map[i][j + 2] == 0) {
+                if (map[i+1][j + 1] == 0) {
                     matriz[i + 2][j] = 1; // Si map tiene 0, poner 1 en matriz
-                } else if (map[i][j + 2] == 1) {
-                    matriz[i + 3][j] = 0; // Si map tiene 1, poner 0 en matriz
+                } else if (map[i+1][j + 1] == 1) {
+                    matriz[i + 2][j] = 0; // Si map tiene 1, poner 0 en matriz
                 }
             } else {
                 // Para i fuera del rango 0-5, copiar el valor de map a matriz sin cambios
-                matriz[i + 3][j] = map[i + 1][j + 2];
+                matriz[i + 2][j] = map[i+1][j + 1];
             }
         }
     }
-
+    
     // Fila 2: Secuencia de 16 LEDs, patrón binario: 1101101101101101
-    uint16_t pattern = 0b1101101101101101; // Patrón binario de 16 bits
-    for (int i = 0; i < DISP_CANT_X_DOTS; i++) {
-        matriz[2][i] = (pattern >> (15 - i)) & 1; // Desplazar el patrón y colocar en la fila 3
-    }
-
+    
+/*
     // Fila 1: Corazones, 2 LEDs por corazón
     if (frog_position->life == 3) {
         // Corazón completo (2 LEDs prendidos por corazón)
@@ -86,7 +83,7 @@ void screen_raspy(frog_t* frog_position) {
         matriz[0][6] = 0;
         matriz[0][7] = 0;
     }
-
+    */
     static uint8_t prev_x = 0;  // Almacena la posición anterior en X
     static uint8_t prev_y = 0;  // Almacena la posición anterior en Y
     static clock_t last_toggle_time = 0; // Almacena el último momento en que se cambió el estado

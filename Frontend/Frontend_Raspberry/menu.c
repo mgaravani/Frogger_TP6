@@ -105,12 +105,12 @@ void shiftDisplay(uint8_t display[DISP_CANT_Y_DOTS][DISP_CANT_X_DOTS], uint8_t b
         }
     }
 }
-int8_t ShowCONT(void) {
-    sleep(1); // Pausa de 1s
+int8_t ShowCONT(void) 
+{
+    sleep(1);
     printf("CONTINUAR\n");
     disp_init();
 
-    // Definir la matriz del menú
     uint8_t menuBitmap[16][16] = {
         // "CONT" (Arriba)
         {0,0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0, 0,  0, 0, },
@@ -134,41 +134,34 @@ int8_t ShowCONT(void) {
     };
 
     joy_init();
-    joyinfo_t coord = {0, 0, J_NOPRESS};
-    int8_t status = 1; // 1: CONTINUAR, 0: EXIT
-    int last_status = -1; // Para evitar cambios repetidos
+    joyinfo_t coord;
+    int8_t status = 1; 
 
-    do {
+    do 
+    {
         coord = joy_read();
 
-        // Cambiar entre "CONTINUAR" y "EXIT" según el movimiento del joystick
-        if (coord.y > THRESHOLD && last_status != 1) { // Arriba: CONTINUAR
+        if (coord.y > THRESHOLD) 
+        { 
             status = 1;
-            last_status = 1;
             printf("Seleccionado: CONTINUAR\n");
-        } else if (coord.y < -THRESHOLD && last_status != 0) { // Abajo: EXIT
+        } 
+        else if (coord.y < -THRESHOLD) 
+        {
             status = 0;
-            last_status = 0;
             printf("Seleccionado: EXIT\n");
         }
 
-        // Actualizar la matriz para reflejar la selección actual
-        if (status == 1) {
-            // Resaltar "CONTINUAR" (por ejemplo, cambiar algunos píxeles)
-        } else {
-            // Resaltar "EXIT"
-        }
         mostrar_matriz(menuBitmap);
 
-    } while (coord.sw == J_NOPRESS); // Esperar a que se presione el botón
+    } while (coord.sw == J_NOPRESS); 
 
     disp_clear();
     disp_update();
-    printf("Saliendo del menu\n");
+    printf("Saliendo del menú\n");
 
-    return status; // Retorna 1 para CONTINUAR, 0 para EXIT
+    return status;
 }
-
 void ShowGameOver(void){
     uint8_t display[DISP_CANT_Y_DOTS][DISP_CANT_X_DOTS] = {0}; // Matriz del display 16x16
     disp_clear();

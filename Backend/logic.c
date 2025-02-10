@@ -98,92 +98,96 @@ void initialize_raspy_resources()
     disp_update();              
     ShowFrogger();              
     joy_init();
-    
-           
-}
-
-/*-----Handle Menu Raspberry Pi-----*/
-void handle_menu_raspy(frog_t *frog_position) 
-{
-    uint8_t choice = 0;
-    uint8_t running = 1;
-    joy_init();
-    while (running) 
-    {
-        switch (choice) 
-        {
-            case 0:
-                choice = ShowMenu(); // Mostrar el menú principal
-                break;
-            case 1: // Jugar
-                sleep(1);
-                initialize_matrix();
-                frog_position->x = 7;
-                frog_position->y = 15;         // Reiniciar posición Y
-                frog_position->life = 3;       // Reiniciar vidas a 3
-                frog_position->playing_game = 1; // Activar el juego
-                while (frog_position->playing_game) 
-                {
-                    if (game_loop_raspy(frog_position) == 0) 
-                    {
-                        // Si el juego termina, volver al menú principal
-                        choice = 0;
-
-                        break;
-                    }
-                }
-                frog_position->playing_game = 1;
-                frog_position->x = 7;
-                frog_position->y = 15;
-                frog_position->life = 3;       // Reiniciar vidas a 3
-                break;
-            case 2:
-                printf("Saliendo del juego. ¡Hasta pronto!\n");
-                running = 0;
-                disp_clear();
-                disp_update();
-                break;
-            default:
-                printf("Opción no válida.\n");
-                break;
-        }
-    }
-}
-
-uint8_t game_loop_raspy(frog_t *frog_position)
-{
-    while (frog_position->playing_game == 1) 
-    {
-
-        
-            for (int i = 0; i < 13; i++) {
+    initialize_matrix();   
+     for (int i = 0; i < 13; i++) {
                 for (int j = 0; j < 20; j++) {
                     printf("%d ", map[i][j]);  // Imprime el valor en la posición (i, j)
                 }
                 printf("\n");  // Nueva línea después de imprimir cada fila
             }
-        
-        process_row_movements_raspy(frog_position);  
-        joyinfo_t joy ;
-        joy = joy_read();
-        // Castear las coordenadas a uint8_t
+    uint16_t pattern = 0b1101101101101101; // Patrón binario de 16 bits
+    for (int i = 0; i < DISP_CANT_X_DOTS; i++) {
+        matriz[2][i] = (pattern >> (15 - i)) & 1; // Desplazar el patrón y colocar en la fila 3
+    }      
+}
+
+/*-----Handle Menu Raspberry Pi-----*/
+uint8_t handle_menu_raspy(frog_t *frog_position) 
+{
+    uint8_t choice = 0;
+    uint8_t running = 1;
+    joy_init();
+
+    while (running) 
+    {
+        if (choice == 0) 
+        {
+            choice = ShowMenu(); // Mostrar el menú principal
+        }
+        else if (choice == 1) // Jugar
+        {
+            sleep(1);
+            frog_position->x = 7;
+            frog_position->y = 15;         
+            frog_position->life = 3;       
+            frog_position->playing_game = 1; 
+
+            uint8_t game_running = 1;
+            while (game_running) 
+            {
+                if (game_loop_raspy(frog_position) == 0) 
+                {
+                    choice = 0;
+                    game_running = 0;
+                }
+            }
+
+            frog_position->x = 7;
+            frog_position->y = 15;
+            frog_position->life = 3;       
+            frog_position->playing_game = 1;
+        }
+        else if (choice == 2) 
+        {
+            printf("Saliendo del juego. ¡Hasta pronto!\n");
+            running = 0;
+            disp_clear();
+            disp_update();
+        }
+        else
+        {
+            printf("Opción no válida.\n");
+            choice = 0;
+        }
+    }
+    return 0;
+}
+
+uint8_t game_loop_raspy(frog_t *frog_position)
+{
+    uint8_t game_status = 1; 
+
+    while (frog_position->playing_game) 
+    {
+        joyinfo_t joy = joy_read();
+
         uint8_t frog_x = (uint8_t)get_frog_x(frog_position);
         uint8_t frog_y = (uint8_t)get_frog_y(frog_position);
 
-        // Imprimir la posición de la rana con valores casteados
         printf("Frog Position: (%d, %d) Frog life: %d\n", frog_x, frog_y, get_frog_lives(frog_position));
         printf("Frog Arrivals: %d\n", get_frog_arrivals(frog_position));
         printf("matriz: %d\n", matriz[frog_x][frog_y]);
-        screen_raspy(frog_position); // Mostrar la matriz en el display y la rana
-        update_frog_position(frog_position); // Actualizar la posición de la rana
 
-        // Verificar colisiones
+        uint8_t row = 12 - (uint8_t)((-(get_frog_y(frog_position) - 11.96)) / 0.96);
+        process_row_movements(frog_position, row);
+        screen_raspy(frog_position); 
+        update_frog_position(frog_position); 
+
         if (check_collision(frog_position)) 
         {
-            // Si hubo colisión, ya se manejó dentro de check_collision
-            // No es necesario hacer nada más aquí, ya que la posición de la rana se reinició
+            // La colisión se maneja dentro de check_collision
         }
-        if ( detect_arrival_raspy(frog_position) ) 
+        if (detect_arrival_raspy(frog_position)) 
         {
             set_frog_arrivals(frog_position, get_frog_arrivals(frog_position) + 1);
             frog_position->x = 7;
@@ -192,31 +196,37 @@ uint8_t game_loop_raspy(frog_t *frog_position)
         if (get_frog_lives(frog_position) == 0) 
         {
             ShowGameOver();
-            printf("Frog Position: (%d, %d) Frog life: %d\n", frog_x, frog_y, get_frog_lives(frog_position));
-            return 0; // Fin del juego
+            return 0; 
         }
         if (get_frog_arrivals(frog_position) == 5) 
         {
             pass_level(frog_position);
         }
-        if(joy.sw == J_PRESS)
+
+        if (joy.sw == J_PRESS)
         {
-            frog_position->paused_state = 0;
+            frog_position->paused_state = 1;
             uint8_t choice = ShowCONT();
+
             if (choice == 1)
             {
-                frog_position->paused_state = 1;
-                sleep(.5);
-                joy.sw = J_NOPRESS;
-            }else if(choice == 0)
+                frog_position->paused_state = 0;
+
+                // En lugar de un while bloqueante, verificamos sin frenar la ejecución
+                while ((joy = joy_read()).sw == J_PRESS) 
+                {
+                    usleep(10000);  // Pequeña espera de 10ms para no consumir CPU
+                }
+            }
+            else 
             {
-                frog_position->playing_game = 0;
-                return 1;
+                return 0;
             }   
         }
     }
-    return 1; // Juego en curso
+    return game_status;
 }
+
 uint8_t check_collision(frog_t *frog_position) 
 {
     // Castear las coordenadas a uint8_t
@@ -233,35 +243,7 @@ uint8_t check_collision(frog_t *frog_position)
     }
     return 0; // No hubo colisión
 }
-void process_row_movements_raspy(frog_t *frog_position) 
-{
-    // Recorrer las filas de obstáculos
-    for (int fila = 1; fila < 12; fila++) 
-    {
-        if (waiting_time(frog_position->levels, fila)) // Esperar el tiempo adecuado
-        {
-            uint8_t row = 12 - (uint8_t)(((-(get_frog_y(frog_position) - 11.96)) / 0.96));
-            if (row == fila && get_frog_move(frog_position) == 1) // Movimiento de la rana en la fila
-            {
-                if ((get_frog_x(frog_position) + 1 > 13 && directions[fila]) ||
-                    (get_frog_x(frog_position) - 1 < 1 && !directions[fila])) 
-                {
-                    set_frog_life(frog_position, get_frog_life(frog_position) - 1);
-                    set_frog_dead(frog_position, 1);
-                } 
-                else 
-                {
-                    set_frog_x(frog_position, get_frog_x(frog_position) + (directions[fila] ? 1 : -1));
-                }
-            }
-            // Desplazar las filas
-            if (frog_position->paused_state == 0) 
-            {
-                shift_row(fila, directions[fila]);
-            }
-        }
-    }
-}
+
 
 #endif // RASPBERRY_PI
 
