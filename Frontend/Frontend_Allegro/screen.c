@@ -1,8 +1,6 @@
 /*------------INCLUDES-----------*/
 #include "allegro.h"
-#include <stdio.h>
 #include <unistd.h>
-#include "../../Backend/frog.h"
 #include <time.h>
 
 /*------------FUNCTIONS------------*/

@@ -1,8 +1,6 @@
 /*------------INCLUDES-----------*/
-#include <stdio.h>
 #include <string.h>
 #include "allegro.h"
-#include "../../Backend/frog.h"
 #include "../../Backend/logic.h"
 
 /*------------CONSTANTS-----------*/
@@ -56,7 +54,6 @@ void events_managment(AllegroResources *resources, ALLEGRO_EVENT_QUEUE *event_qu
                     }
                     break;
                 // Lógica para manejar el reinicio
-                //AGREGAR MENSAJE DE JUEGO REINICIADO
                 case ALLEGRO_KEY_R:
                     if(resources->menu_state == 0)
                     {

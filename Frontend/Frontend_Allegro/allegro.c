@@ -244,7 +244,6 @@ void menu_highscores(FILE *pointer_highscores, AllegroResources *resources)
 //Borra todos los recursos utilizados
 void cleanup_allegro(AllegroResources *resources, ALLEGRO_EVENT_QUEUE *event_queue) 
 {
-    printf("Saliendo del programa...\n");
 
     // Destruir los recursos utilizados
     for (int i = 0; i < SOUNDS; i++) { // USAR UNA MACRO PARA MAXIMOS SONIDOS, IMAGENES, ETC.

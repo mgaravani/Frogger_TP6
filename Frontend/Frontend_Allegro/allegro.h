@@ -1,7 +1,6 @@
 #ifndef ALLEGRO_H
 #define ALLEGRO_H
 
-//ESTARIA BUENO AGREGAR PARA CADA FUNCION UNA DESCRIPCION DE LO QUE HACE, LO QUE RECIBE Y LO QUE DEVUELVE
 
 /*-------INCLUDES------*/
 #include <stdio.h>  
@@ -50,39 +49,39 @@ typedef struct
 
 /*------PROTOTYPES------*/
 
-/*-----allegro_init-----*/
+/*-----Function allegro_init-----*/
 // Función para inicializar allegro
 AllegroResources allegro_init(uint8_t map[ROWS][COLUMNS]);
 
-/*-----Screen-----*/
+/*-----Function Screen-----*/
 // Función para mostrar la pantalla
 void Screen(AllegroResources *resources, uint8_t map[ROWS][COLUMNS], frog_t *frog);
 
-/*-----cleanup_allegro-----*/
+/*-----Function cleanup_allegro-----*/
 // Función para limpiar allegro
 void cleanup_allegro(AllegroResources *resources, ALLEGRO_EVENT_QUEUE *event_queue);
 
-/*-----enter_player_name-----*/
+/*-----Function enter_player_name-----*/
 // Función para manejar la entrada del nombre del jugador
 void enter_player_name(ALLEGRO_EVENT_QUEUE *event_queue, AllegroResources *resources);
 
-/*-----init_events-----*/
+/*-----Function init_events-----*/
 // Función para inicializar los eventos
 ALLEGRO_EVENT_QUEUE *init_events(ALLEGRO_DISPLAY *pantalla);
 
-/*-----events_managment-----*/
+/*-----Function events_managment-----*/
 // Función para manejar los eventos
 void events_managment(AllegroResources *resources, ALLEGRO_EVENT_QUEUE * event_queue, frog_t *frog, uint8_t map[ROWS][COLUMNS]);
 
-/*-----allegro_menu-----*/
+/*-----Function allegro_menu-----*/
 // Función para mostrar el menu
 void allegro_menu(AllegroResources *resources);
 
-/*-----menu_highscores-----*/
+/*-----Function menu_highscores-----*/
 // Función para mostrar los puntajes altos
 void menu_highscores(FILE *pointer_highscores, AllegroResources *resources);
 
-/*-----image_drawing-----*/
+/*-----Function image_drawing-----*/
 // Función para dibujar una imagen
 void image_drawing(ALLEGRO_BITMAP *image_to_draw, float origin_x, float origin_y, float position_x , float position_y, float width, float height);
 
