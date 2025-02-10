@@ -8,10 +8,8 @@
 #include "../Backend/delay.h"
 #include <stdio.h>
 #include <unistd.h>
-#include <stdint.h>
 #define PC
 //#define RASPBERRY_PI
-
 /*----- EXTERN VARIABLES -----*/
 extern uint8_t directions[11]; // Vector de direcciones de las filas
 
@@ -46,10 +44,14 @@ void initialize_game_state(frog_t *frog_position);
 #endif
 
 #ifdef RASPBERRY_PI
+    
     #include "../Frontend/Frontend_Raspberry/raspberry.h"
-    void initialize_raspy_resources(frog_t *frog_position);
-    void handle_menu_raspy(frog_t *frog_position, uint8_t matriz[DISP_CANT_Y_DOTS][DISP_CANT_X_DOTS]);
-    uint8_t game_loop_raspy(frog_t *frog_position, uint8_t matriz[DISP_CANT_Y_DOTS][DISP_CANT_X_DOTS]);
+    void initialize_raspy_resources();
+    uint8_t handle_menu_raspy(frog_t *frog_position);
+    uint8_t game_loop_raspy(frog_t *frog_position);
+    uint8_t check_collision(frog_t *frog_position);
+    void process_row_movements_raspy(frog_t *frog_position, uint8_t row);
+    void update_frog_points(frog_t *frog_position);
 #endif
 
 /*----- Function Process_row_movements -----*/

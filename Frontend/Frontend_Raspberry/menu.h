@@ -19,6 +19,7 @@
 // Funciones
 int8_t ShowMenu(void);//funcion inicial para mostrar el menu
 int8_t ShowCONT(void) ;//funcion para mostrar el menu de continuar
+void ShowNumber(uint8_t number);//funcion para mostrar un numero
 void ShowFrogger(void);//funcion para mostrar el juego
 //void Pause(void);//funcion para pausar el juego
 void ShowGameOver(void);//funcion para mostrar el menu de game over

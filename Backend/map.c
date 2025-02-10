@@ -3,6 +3,7 @@
 
 map_t map; // Variable global de la matriz
 
+
 /*------------ FUNCTIONS ----------------*/
 
 /*------Function initialize_matrix------*/
