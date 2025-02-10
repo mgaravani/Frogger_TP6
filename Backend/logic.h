@@ -8,23 +8,40 @@
 #include "../Backend/delay.h"
 #include <stdio.h>
 #include <unistd.h>
+#include <stdint.h>
 #define PC
 //#define RASPBERRY_PI
+
 /*----- EXTERN VARIABLES -----*/
 extern uint8_t directions[11]; // Vector de direcciones de las filas
 
 /***************************************************************************
-*                                PROTOTIPOS                                *
+*                                PROTOTYPES                                *
 ***************************************************************************/
 
-/*----- Initialize_game -----*/
+/*----- Function Initialize_game -----*/
+// Función para inicializar el estado del juego
 void initialize_game_state(frog_t *frog_position);
 
 #ifdef PC
+    /*-----INCLUDE-----*/
     #include "../Frontend/Frontend_Allegro/allegro.h"
+    /*-----PROTOTYPES-----*/
+
+    /*-----Function initialize_allegro_resources-----*/
+    // Función para inicializar los recursos de Allegro
     void initialize_allegro_resources(AllegroResources *resources_for_main, ALLEGRO_EVENT_QUEUE **event_queue);
+
+    /*-----Function handle_menu_allegro-----*/
+    // Función para manejar el menú de Allegro
     void handle_menu_allegro(AllegroResources *resources_for_main, ALLEGRO_EVENT_QUEUE *event_queue, frog_t *frog_position, map_t map);
+    
+    /*-----Function game_loop_allegro-----*/
+    // Función para el bucle del juego en Allegro
     void game_loop_allegro(frog_t *frog_position, AllegroResources *resources_for_main, ALLEGRO_EVENT_QUEUE *event_queue, map_t map);
+    
+    /*-----Function handle_game_over-----*/
+    // Función para manejar el fin del juego en Allegro
     void handle_game_over(frog_t *frog_position, AllegroResources *resources_for_main, ALLEGRO_EVENT_QUEUE *event_queue, map_t map);
 #endif
 
@@ -36,6 +53,7 @@ void initialize_game_state(frog_t *frog_position);
 #endif
 
 /*----- Function Process_row_movements -----*/
+// Función para procesar los movimientos de las filas
 void process_row_movements(frog_t *frog_position, uint8_t row);
 
 #endif /* LOGIC_H */

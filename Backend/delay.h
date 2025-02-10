@@ -4,6 +4,7 @@
 /*------------INCLUDES-----------*/
 #include <stdint.h>
 #include <time.h>
+#include "map.h" 
 
 /*------Function waiting_time------*/
 // Funcion para controlar el tiempo entre los desplazamientos de los objetos

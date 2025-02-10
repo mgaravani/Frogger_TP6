@@ -1,14 +1,11 @@
 /*------------INCLUDES-----------*/
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
 #include "map.h"
 
 map_t map; // Variable global de la matriz
 
 /*------------ FUNCTIONS ----------------*/
 
-/*------initialize_matrix------*/
+/*------Function initialize_matrix------*/
 //Funcion encargada de inicializar la matriz de juego
 void initialize_matrix(void) 
 {
@@ -183,7 +180,7 @@ void initialize_matrix(void)
     }
 }
 
-/*------shift_row------*/
+/*------Function shift_row------*/
 // Función para desplazar las filas de la matriz de juego (Derecha e izquierda)
 void shift_row(uint8_t row, uint8_t direction) 
 {
@@ -231,6 +228,8 @@ void shift_row(uint8_t row, uint8_t direction)
     }
 }
 
+/*------Function set_map_ToZero------*/
+// Setea toda la matriz en 0
 void set_map_ToZero(void)
 {
     for (uint16_t i = 0; i < ROWS; i++)

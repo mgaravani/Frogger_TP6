@@ -3,12 +3,13 @@
 
 /*----- Functions -----*/
 
-/*-----Initialize_game-----*/
+/*-----Function Initialize_game-----*/
+// Función para inicializar el estado del juego
 void initialize_game_state(frog_t *frog_position) 
 {
     init_frog(frog_position, 7, 11.96, 0, 1, 3, 0, 0, 0, 0, 0, 1);
     frog_position->pass_level_state = 0;
-    frog_position->paused_state = 0; // DEBERÍA IR INCLUIDO EN LA FUNCIÓN DE INIT_FROG
+    frog_position->paused_state = 0; 
     frog_position->playing_game = 1;
     frog_position->actual_row = ROWS - 1;
     
@@ -23,14 +24,16 @@ void initialize_game_state(frog_t *frog_position)
 #ifdef PC
 /*----- PC Specific Functions -----*/
 
-/*-----Initialize Allegro Resources-----*/
+/*-----Function Initialize Allegro Resources-----*/
+// Función para inicializar los recursos de Allegro
 void initialize_allegro_resources(AllegroResources *resources_for_main, ALLEGRO_EVENT_QUEUE **event_queue) 
 {
     *resources_for_main = allegro_init(map);
     *event_queue = init_events(resources_for_main->display);
 }
 
-/*-----Handle Menu Allegro-----*/
+/*-----Function Handle Menu Allegro-----*/
+// Función para manejar el menú de Allegro
 void handle_menu_allegro(AllegroResources *resources_for_main, ALLEGRO_EVENT_QUEUE *event_queue, frog_t *frog_position, map_t map) 
 {
     while (resources_for_main->menu_state == 1) 
@@ -40,24 +43,25 @@ void handle_menu_allegro(AllegroResources *resources_for_main, ALLEGRO_EVENT_QUE
     }
 }
 
-/*-----Game Loop Allegro-----*/
+/*-----Function Game Loop Allegro-----*/
+// Función para el bucle del juego en Allegro
 void game_loop_allegro(frog_t *frog_position, AllegroResources *resources_for_main, ALLEGRO_EVENT_QUEUE *event_queue, map_t map)
 {
     while (frog_position->playing_game == 1) 
     {
-        int row = 12 - (int)((-(get_frog_y(frog_position) - 11.96)) / 0.96);
+        uint16_t row = 12 - (uint16_t)((-(get_frog_y(frog_position) - 11.96)) / 0.96);
         events_managment(resources_for_main, event_queue, frog_position, map);
         process_row_movements(frog_position, row);
-        if (detect_arrival(frog_position, map)) 
+        if (detect_arrival(frog_position, map))  // Si la rana llega a la meta
         {
             set_frog_arrivals(frog_position, get_frog_arrivals(frog_position) + 1);
             set_frog_start(frog_position);
         }
-        if (get_frog_lives(frog_position) == 0) 
+        if (get_frog_lives(frog_position) == 0) // Si la rana se queda sin vidas
         {
             handle_game_over(frog_position, resources_for_main, event_queue, map);
         }
-        if (get_frog_arrivals(frog_position) == 5) 
+        if (get_frog_arrivals(frog_position) == 5) // Si la rana llega a las 5 metas
         {
             pass_level(frog_position);
         }
@@ -66,7 +70,8 @@ void game_loop_allegro(frog_t *frog_position, AllegroResources *resources_for_ma
     }
 }
 
-/*-----Handle Game Over Allegro-----*/
+/*-----Function Handle Game Over Allegro-----*/
+// Función para manejar el fin del juego en Allegro
 void handle_game_over(frog_t *frog_position, AllegroResources *resources_for_main, ALLEGRO_EVENT_QUEUE *event_queue, map_t map) 
 {
     resources_for_main->menu_state = 1;
@@ -74,19 +79,23 @@ void handle_game_over(frog_t *frog_position, AllegroResources *resources_for_mai
     resources_for_main->name_state = 1;
     resources_for_main->highscores_state = 1;
     resources_for_main->final_points = get_frog_points(frog_position);
+
     player_t players[MAX_PLAYERS];
     loadScores("highscores.txt", players);
     enter_player_name(event_queue, resources_for_main);
+
     player_t newPlayer;
     strcpy(newPlayer.name, resources_for_main->player_name);
     newPlayer.score = get_frog_points(frog_position);
     newScore(players, newPlayer);
     saveScores("highscores.txt", players);
+
     FILE* pointer = fopen("highscores.txt", "r");
     if (pointer == NULL) 
     {
         fprintf(stderr, "Error: no se pudo abrir el archivo de highscores.\n");
     }
+
     while (resources_for_main->highscores_state == 1) 
     {
         events_managment(resources_for_main, event_queue, frog_position, map);
@@ -98,7 +107,7 @@ void handle_game_over(frog_t *frog_position, AllegroResources *resources_for_mai
 #ifdef RASPBERRY_PI
 /*----- Raspberry Pi Specific Functions -----*/
 
-/*-----Initialize Raspberry Resources-----*/
+/*-----Function Initialize Raspberry Resources-----*/
 void initialize_raspy_resources(frog_t *frog_position) 
 {
     disp_init();                
@@ -109,7 +118,7 @@ void initialize_raspy_resources(frog_t *frog_position)
                      
 }
 
-/*-----Handle Menu Raspberry Pi-----*/
+/*-----Function Handle Menu Raspberry Pi-----*/
 void handle_menu_raspy(frog_t *frog_position, uint8_t matriz[DISP_CANT_Y_DOTS][DISP_CANT_X_DOTS]) 
 {
     uint8_t choice = 0;
@@ -146,7 +155,7 @@ void handle_menu_raspy(frog_t *frog_position, uint8_t matriz[DISP_CANT_Y_DOTS][D
     }
 }
 
-/*-----Game Loop Raspberry Pi-----*/
+/*-----Function Game Loop Raspberry Pi-----*/
 uint8_t game_loop_raspy(frog_t *frog_position, uint8_t matriz[DISP_CANT_Y_DOTS][DISP_CANT_X_DOTS])
 {
     while (frog_position->playing_game == 1) 
@@ -178,9 +187,12 @@ uint8_t game_loop_raspy(frog_t *frog_position, uint8_t matriz[DISP_CANT_Y_DOTS][
 #endif // RASPBERRY_PI
 
 /*-----Common Function for Both Platforms-----*/
+
+/*-----Function Process_row_movements-----*/
+// Función para procesar los movimientos de las filas
 void process_row_movements(frog_t *frog_position, uint8_t row) 
 {
-    for (int fila = 1; fila < 12; fila++) 
+    for (uint16_t fila = 1; fila < 12; fila++) 
     {
         if (waiting_time(frog_position->levels, fila)) 
         {

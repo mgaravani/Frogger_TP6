@@ -10,6 +10,8 @@
         "typeinfo": "c",
         "allegro_audio.h": "c",
         "stdlib.h": "c",
-        "logic.h": "c"
+        "logic.h": "c",
+        "map.h": "c",
+        "topscore.h": "c"
     }
 }

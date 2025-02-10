@@ -1,6 +1,5 @@
 /*------------INCLUDES-----------*/
 #include "delay.h"
-#include "map.h" 
 
 /*------------ FUNCTIONS ----------------*/
 

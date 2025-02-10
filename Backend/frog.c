@@ -1,7 +1,5 @@
 /*------------INCLUDES-----------*/
 #include "frog.h"
-#include "map.h"
-#include <stdio.h>
 
 /*------------ FUNCTIONS ----------------*/
 
@@ -57,7 +55,7 @@ uint8_t get_frog_move(const frog_t *frog)
 }
 
 /*-----Function get_frog_dead-----*/
-// Función para obtener el estado de vida de la rana
+// Función para obtener el estado de muerte de la rana
 uint8_t get_frog_dead(const frog_t *frog) 
 {
     return frog->is_dead;
@@ -127,7 +125,7 @@ void set_frog_move(frog_t *frog, uint8_t move)
 }
 
 /*-----Function set_frog_dead-----*/
-// Función para modificar el estado de vida de la rana
+// Función para modificar el estado de muerte de la rana
 void set_frog_dead(frog_t *frog, uint8_t dead) 
 {
     frog->is_dead = dead;
@@ -273,13 +271,13 @@ int handle_move_right(frog_t *frog)
 // Función para verificar si la rana está en rango de colisión
 uint16_t frog_in_range(map_t map, frog_t *frog) 
 {
-  int col = (int)(get_frog_x(frog) + 3); // Ajusto las columnas
-  int row = 12 - (int)(((-(get_frog_y(frog) - 11.96)) / 0.96)); // Ajusto las filas
+  uint16_t col = (uint16_t)(get_frog_x(frog) + 3); // Ajusto las columnas
+  uint16_t row = 12 - (uint16_t)(((-(get_frog_y(frog) - 11.96)) / 0.96)); // Ajusto las filas
 
   // Rango fijo: filas [0, 12], columnas [3, 15]
-  for (int i = 0; i < ROWS; i++) // Iterar por las filas (0 a ROWS-1)
+  for (uint16_t i = 0; i < ROWS; i++) // Iterar por las filas (0 a ROWS-1)
   {
-    for (int j = 3; j <= 16; j++) // por las columnas (3 a 16)
+    for (uint16_t j = 3; j <= 16; j++) // por las columnas (3 a 16)
     {       
       if ((map)[i][j] == 1 && (row > 5)) // Si estoy después de la mitad del mapa, solo veo colisiones
       {
@@ -342,8 +340,8 @@ void frog_life_state(frog_t *frog)
 uint16_t detect_arrival(frog_t *frog, map_t map)
 {
     // Ajusta las columnas y las filas en función de la posición de la rana
-    int frog_col = (int)(get_frog_x(frog) + 3);
-    int frog_row = 12 - (int)(((-(get_frog_y(frog) - 11.96)) / 0.96));
+    uint16_t frog_col = (uint16_t)(get_frog_x(frog) + 3);
+    uint16_t frog_row = 12 - (uint16_t)(((-(get_frog_y(frog) - 11.96)) / 0.96));
     if ((frog_row == 0) && (((map)[frog_row][frog_col]) == 1))  // Si la rana está en la fila 0 y la posición tiene un 1 (zona de llegada)
     {
         (map)[frog_row][frog_col] = 2; // Marca la posición como visitada
@@ -381,7 +379,6 @@ void pass_level(frog_t *frog)
   initialize_matrix();
 }
 
-//NO SE SI VA ACA, pero por ahora si
 /*-----Function restart----*/
 // Función para reiniciar todos los valores de la rana
 void restart(frog_t *frog)

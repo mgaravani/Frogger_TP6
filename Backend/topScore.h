@@ -3,6 +3,9 @@
 
 /*------------INCLUDES-----------*/
 #include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 /*-----DEFINES-----*/
 #define MAX_PLAYERS 10 // Máximo de jugadores que puede haber en el archivo

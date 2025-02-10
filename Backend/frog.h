@@ -3,9 +3,10 @@
 
 /*------------INCLUDES-----------*/
 #include <stdint.h>
+#include <stdio.h>
 #include "map.h"
 
-/*-----LÍMITES Y CONSTANTES USADAS-----*/
+/*-----DEFINES----*/
 #define FROG_LIMIT_UP 1.3
 #define FROG_LIMIT_DOWN 11.0
 #define FROG_LIMIT_LEFT 0.0
@@ -35,9 +36,6 @@ typedef struct {
 } frog_t;
 
 /*----------PROTOTYPES--------*/
-
-//NO DEBERIA IR ACA, PERO POR AHORA SIRVE
-void restart(frog_t *frog);
 
 
 /***************************************************************************
@@ -195,5 +193,10 @@ uint16_t detect_arrival(frog_t *frog, map_t map);
 /*----- Function pass_level ------*/
 // Resetea todos los parámetros necesarios para iniciar un nuevo nivel
 void pass_level(frog_t *frog);
+
+/*----- Function restart ------*/
+// Resetea todos los parámetros necesarios para reiniciar el juego
+void restart(frog_t *frog);
+
 
 #endif // FROG_H

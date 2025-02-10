@@ -3,6 +3,9 @@
 
 /*-----------INCLUDES--------*/
 #include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 
 /*-----------DEFINES--------*/
 #define ROWS 13
@@ -16,17 +19,17 @@ extern map_t map;
 
 /*-----------PROTOTYPES--------*/
 
-/*------Funcion initialize_matrix------*/
+/*------Function initialize_matrix------*/
 // Función para inicializar la matriz de juego con spawn aleatorio de ciertos obstáculos y de su largo (troncos, autos, camiones, etc.)
 void initialize_matrix(void);
 
-/*------Funcion shift_row------*/
+/*------Function shift_row------*/
 // Funcion para pasar desplazar las filas de la matriz de juego (Derecha e izquierda)
 // Dirección (1 para derecha y 0 izquierda)
 void shift_row(uint8_t row, uint8_t direction);
 
 
-/*------Funcion set_map_ToZero------*/
+/*------Function set_map_ToZero------*/
 // Setea toda la matriz en 0
 void set_map_ToZero(void);
 

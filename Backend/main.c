@@ -1,6 +1,7 @@
 /*------------INCLUDES-----------*/
 #include "../Backend/logic.h"
 
+
 uint8_t directions[11] = {0, 1, 0, 1, 1, 0, 0, 0, 1, 0, 1};
 
 /*-----Function main-----*/
