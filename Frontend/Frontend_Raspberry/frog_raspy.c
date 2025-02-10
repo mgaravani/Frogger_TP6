@@ -48,6 +48,13 @@ void update_frog_position(frog_t *frog) {
     } else if (abs(joy_state.y) < THRESHOLD_OFF) {
         last_y_dir = 0;  // Resetear la dirección cuando el joystick vuelve al centro
     }
+    if (get_frog_y(frog) <= 6 && get_frog_y(frog) > 1) {
+        set_frog_move(frog, 1);
+    }
+    if (get_frog_y(frog) > 6) {
+        set_frog_move(frog, 0);
+    }
+    
 }
 uint8_t detect_arrival_raspy(frog_t *frog) {
     // Ajusta las columnas y filas en función de la posición de la rana

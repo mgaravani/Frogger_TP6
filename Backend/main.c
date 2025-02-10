@@ -19,7 +19,7 @@ int main(void)
     #ifdef RASPBERRY_PI
         // Inicializar recursos de la Raspberry Pi
         // Inicializar la rana con los valores iniciales
-        init_frog(&frog_position, 7, 11.98, 0, 1, 3, 0, 0, 0, 0, 0, 1);
+        init_frog(&frog_position, 7, 14, 0, 1, 3, 0, 0, 0, 0, 0, 1);
         
         // Inicializar estados adicionales
         frog_position.pass_level_state = 0;

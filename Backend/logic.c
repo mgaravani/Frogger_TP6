@@ -152,11 +152,8 @@ void handle_menu_raspy(frog_t *frog_position)
                     game_running = 0;
                 }
             }
-
-            frog_position->x = 7;
-            frog_position->y = 14; // Reiniciar la posición de la rana
-            frog_position->life = 3;       
-            frog_position->playing_game = 1;
+            restart(frog_position);
+            initialize_matrix();
         }
         else if (choice == 2) 
         {
@@ -178,18 +175,14 @@ uint8_t game_loop_raspy(frog_t *frog_position)
 {
     while (frog_position->playing_game == 1) 
     {
-        move_frog_with_log(frog_position);
         update_frog_points(frog_position);
-        printf("Puntos: %d\n", get_frog_points(frog_position));
         joyinfo_t joy = joy_read();
-
-
         uint8_t frog_y = (uint8_t)get_frog_y(frog_position);
-
+        //move_frog_with_log(frog_position);  // Mover la rana con los troncos 
         process_row_movements(frog_position, frog_y - 2);
-        screen_raspy(frog_position); 
-        update_frog_position(frog_position); 
-
+        update_frog_position(frog_position);
+        screen_raspy(frog_position);
+        printf("move: %d \n", get_frog_move(frog_position));
         if (check_collision(frog_position)) 
         {
             // La colisión se maneja dentro de check_collision
@@ -204,6 +197,7 @@ uint8_t game_loop_raspy(frog_t *frog_position)
         {
             ShowGameOver();
             ShowNumber(get_frog_points(frog_position));
+            initialize_matrix();
             return 0; 
         }
         if (get_frog_arrivals(frog_position) == 5) 
@@ -211,10 +205,13 @@ uint8_t game_loop_raspy(frog_t *frog_position)
             pass_level(frog_position);
         }
 
-        if (joy.sw == J_PRESS)
+        if (joy.sw == J_PRESS || frog_position->paused_state == 1)
         {
-            frog_position->paused_state = 1;
-            uint8_t choice = ShowCONT();
+            frog_position->paused_state = 1;//cambio el estado de pausa
+            printf("Frog: %d\n", frog_position->paused_state);
+            uint8_t choice = 0;
+            choice = ShowCONT();
+            
 
             if (choice == 1)
             {
@@ -228,6 +225,7 @@ uint8_t game_loop_raspy(frog_t *frog_position)
             }
             else 
             {
+                
                 return 0;
             }   
         }
@@ -277,7 +275,6 @@ void move_frog_with_log(frog_t *frog_position) {
 void update_frog_points(frog_t *frog_position) 
 {
     uint8_t new_row = (uint8_t)get_frog_y(frog_position);  
-    printf("Fila actual: %d\n", new_row);
     // Si la rana ha alcanzado la fila 2, reinicia las filas visitadas manualmente
     if (new_row == 2) 
     {
@@ -320,25 +317,45 @@ void process_row_movements(frog_t *frog_position, uint8_t row)
 {
     for (int fila = 1; fila < 12; fila++) 
     {
+        // Verifica si el tiempo ha pasado y la fila debe moverse
         if (waiting_time(frog_position->levels, fila)) 
         {
+            //printf("Fila: %d - waiting_time pasó\n", fila);
+
             if ((row == fila) && (get_frog_move(frog_position) == 1)) 
             {
+                printf("entre\n"); 
+                printf("x:%d y:%d\n", (uint8_t)get_frog_x(frog_position), (uint8_t)get_frog_y(frog_position));
+                printf("row: %d\n", row);
+                //printf("Fila: %d - La rana está en la fila correcta y está lista para moverse\n", fila);
+                
+                // Verifica si la rana está a punto de salirse de los límites
                 if ((((uint8_t)(get_frog_x(frog_position)) + 1 > 13) && directions[fila]) ||
                     (((uint8_t)(get_frog_x(frog_position)) - 1 < 1) && (!directions[fila]))) 
                 {
+                    printf("Fila: %d - La rana se salió de los límites, perdiendo vida\n", fila);
                     set_frog_life(frog_position, 0);
                     set_frog_dead(frog_position, 1);
                 } 
                 else 
                 {
-                    set_frog_x(frog_position, get_frog_x(frog_position) + (directions[fila] ? 1 : -1));
+                    // Mueve la rana en la dirección correcta 
+                    set_frog_x(frog_position, get_frog_x(frog_position) + (directions[fila+2] ? 1 : -1));
+                    printf("Fila: %d - Mueve la rana a la posición X: %f\n", fila, get_frog_x(frog_position));
                 }
             }
+            
+            // Verifica si el juego no está pausado para mover las filas
             if (frog_position->paused_state == 0) 
             {
+                //printf("Fila: %d - El juego no está pausado, desplazando fila\n", fila);
                 shift_row(fila, directions[fila]);
             }
         }
+        else
+        {
+            //printf("Fila: %d - waiting_time no pasó aún\n", fila);
+        }
     }
 }
+

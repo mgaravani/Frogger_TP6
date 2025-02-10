@@ -28,6 +28,7 @@ void mostrar_matriz(uint8_t matriz[DISP_CANT_Y_DOTS][DISP_CANT_X_DOTS]) {
 
 
 void screen_raspy(frog_t* frog_position) {
+    
     // Copiar el valor de map a matriz
     for (int i = 0; i < DISP_CANT_Y_DOTS; i++) {  
         for (int j = 0; j < DISP_CANT_X_DOTS; j++) {  
@@ -45,7 +46,7 @@ void screen_raspy(frog_t* frog_position) {
             }
         }
     }
-
+    
     // Fila 15: Enciende todos los LEDs de la fila 15 
     for (int j = 0; j < DISP_CANT_X_DOTS; j++) {
         matriz[15][j] = 1;  // La fila 16 está en índice 16 (contando desde 0)
